@@ -1,16 +1,9 @@
-.bod-1{
-  border: 1px solid black;
-
-}
-
 a{
   text-decoration: none;
 }
 
 .logo{
   display: inline-block;
-  padding-top: .3125rem;
-  padding-bottom: .3125rem;
   margin-right: 1rem;
   font-size: 1.25rem;
   line-height: inherit;
@@ -34,11 +27,57 @@ a{
   width: 100%;
   height: auto;
   min-height: 75vh;
-  background-color: var(--light);
   background: url(../images/it_matters.jpg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   margin-top: var(--top);
   display: flex;
+}
+
+.login-form{
+  font-family: 'Capriola' sans-serif;
+  margin-top: 2rem
+}
+
+.login-form > *{
+  margin: .75rem;
+}
+
+.justify-content-center{
+  display: flex;
+  justify-content: center
+}
+
+h1, .h1{
+  font-size: 2.3rem;
+  color: var(--darken);
+  font-weight: 500
+}
+
+
+
+
+@media (min-width:576px) {
+  .login-form {
+    width: 75% !important
+  }
+}
+
+@media (min-width:768px) {
+  .login-form {
+    width: 50% !important
+  }
+}
+
+@media (min-width:992px) {
+  .login-form {
+    width: 45% !important
+  }
+}
+
+@media (min-width:1200px) {
+  .login-form {
+    width: 40% !important
+  }
 }
