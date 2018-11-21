@@ -1,14 +1,13 @@
 :root{
   --primary-color: '';
   --secondary-color: '';
-  --top: 130px;
-  --box-shadow: 0 0 5px var(--light);
+  --box-shadow: 0 0 5px #7f8c8d;;
   --lighten: #f8f9fa;
   --dark: #7f8c8d;
   --darken: #343a40;
   --gray: #6c757d;
   --gray-dark: #343a40;
-  --danger: #dc3545;
+  --warning: #dc3545;
   --primary: #007bff;
   --orange: #fd7e14;
   --indigo: #6610f2;
@@ -19,6 +18,27 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
+}
+
+a{
+  text-decoration: none;
+  color: var(--gray);
+}
+
+.fixed{
+  position: fixed;
+}
+
+.shade-default{
+  box-shadow: var(--box-shadow);
+}
+
+.bg-dark{
+  background: var(--darken)
+}
+
+.bg-light{
+  background: var(--lighten);
 }
 
 *{
@@ -147,9 +167,24 @@ img {
   list-style: none
 }
 
-.nav-link {
+.nav-bar-link {
   display: block;
-  padding: .5rem 1rem
+  padding: .5rem 1.5rem
+}
+
+.nav-bar-link:hover{
+  color: var(--dark)
+}
+
+.nav-item {
+  margin-bottom: -1px;
+  text-align: center;
+  flex: 1 1 auto;
+  flex-basis: 0;
+  flex-grow: 1;
+  -ms-flex: 1 1 auto;
+  -ms-flex-preferred-size: 0;
+  -ms-flex-positive: 1;
 }
 
 .navbar {
@@ -165,8 +200,7 @@ img {
   padding: .5rem 1rem
 }
 
-.navbar>.container,
-.navbar>.container-fluid {
+.navbar>.container {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
@@ -187,16 +221,28 @@ img {
   white-space: nowrap
 }
 
-.shadow-sm {
+.shade-sm {
   box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important
 }
 
-.shadow {
+.shade-sm:hover{
+  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .1) !important
+}
+
+.shade {
   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important
 }
 
-.shadow-lg {
+.shade:hover {
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important
+}
+
+.shade-lg {
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175) !important
+}
+
+.shade-lg:hover {
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, .275) !important
 }
 
 .w-25 {
