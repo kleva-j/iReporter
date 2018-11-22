@@ -34,22 +34,22 @@
     </div>
   </header>
 
-  <section>
+  <section class="main">
     <div class="container j-c-c">
-      <form class="login-form w-100">
-        <h1 class="h1">Log In</h1>
+      <form class="red-flag w-100">
+        <h1 class="h1">Create a Red-Flag record</h1>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Username">
+          <input type="text" id="subject"class="form-control" placeholder="Subject">
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" placeholder="Password">
+          <textarea class="form-control" id="textarea" placeholder="Description / Story" rows="5"></textarea>
         </div>
-        <button type="submit" class="btn">Log in</button>
-        <small class="block text-dark">Don't have an account? sign up <a class="underscore"href="signup.html">Here</a> </small>
+
+        <button type="submit" class="btn">Create</button>
       </form>
     </div>
-  </section>
 
+  </section>
   <footer></footer>
 
 </body>
