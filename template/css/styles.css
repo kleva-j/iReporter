@@ -15,6 +15,10 @@
 
 .mg-sm{ margin: .75rem }
 
+.mg-left{ margin-left: .75rem }
+
+.mg-right{ margin-right: .75rem }
+
 .text-dark{ color: gray }
 
 .block{ display: block }
@@ -24,12 +28,6 @@
 .bd-1{
   border: 1px solid black;
 }
-
-.ft-3{
-  font-size: .84rem;
-  padding: .2rem .55rem
-}
-
 
 #burger-toggle {
   display: none;
@@ -122,7 +120,7 @@ img {
   flex-basis: 0;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  max-width: 100%
+  max-width: 100%;
 }
 
 .form-control {
@@ -179,7 +177,7 @@ img {
   padding: .375rem .75rem;
   font-size: 1rem;
   line-height: 1.5;
-  border-radius: .25rem;
+  border-radius: .20rem;
   transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 
