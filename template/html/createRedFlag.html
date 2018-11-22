@@ -25,10 +25,10 @@
           <div></div>
         </label>
         <nav class="nav">
-          <a class="nav-bar-link active" href="#">Home</a>
-          <a class="nav-bar-link" href="#">Services</a>
-          <a class="nav-bar-link" href="#">Login</a>
-          <a class="nav-bar-link" href="#">Signup</a>
+          <a class="nav-bar-link active" href="../index.html">Home</a>
+          <a class="nav-bar-link" href="#">Red-flags</a>
+          <a class="nav-bar-link" href="#">Interventions</a>
+          <a class="nav-bar-link" href="login.html">Logout</a>
         </nav>
       </div>
     </div>
@@ -44,8 +44,15 @@
         <div class="form-group">
           <textarea class="form-control" id="textarea" placeholder="Description / Story" rows="5"></textarea>
         </div>
-
-        <button type="submit" class="btn">Create</button>
+        <div>
+          <h4>Evidence :</h4>
+          <input name="evidence" type="radio" value="Image" id="checkImage">
+          <label for="checkImage">Image</label>          
+          <input name="evidence" type="radio" value="Video" id="checkVideo">
+          <label for="checkVideo">Video</label>                    
+          <input type="file" name="evidence" class="btn file mg-t">
+        </div>
+        <button type="submit" class="btn submit">Create</button>
       </form>
     </div>
 
