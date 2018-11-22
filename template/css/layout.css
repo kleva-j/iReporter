@@ -29,12 +29,14 @@ a{
 
 
 .login-form > *,
-.red-flag > *{
+.red-flag > *,
+.intervention > * {
   margin: .75rem;
 }
 
 .login-form,
-.red-flag{
+.red-flag,
+.intervention {
   margin-top: 2rem
 }
 
@@ -42,22 +44,23 @@ a{
 
 
 .login-form .btn,
-.red-flag .btn{
+.red-flag .btn,
+.intervention .btn{
   color: white;
   cursor: pointer;
   box-shadow: -1px 2px 1px rgba(0, 0, 0, .5)
 }
 
-.btn.submit{
-  background: var(--submit);
+.btn.primary{
+  background: var(--primary);
 }
 
 .btn.file{
-  background: var(--submit-light)
+  background: var(--primary-light)
 }
 
 .login-form .btn:hover{
-  background: var(--warning);
+  /* background: var(--warning); */
   color: white;
   cursor: pointer;
   box-shadow: -1px 2px 2px rgba(0, 0, 0, .5)
@@ -80,28 +83,38 @@ textarea{
 
 @media (min-width:576px) {
   .login-form, 
-  .red-flag{
-    width: 75% !important
+  .red-flag,
+  .intervention{
+    width: 95% !important
   }
 }
 
 @media (min-width:768px) {
   .login-form,
-  .red-flag {
-    width: 50% !important
+  .red-flag,
+  .intervention {
+    width: 80% !important
   }
 }
 
 @media (min-width:992px) {
   .login-form,
-  .red-flag {
-    width: 45% !important
+  .red-flag,
+  .intervention {
+    width: 60% !important
   }
 }
 
+
 @media (min-width:1200px) {
-  .login-form,
-  .red-flag {
-    width: 40% !important
+  .login-form{
+    width: 45% !important
+  }
+
+  .red-flag,
+  .intervention {
+    width: 50% !important
+
   }
 }
+

@@ -5,8 +5,8 @@
   --darken: #343a40;
   --gray: #6c757d;
   --gray-dark: #343a40;
-  --submit: #dc3545;
-  --submit-light: #c93e51;
+  --primary: #dc3545;
+  --primary-light: #c93e51;
   --blue: #007bff;
   --top: 80px;
 }
@@ -27,7 +27,7 @@
 
 .block { display: block }
 
-.underscore { text-decoration: underline; font-size: .84rem  }
+.underscore { text-decoration: underline; font-size: .84rem; color: var(--primary)  }
 
 .bd-1 { border: 1px solid black }
 
