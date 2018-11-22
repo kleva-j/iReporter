@@ -15,14 +15,6 @@ a{
   text-decoration: none
 }
 
-.toggler{
-  border-radius: .25rem;
-  padding: .25rem .75rem;
-  font-size: 1.25rem;
-  line-height: 1;
-  display: none;
-}
-
 .section{
   width: 100%;
   height: auto;
@@ -35,16 +27,22 @@ a{
   display: flex;
 }
 
-.login-form{
-  font-family: 'Capriola' sans-serif;
-  margin-top: 2rem
-}
 
-.login-form > *{
+.login-form > *,
+.red-flag > *{
   margin: .75rem;
 }
 
-.login-form .btn{
+.login-form,
+.red-flag{
+  margin-top: 2rem
+}
+
+.red-flag h4{ margin: .15rem}
+
+
+.login-form .btn,
+.red-flag .btn{
   background: var(--warning);
   color: white;
   cursor: pointer;
@@ -58,40 +56,45 @@ a{
   box-shadow: -1px 2px 2px rgba(0, 0, 0, .5)
 }
 
-.justify-content-center{
-  display: flex;
-  justify-content: center
-}
-
 h1, .h1{
   font-size: 2.3rem;
-  color: var(--darken);
-  font-weight: 500
 }
 
+h1, h2, h3, h4, h5, h6{
+  font-weight: 500;
+  color: var(--darken);
+}
+
+textarea{
+  font-family: Arial, Helvetica, sans-serif;
+}
 
 
 
 @media (min-width:576px) {
-  .login-form {
+  .login-form, 
+  .red-flag{
     width: 75% !important
   }
 }
 
 @media (min-width:768px) {
-  .login-form {
+  .login-form,
+  .red-flag {
     width: 50% !important
   }
 }
 
 @media (min-width:992px) {
-  .login-form {
+  .login-form,
+  .red-flag {
     width: 45% !important
   }
 }
 
 @media (min-width:1200px) {
-  .login-form {
+  .login-form,
+  .red-flag {
     width: 40% !important
   }
 }
