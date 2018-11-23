@@ -26,7 +26,7 @@
 }
 
 .flex{
-  display: flex
+  display: flex;
 }
 
 .left,
@@ -35,7 +35,6 @@
 }
 
 .left {
-  width: 0;
   background: white;
 }
 
@@ -99,11 +98,19 @@ h1{
     margin-left: 2rem
   }
 
+  .topic {
+    width: 100px
+  }
+
 }
 
 @media (min-width: 567px) {
   .drop{
     flex-direction: row;
+  }
+
+  .topic {
+    width: 200px
   }
 
 }
