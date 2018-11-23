@@ -1,5 +1,7 @@
 :root{
-  --box-shadow: 0 0 5px #7f8c8d;;
+  --box-shadow: 0 0 5px #7f8c8d;
+  --shadow: 0 2px 4px 0 rgba(0,0,0,.10);
+  --light: hsl(210, 17%, 78%);
   --lighten: #f8f9fa;
   --dark: #7f8c8d;
   --darken: #343a40;
@@ -8,10 +10,12 @@
   --primary: #dc3545;
   --primary-light: #c93e51;
   --blue: #007bff;
-  --top: 80px;
+  --top: 77px
 }
 
 .mg-sm { margin: .25rem }
+
+.mg-lg { margin: 1.2rem }
 
 .mg-l { margin-left: .75rem }
 
@@ -29,12 +33,28 @@
 
 .underscore { text-decoration: underline; font-size: .84rem; color: var(--primary)  }
 
-.bd-1 { border: 1px solid black }
+.bd-1 { border: 1px solid var(--light) }
+
+.bd-2 { border: 1px solid red }
 
 .j-c-c{
   display: flex;
   justify-content: center
 }
+
+.j-c-sa{
+  display: flex;
+  justify-content: space-around
+}
+
+.j-c-cl{
+  display: flex;
+  flex-direction: column
+}
+
+.bold{ font-weight: 500 }
+
+.bolder{ font-weight: 600}
 
 .inline{ display: inline-block }
 
@@ -260,6 +280,23 @@ img {
   white-space: nowrap
 }
 
+.list-item{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  
+}
+
+.item{
+  padding: 1rem;
+  border-bottom: .01rem solid var(--light);
+}
+
+.list-item:first-child {
+  border-top: .01rem solid var(--light)
+}
+
 .shade-sm {
   box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important
 }
@@ -284,16 +321,20 @@ img {
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, .275) !important
 }
 
+.w-10 {
+  width: 18% !important
+}
+
 .w-25 {
   width: 25% !important
 }
 
-.w-45 {
-  width: 45% !important
-}
-
 .w-35 {
   width: 35% !important
+}
+
+.w-45 {
+  width: 45% !important
 }
 
 .w-50 {
@@ -304,6 +345,10 @@ img {
   width: 75% !important
 }
 
+.w-90 {
+  width: 90% !important
+}
+
 .w-100 {
   width: 100% !important
 }
@@ -312,8 +357,15 @@ img {
   width: auto !important
 }
 
+
+/* height */
+
 .h-25 {
   height: 25% !important
+}
+
+.h-35 {
+  height: 35% !important
 }
 
 .h-50 {
@@ -331,6 +383,7 @@ img {
 .h-auto {
   height: auto !important
 }
+
 
 @media (min-width:576px) {
   .container {
