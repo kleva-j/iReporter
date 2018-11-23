@@ -1,6 +1,8 @@
 :root{
   --box-shadow: 0 0 5px #7f8c8d;
   --shadow: 0 2px 4px 0 rgba(0,0,0,.10);
+  --shadow-md: 0 4px 8px 0 rgba(0,0,0,0.12),
+  0 2px 4px 0 rgba(0,0,0,0.08);
   --light: hsl(210, 17%, 78%);
   --lighten: #f8f9fa;
   --dark: #7f8c8d;
@@ -51,6 +53,8 @@
   display: flex;
   flex-direction: column
 }
+
+.grow-1{ flex-grow: 1}
 
 .bold{ font-weight: 500 }
 
@@ -280,22 +284,7 @@ img {
   white-space: nowrap
 }
 
-.list-item{
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  text-align: left;
-  
-}
 
-.item{
-  padding: 1rem;
-  border-bottom: .01rem solid var(--light);
-}
-
-.list-item:first-child {
-  border-top: .01rem solid var(--light)
-}
 
 .shade-sm {
   box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important
