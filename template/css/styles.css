@@ -36,6 +36,12 @@
 
 .pd-l { padding-left: .75rem }
 
+.pd-r { padding-right: .75rem }
+
+.pd-t { padding-top: .75rem }
+
+.pd-b { padding-bottom: .75rem }
+
 .text-dark { color: gray }
 
 .text-darken { color: var(--darken) }
