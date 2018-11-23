@@ -45,9 +45,11 @@ a{
 
 .login-form .btn,
 .red-flag .btn,
-.intervention .btn{
-  color: white;
-  cursor: pointer;
+.intervention .btn,
+.btn.danger,
+.btn.primary,
+.btn.success,
+.btn.file{
   box-shadow: -1px 2px 1px 0 rgba(0, 0, 0, .5);
 }
 
@@ -55,12 +57,21 @@ a{
   background: var(--primary);
 }
 
+.btn.success{
+  background: var(--nice);
+}
+
+.btn.danger{
+  background: red;
+}
+
 .btn.file{
-  background: var(--primary-light)
+  background: var(--primary-light);
+  margin-top: .75rem;
+  margin-left: 0;
 }
 
 .login-form .btn:hover{
-  color: white;
   cursor: pointer;
   box-shadow: -1px 2px 2px rgba(0, 0, 0, .5);
 }
@@ -86,12 +97,36 @@ strong{
 
 li a{ color: var(--darken)}
 
+.subject{
+  width: 80%;
+  margin: 0;
+
+}
+
+.edit-buttons{
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end
+}
+
+.lg { 
+  font-size: 1.1rem;
+  padding-left: .75em;
+  padding-right: .75em
+}
+
 
 @media (min-width:576px) {
   .login-form, 
   .red-flag,
   .intervention{
     width: 95% !important
+  }
+
+  .file{
+    margin-left: .75rem !important;
+    margin-top: 0 !important;
   }
 }
 
