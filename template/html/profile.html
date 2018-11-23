@@ -9,6 +9,8 @@
   <meta name="author" content="Michael Obasi">
   <meta name="keyword" content="iReporter">
   <title>iReporter</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+    crossorigin="anonymous">
   <link rel="stylesheet" href="../css/dashboard.css">
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/layout.css">
@@ -40,29 +42,39 @@
       <div class="left">
 
         <div class="profile">
-          <div class="mg-t">
-            <img id="profile-img" src="../images/profile-pic.png" alt="Profile Image">
+
+          <div class="user item">
+            <a href=""><i class="fas fa-user-circle" title="user profile"></i></a>
           </div>
-          <div class="h-50">
-            <h4 class="crop mg-t bolder">Kelly Hartmann</h4>
-            <h4 class="crop mg-t bold">hartmann_kelly@gmail.com</h4>
-            <h4 class="crop mg-t bold">0802-3333-444</h4>
+          <div class="close">
+            <div class="mg-t">
+              <img id="profile-img" src="../images/profile-pic.png" alt="Profile Image">
+            </div>
+            <div class="h-50">
+              <h4 class="crop mg-t bolder">Kelly Hartmann</h4>
+              <h4 class="crop mg-t bold">hartmann_kelly@gmail.com</h4>
+              <h4 class="crop mg-t bold">0802-3333-444</h4>
+            </div>
           </div>
         </div>
 
         <div class="details">
           <ul class="list-item">
             <li class="item">
-              <a href="" class="j-c-sa">Red-Flags <b>124</b></a>
+              <a href=""><i class="fas fa-flag-checkered" title="red-flags"></i></a>
+              <a href="" class="sd">Red-Flags <b>124</b></a>
             </li>
             <li class="item">
-              <a href="" class="j-c-sa">Interventions <b>75</b></a>
+              <a href=""><i class="fas fa-headset" title="interventions"></i></a>
+              <a href="" class="sd">Interventions <b>75</b></a>
             </li>
             <li class="item">
-              <a href="" class="j-c-sa">Create Red-flag <i></i></a>
+              <a href=""><i class="fas fa-bell" title="notifications"></i></a>
+              <a href="" class="sd">Create Red-flag <i></i></a>
             </li>
             <li class="item">
-              <a href="" class="j-c-sa">Create Intervention <i></i></a>
+              <a href=""><i class="fas fa-sign-out-alt" title="sign out"></i></i></a>
+              <a href="" class="sd">Create Intervention <i></i></a>
             </li>
           </ul>
         </div>
@@ -71,45 +83,54 @@
       <div class="right w-100">
         <div class="breadboard">
           <h2 class="breadboard-header">Profile</h2>
+          
           <div class="top">
             <div class="heading">Red-Flags</div>
-            <div class="j-c-sa">
-              <div>
-                <h1>75</h1>
-                <h4>Total</h4>
+            <div class="drop">
+              <div class="j-c-sa grow-1">
+                <div>
+                  <h1>124</h1>
+                  <h4>Total</h4>
+                </div>
+                <div>
+                  <h1>72</h1>
+                  <h4>Resolved</h4>
+                </div>
               </div>
-              <div>
-                <h1>24</h1>
-                <h4>Resolved</h4>
-              </div>
-              <div>
-                <h1>41</h1>
-                <h4>Unresolved</h4>
-              </div>
-              <div>
-                <h1>11</h1>
-                <h4>Rejected</h4>
+              <div class="j-c-sa grow-1">
+                <div>
+                  <h1>41</h1>
+                  <h4>Unresolved</h4>
+                </div>
+                <div>
+                  <h1>11</h1>
+                  <h4>Rejected</h4>
+                </div>
               </div>
             </div>
           </div>
           <div class="bottom">
             <div class="heading">Interventions</div>
-            <div class="j-c-sa">
-              <div>
-                <h1>75</h1>
-                <h4>Total</h4>
+            <div class="drop">
+              <div class="j-c-sa grow-1">
+                <div>
+                  <h1>75</h1>
+                  <h4>Total</h4>
+                </div>
+                <div>
+                  <h1>24</h1>
+                  <h4>Resolved</h4>
+                </div>
               </div>
-              <div>
-                <h1>24</h1>
-                <h4>Resolved</h4>
-              </div>
-              <div>
-                <h1>41</h1>
-                <h4>Unresolved</h4>
-              </div>
-              <div>
-                <h1>11</h1>
-                <h4>Rejected</h4>
+              <div class="j-c-sa grow-1">
+                <div>
+                  <h1>41</h1>
+                  <h4>Unresolved</h4>
+                </div>
+                <div>
+                  <h1>11</h1>
+                  <h4>Rejected</h4>
+                </div>
               </div>
             </div>
           </div>
