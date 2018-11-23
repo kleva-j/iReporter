@@ -4,7 +4,7 @@
 }
 
 #profile-img {
-  width: 60%;
+  width: 50%;
   border-radius: 50%;
   border: 1px solid black;
 }
@@ -19,11 +19,14 @@
 }
 
 .breadboard-header{
-  font-size: 1.2rem;
-  padding: .35em 1.2em;
+  font-size: 1rem;
+  vertical-align: center;
+  padding: .45em 1.2em;
   background: white;
   box-shadow: var(--shadow)
 }
+
+.head { display: none }
 
 .flex{
   display: flex;
@@ -48,6 +51,16 @@
   width: 100%;
   background: white;
   margin: .45rem 0;
+}
+
+.dip {
+  width: 100%;
+  background: transparent;
+  margin: .45rem 0;
+}
+
+.dip > .list-item {
+  text-align: left
 }
 
 .heading{
@@ -87,6 +100,30 @@ h1{
   justify-content: space-evenly
 }
 
+.list {
+  margin-bottom: .25rem;
+  display: flex;
+  padding: .75rem;
+  transition: all 500ms 
+}
+
+.date {
+  border-right: 1px solid black;
+  padding: 0 .3rem
+}
+
+.search{
+  width: 100%;
+  padding: .125rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
+}
 
 @media (min-width:456px) {
   .left {
@@ -104,12 +141,30 @@ h1{
 
 }
 
+@media (min-width: 518px) {
+  .head {
+    display: block
+  }
+  
+  .search {
+    width: 160px
+  }
+} 
+
 @media (min-width: 567px) {
+  .breadboard-header{
+    font-size: 1.2rem;
+  }
+
   .drop{
     flex-direction: row;
   }
 
   .topic {
+    width: 200px
+  }
+
+  .search {
     width: 200px
   }
 

@@ -28,9 +28,13 @@
 
 .mg-b { margin-bottom: .75rem !important }
 
+.mg-b-lg { margin-bottom: 1.7rem }
+
 .mg-auto {  margin: auto }
 
 .mg-0 { margin: 0 }
+
+.pd-l { padding-left: .75rem }
 
 .text-dark { color: gray }
 
@@ -55,6 +59,12 @@
   display: flex;
   justify-content: space-around
 }
+
+.j-c-sb{
+  display: flex;
+  justify-content: space-between
+}
+
 
 .j-c-cl{
   display: flex;
