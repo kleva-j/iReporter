@@ -62,7 +62,7 @@ a{
 }
 
 .btn.danger{
-  background: tomato;
+  background: red;
 }
 
 .btn.file{
@@ -104,7 +104,7 @@ li a{ color: var(--darken)}
 }
 
 .edit-buttons{
-  padding: 20px;
+  padding: 30px 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-end
@@ -112,8 +112,8 @@ li a{ color: var(--darken)}
 
 .lg { 
   font-size: 1.1rem;
-  padding-left: .75rem;
-  padding-right: .75rem
+  padding-left: .75em;
+  padding-right: .75em
 }
 
 
