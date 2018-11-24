@@ -111,8 +111,6 @@ textarea{
 }
 
 strong{
-  border: 1px solid var(--dark);
-  border-radius: 50%;
   padding: 0 4px 
 }
 
