@@ -11,8 +11,10 @@
   --gray-dark: #343a40;
   --primary: #dc3545;
   --primary-light: #c93e51;
-  --blue: #007bff;
-  --nice: dodgerblue;
+  --base: #E3342F;
+  --blue: dodgerblue;
+  --green: #38C172;
+  --yellow: #F2D024;
   --top: 77px
 }
 
@@ -238,6 +240,10 @@ img {
   border-radius: .20rem;
   cursor: pointer;
   transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+}
+
+.btn-md{
+  padding: .190rem .5rem
 }
 
 .btn.focus,
