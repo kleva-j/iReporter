@@ -26,6 +26,10 @@
   box-shadow: var(--shadow)
 }
 
+.breadboard-header > span{
+  font-size: 1rem
+}
+
 .head { display: none }
 
 .flex{

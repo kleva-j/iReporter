@@ -58,12 +58,28 @@ a{
 }
 
 .btn.success{
-  background: var(--nice);
+  background: var(--blue);
 }
 
 .btn.danger{
   background: red;
 }
+
+.btn.base {
+  background: var(--base);
+  box-shadow: var(--shadow)
+}
+
+.btn.green{
+  box-shadow: var(--shadow);
+  background: var(--green)
+}
+
+.btn.yellow{
+  box-shadow: var(--shadow);
+  background: var(--yellow)
+}
+
 
 .btn.file{
   background: var(--primary-light);
