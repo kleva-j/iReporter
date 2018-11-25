@@ -1,4 +1,4 @@
-const Users = require('../models/users');
+import Users from '../models/users';
 
 class UserController {
   static registerUser(req, res) {
@@ -37,6 +37,26 @@ class UserController {
     res.status(201).jsend.success({
       message: 'User successfully registered',
       data: newUser,
+    });
+  }
+
+  static loginUser(req, res) {
+    const {
+      username, password,
+    } = req.body;
+
+    // eslint-disable-next-line consistent-return
+    Users.forEach((user) => {
+      if (username === user.username && password === user.password) {
+        return res.status(200).jsend.success({
+          message: 'User successfully logged in',
+          user,
+        });
+      }
+    });
+
+    return res.status(404).jsend.fail({
+      message: 'User not found',
     });
   }
 }

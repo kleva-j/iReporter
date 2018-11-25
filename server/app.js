@@ -1,18 +1,17 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const logger = require('morgan');
-const path = require('path');
-const jsend = require('jsend');
-const cors = require('cors');
-const helmet = require('helmet');
+import express from 'express';
+import bodyParser from 'body-parser';
+import morgan from 'morgan';
+import path from 'path';
+import jsend from 'jsend';
+import cors from 'cors';
+import helmet from 'helmet';
 
 const app = express();
-app.use(logger('combined'));
-
 app.use(express.static(path.join(__dirname, '/template')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(jsend.middleware);
+app.use(morgan('combined'));
 app.use(cors());
 app.use(helmet());
 
