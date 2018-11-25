@@ -5,7 +5,13 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha",
-    "start": "nodemon app.js"
+    "babel-node": "babel-node --presets=env",
+    "start": "nodemon --exec npm run babel-node -- app.js"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
   },
   "repository": {
     "type": "git",
@@ -23,6 +29,8 @@
   "homepage": "https://github.com/kleva-j/iReporter#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babel-preset-env": "^1.7.0"
   },
   "dependencies": {
