@@ -4,7 +4,8 @@
   "description": "iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public.",
   "main": "app.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,15 @@
   },
   "homepage": "https://github.com/kleva-j/iReporter#readme",
   "devDependencies": {
-    "@babel/preset-env": "^7.1.6",
-    "babel-cli": "^6.26.0"
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "helmet": "^3.15.0",
+    "jsend": "^1.0.2",
+    "morgan": "^1.9.1"
   }
 }
