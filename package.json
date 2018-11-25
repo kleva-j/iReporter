@@ -11,12 +11,17 @@
     "url": "git+https://github.com/kleva-j/iReporter.git"
   },
   "keywords": [
-    "iReporter", "Reporter"
+    "iReporter",
+    "Reporter"
   ],
   "author": "Michael Obasi",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kleva-j/iReporter/issues"
   },
-  "homepage": "https://github.com/kleva-j/iReporter#readme"
+  "homepage": "https://github.com/kleva-j/iReporter#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.1.6",
+    "babel-cli": "^6.26.0"
+  }
 }
