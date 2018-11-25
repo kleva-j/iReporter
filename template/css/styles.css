@@ -22,6 +22,8 @@
 
 .mg-lg { margin: 1.2rem }
 
+.mg { margin: 1rem }
+
 .mg-l { margin-left: .75rem }
 
 .mg-r { margin-right: .75rem }
@@ -224,7 +226,7 @@ img {
 
 .btn {
   display: inline-block;
-  color: white;
+  /* color: white; */
   font-weight: 400;
   text-align: center;
   white-space: nowrap;
