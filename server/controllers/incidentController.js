@@ -78,6 +78,22 @@ class IncidentController {
       error: `Red-flag with id of ${id} was not found`,
     });
   }
+
+  /**
+   * Validate an incident
+   *
+   * @static
+   * @param {object} req - The request object
+   * @param {object} res - The response object
+   * @return {object} token or message
+   * @memberof IncidentController
+   */
+  static getAllRedFlag(req, res) {
+    return res.status(200).json({
+      status: 200,
+      data: Incidents,
+    });
+  }
 }
 
 export default IncidentController;
