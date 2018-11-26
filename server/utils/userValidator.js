@@ -2,7 +2,7 @@ const isEmail = require('validator/lib/isEmail');
 
 /**
  * @class UserController
- * @classdesc Implements user sign up, log in and profile update
+ * @classdesc Implements validation of user signup details
  */
 class Validator {
   /**
