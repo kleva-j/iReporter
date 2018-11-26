@@ -8,8 +8,10 @@ const { createRedFlag, getSpecificRedFlag } = IncidentController;
 
 const incidentRouter = express.Router();
 
-incidentRouter.route('/red-flag')
-  .get(validateID, getSpecificRedFlag)
+incidentRouter.route('/red-flags')
   .post(validateRedFlag, createRedFlag);
+
+incidentRouter.route('/red-flags/:id')
+  .get(validateID, getSpecificRedFlag);
 
 export default incidentRouter;
