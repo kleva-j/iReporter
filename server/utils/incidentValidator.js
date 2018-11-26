@@ -121,6 +121,35 @@ class IncidentValidator {
 
     return next;
   }
+
+  /**
+   * Validate red-flag id
+   *
+   * @static
+   * @param {object} req - The request object
+   * @param {object} res - The response object
+   * @param {object} res - The next middleware
+   * @return {object} token or message
+   * @memberof IncidentValidator
+   */
+  static validateID(req, res, next) {
+    const { redflagID } = req.params;
+    if (!redflagID) {
+      return res.status(403).json({
+        status: 404,
+        data: 'Incomplete request, red-flag id is empty',
+      });
+    }
+
+    if (typeof redflagID !== 'number') {
+      return res.status(400).json({
+        status: 400,
+        data: 'red-flag Id should be a number',
+      });
+    }
+
+    return next();
+  }
 }
 
 export default IncidentValidator;
