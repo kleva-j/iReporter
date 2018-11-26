@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "babel-node": "babel-node --presets=env",
-    "start": "nodemon --exec npm run babel-node -- app.js"
+    "start": "nodemon --exec npm run babel-node -- server/app.js"
   },
   "babel": {
     "presets": [
@@ -31,14 +31,20 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
-    "babel-preset-env": "^1.7.0"
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "helmet": "^3.15.0",
     "jsend": "^1.0.2",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "uuid": "^3.3.2",
+    "validator": "^10.9.0"
   }
 }

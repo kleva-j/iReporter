@@ -1,7 +1,24 @@
-const Users = require('../models/users');
+import bcrypt from 'bcryptjs';
+import uuidv4 from 'uuid/v4';
+import models from '../models/index';
 
+const { Users } = models;
+
+/**
+ * @class UserController
+ * @classdesc Implements user sign up, log in and profile update
+ */
 class UserController {
-  static registerUser(req, res) {
+  /**
+   * Signs up a user
+   *
+   * @static
+   * @param {object} req - The request object
+   * @param {object} res - The response object
+   * @return {object} token or message
+   * @memberof UserController
+   */
+  static RegisterUser(req, res) {
     const {
       firstname,
       lastname,
@@ -21,12 +38,14 @@ class UserController {
       }
     });
 
+    const hashPassword = bcrypt.hashSync(password, 10);
+
     const newUser = {
-      id: Users[Users.length - 1].id + 1,
+      id: uuidv4(),
       firstname,
       lastname,
       othernames,
-      password,
+      hashPassword,
       email,
       phoneNumber,
       username,
@@ -34,9 +53,43 @@ class UserController {
       isAdmin: false,
     };
 
-    res.status(201).jsend.success({
+    Users.push(newUser);
+
+    return res.status(201).jsend.success({
       message: 'User successfully registered',
       data: newUser,
+    });
+  }
+
+  /**
+   * Logs in a user
+   *
+   * @static
+   * @param {object} req - The request object
+   * @param {object} res - The response object
+   * @return {object} token or message
+   * @memberof UserController
+   */
+  static LoginUser(req, res) {
+    const {
+      username, password,
+    } = req.body;
+
+    // eslint-disable-next-line consistent-return
+    Users.forEach((user) => {
+      if (username === user.username) {
+        const checkPass = bcrypt.compareSync(password, user.hashPassword);
+        if (checkPass) {
+          return res.status(200).jsend.success({
+            message: 'User successfully logged in',
+            user,
+          });
+        }
+      }
+    });
+
+    return res.status(404).jsend.fail({
+      message: 'User not found',
     });
   }
 }
