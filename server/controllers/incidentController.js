@@ -51,6 +51,33 @@ class IncidentController {
       }
     });
   }
+
+  /**
+   * Validate an incident
+   *
+   * @static
+   * @param {object} req - The request object
+   * @param {object} res - The response object
+   * @return {object} token or message
+   * @memberof IncidentController
+   */
+  static getSpecificRedFlag(req, res) {
+    const { id } = req.params;
+
+    Incidents.forEach((redflag) => {
+      if (id === redflag.id) {
+        return res.status(200).json({
+          status: 200,
+          data: [redflag],
+        });
+      }
+    });
+
+    return res.status(404).json({
+      status: 404,
+      error: `Red-flag with id of ${id} was not found`,
+    });
+  }
 }
 
 export default IncidentController;
