@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "babel-node": "babel-node --presets=env",
-    "start": "nodemon --exec npm run babel-node -- app.js"
+    "start": "nodemon --exec npm run babel-node -- server/app.js"
   },
   "babel": {
     "presets": [
@@ -34,11 +34,13 @@
     "babel-preset-env": "^1.7.0"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "helmet": "^3.15.0",
     "jsend": "^1.0.2",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "uuid": "^3.3.2"
   }
 }
