@@ -20,10 +20,8 @@ class IncidentValidator {
   static validateRedFlag(req, res, next) {
     const {
       type,
-      location,
       images,
       videos,
-      comment,
     } = req.body;
 
     // validate images
@@ -89,37 +87,7 @@ class IncidentValidator {
       });
     }
 
-    // validate location
-    if (typeof location !== 'string' || !(location instanceof String)) {
-      return res.status(400).json({
-        status: 400,
-        message: 'Geographical coordinates are invalid',
-      });
-    }
-
-    if (!locationRegex.test(location)) {
-      return res.status(400).json({
-        status: 400,
-        message: 'Invalid coordinates',
-      });
-    }
-
-    if (!location) {
-      return res.status(400).json({
-        status: 400,
-        message: 'Geographical coordinates were not found',
-      });
-    }
-
-    // validate comments
-    if (typeof comment !== 'string' || comment.length > 250) {
-      return res.status(400).json({
-        status: 400,
-        meessage: 'Maximum number of word is 250 characters',
-      });
-    }
-
-    return next;
+    return next();
   }
 
   /**
@@ -133,22 +101,87 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateID(req, res, next) {
-    const { redflagID } = req.params;
-    if (!redflagID) {
+    let { id } = req.params;
+
+    if (!id) {
       return res.status(403).json({
         status: 404,
         data: 'Incomplete request, red-flag id is empty',
       });
     }
 
-    if (typeof redflagID !== 'number') {
+    id = parseInt(id, 10);
+
+    if (typeof id !== 'number') {
       return res.status(400).json({
         status: 400,
-        data: 'red-flag Id should be a number',
+        error: 'red-flag Id should be a number',
+      });
+    }
+
+    req.params.id = parseInt(id, 10);
+
+    return next();
+  }
+
+  /**
+   * Validate red-flag location
+   *
+   * @static
+   * @param {object} req - The request object
+   * @param {object} res - The response object
+   * @param {object} res - The next middleware
+   * @return {object} token or message
+   * @memberof IncidentValidator
+   */
+  static validateLocation(req, res, next) {
+    const { location } = req.body;
+
+    if (typeof location !== 'string' || !(location instanceof String)) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Geographical coordinates are invalid',
+      });
+    }
+
+    if (!location) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Location is required',
+      });
+    }
+
+    if (!locationRegex.test(location)) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Invalid coordinates',
       });
     }
 
     return next();
+  }
+
+  /**
+   * Validate red-flag comment
+   *
+   * @static
+   * @param {object} req - The request object
+   * @param {object} res - The response object
+   * @param {object} res - The next middleware
+   * @return {object} token or message
+   * @memberof IncidentValidator
+   */
+  static validateComment(req, res, next) {
+    const { comment } = req.body;
+
+    if (typeof comment !== 'string' || comment.length > 350) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Maximum number of word is 350 characters',
+      });
+    }
+
+    return next;
   }
 }
 

@@ -38,6 +38,7 @@ class IncidentController {
         createdBy,
         type,
         location,
+        status: 'draft',
         images,
         videos,
         comment,
@@ -47,7 +48,10 @@ class IncidentController {
 
       return res.status(200).json({
         status: 200,
-        message: newIncident,
+        data: [{
+          id: newIncident,
+          message: 'Created red-flag record',
+        }],
       });
     }
 
@@ -70,7 +74,6 @@ class IncidentController {
     const { id } = req.params;
 
     const redFlag = Incidents.find(incident => incident.id === id);
-
     if (redFlag) {
       return res.status(200).json({
         status: 200,
@@ -79,7 +82,7 @@ class IncidentController {
     }
 
     return res.status(404).json({
-      status: 404,
+      status: 402,
       error: `Red-flag with id of ${id} was not found`,
     });
   }
@@ -118,8 +121,74 @@ class IncidentController {
       Incidents.splice(redFlagIndex, 1);
       return res.status(200).json({
         status: 200,
-        data: [{}],
-        message: 'Red-flag record has been successfully deleted',
+        data: [{
+          id,
+          message: 'red-flag record has been deleted',
+        }],
+      });
+    }
+
+    return res.status(404).json({
+      status: 404,
+      error: `Red-flag with id of ${id} was not found`,
+    });
+  }
+
+  /**
+   * Update a red-flag comment
+   *
+   * @static
+   * @param {object} req - The request object
+   * @param {object} res - The response object
+   * @return {object} token or message
+   * @memberof IncidentController
+   */
+  static updateRedFlagComment(req, res) {
+    let { id } = req.params;
+    const { comment } = req.body;
+    id = parseInt(id, 10);
+    const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
+    if (redFlagIndex !== -1) {
+      Incidents[redFlagIndex].comment = comment;
+      const redFlag = Incidents[redFlagIndex];
+      return res.status(200).json({
+        status: 200,
+        data: [{
+          id: redFlag.id,
+          message: 'Updated red-flag record’s location',
+        }],
+      });
+    }
+
+    return res.status(404).json({
+      status: 404,
+      error: `Red-flag with id of ${id} was not found`,
+    });
+  }
+
+  /**
+   * Update a red-flag comment
+   *
+   * @static
+   * @param {object} req - The request object
+   * @param {object} res - The response object
+   * @return {object} token or message
+   * @memberof IncidentController
+   */
+  static updateRedFlagLocation(req, res) {
+    let { id } = req.params;
+    const { location } = req.body;
+    id = parseInt(id, 10);
+    const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
+    if (redFlagIndex !== -1) {
+      Incidents[redFlagIndex].location = location;
+      const redFlag = Incidents[redFlagIndex];
+      return res.status(200).json({
+        status: 200,
+        data: [{
+          id: redFlag.id,
+          message: 'Updated red-flag record’s location',
+        }],
       });
     }
 
