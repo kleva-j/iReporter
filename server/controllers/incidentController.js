@@ -38,6 +38,7 @@ class IncidentController {
         createdBy,
         type,
         location,
+        status: 'draft',
         images,
         videos,
         comment,
@@ -143,9 +144,9 @@ class IncidentController {
    * @memberof IncidentController
    */
   static updateRedFlagComment(req, res) {
-    const { id } = req.params;
+    let { id } = req.params;
     const { comment } = req.body;
-
+    id = parseInt(id, 10);
     const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
     if (redFlagIndex !== -1) {
       Incidents[redFlagIndex].comment = comment;
@@ -158,6 +159,11 @@ class IncidentController {
         }],
       });
     }
+
+    return res.status(404).json({
+      status: 404,
+      error: `Red-flag with id of ${id} was not found`,
+    });
   }
 
   /**
@@ -170,9 +176,9 @@ class IncidentController {
    * @memberof IncidentController
    */
   static updateRedFlagLocation(req, res) {
-    const { id } = req.params;
+    let { id } = req.params;
     const { location } = req.body;
-
+    id = parseInt(id, 10);
     const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
     if (redFlagIndex !== -1) {
       Incidents[redFlagIndex].location = location;
@@ -185,6 +191,11 @@ class IncidentController {
         }],
       });
     }
+
+    return res.status(404).json({
+      status: 404,
+      error: `Red-flag with id of ${id} was not found`,
+    });
   }
 }
 

@@ -5,6 +5,8 @@ import IncidentValidator from '../utils/incidentValidator';
 const {
   validateRedFlag,
   validateID,
+  validateLocation,
+  validateComment,
 } = IncidentValidator;
 
 const {
@@ -20,16 +22,16 @@ const incidentRouter = express.Router();
 
 incidentRouter.route('/red-flags')
   .get(getAllRedFlag)
-  .post(validateRedFlag, createRedFlag);
+  .post(validateRedFlag, validateLocation, validateComment, createRedFlag);
 
 incidentRouter.route('/red-flags/:id')
   .get(validateID, getSpecificRedFlag)
   .delete(validateID, deleteRedFlag);
 
-incidentRouter.route('/red-flag/:id/location')
-  .patch(updateRedFlagLocation);
+incidentRouter.route('/red-flags/:id/location')
+  .patch(validateLocation, updateRedFlagLocation);
 
-incidentRouter.route('/red-flag/:id/comment')
-  .patch(updateRedFlagComment);
+incidentRouter.route('/red-flags/:id/comment')
+  .patch(validateComment, updateRedFlagComment);
 
 export default incidentRouter;
