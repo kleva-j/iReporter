@@ -12,6 +12,8 @@ const {
   getSpecificRedFlag,
   getAllRedFlag,
   deleteRedFlag,
+  updateRedFlagComment,
+  updateRedFlagLocation,
 } = IncidentController;
 
 const incidentRouter = express.Router();
@@ -22,6 +24,12 @@ incidentRouter.route('/red-flags')
 
 incidentRouter.route('/red-flags/:id')
   .get(validateID, getSpecificRedFlag)
-  .delete(deleteRedFlag);
+  .delete(validateID, deleteRedFlag);
+
+incidentRouter.route('/red-flag/:id/location')
+  .patch(updateRedFlagLocation);
+
+incidentRouter.route('/red-flag/:id/comment')
+  .patch(updateRedFlagComment);
 
 export default incidentRouter;
