@@ -183,6 +183,36 @@ class IncidentValidator {
 
     return next;
   }
+
+  /**
+   * Validate red-flag status
+   *
+   * @static
+   * @param {object} req - The request object
+   * @param {object} res - The response object
+   * @param {object} res - The next middleware
+   * @return {object} token or message
+   * @memberof IncidentValidator
+   */
+  static validateStatus(req, res, next) {
+    const { status } = req.body;
+
+    if (!status.includes('under investigation') && !status.includes('resolved') && !status.includes('rejected')) {
+      return res.status(400).json({
+        status: 400,
+        message: "status of incident should either be 'under investigation', resolved or rejected",
+      });
+    }
+
+    if (!status) {
+      return res.status(400).json({
+        status: 400,
+        message: 'status of incident not present',
+      });
+    }
+
+    return next();
+  }
 }
 
 export default IncidentValidator;
