@@ -115,7 +115,7 @@ class IncidentController {
     const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
 
     if (redFlagIndex !== -1) {
-      Incidents.slice(redFlagIndex, 1);
+      Incidents.splice(redFlagIndex, 1);
       return res.status(200).json({
         status: 200,
         data: [{}],
