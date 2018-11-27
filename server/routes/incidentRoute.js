@@ -2,9 +2,17 @@ import express from 'express';
 import IncidentController from '../controllers/incidentController';
 import IncidentValidator from '../utils/incidentValidator';
 
-const { validateRedFlag, validateID } = IncidentValidator;
+const {
+  validateRedFlag,
+  validateID,
+} = IncidentValidator;
 
-const { createRedFlag, getSpecificRedFlag, getAllRedFlag } = IncidentController;
+const {
+  createRedFlag,
+  getSpecificRedFlag,
+  getAllRedFlag,
+  deleteRedFlag,
+} = IncidentController;
 
 const incidentRouter = express.Router();
 
@@ -13,6 +21,7 @@ incidentRouter.route('/red-flags')
   .post(validateRedFlag, createRedFlag);
 
 incidentRouter.route('/red-flags/:id')
-  .get(validateID, getSpecificRedFlag);
+  .get(validateID, getSpecificRedFlag)
+  .delete(deleteRedFlag);
 
 export default incidentRouter;
