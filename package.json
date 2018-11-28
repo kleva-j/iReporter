@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "babel-node": "babel-node --presets=env",
-    "start": "nodemon dist/app.js",
+    "start": "node dist/app.js",
     "dev": "nodemon --exec npm run babel-node -- server/app.js",
     "build": "babel server -d dist"
   },
@@ -36,8 +36,7 @@
     "babel-preset-env": "^1.7.0",
     "eslint": "^5.9.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "nodemon": "^1.18.7"
+    "eslint-plugin-import": "^2.14.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
