@@ -7,7 +7,7 @@
     "test": "mocha",
     "babel-node": "babel-node --presets=env",
     "start": "nodemon --exec npm run babel-node -- server/app.js",
-    "build": "babel server -d dist",
+    "build": "babel server -d dist"
   },
   "babel": {
     "presets": [
