@@ -59,7 +59,7 @@ var IncidentController = function () {
       if (isUserIdValid !== -1) {
         var newIncident = {
           id: Incidents[Incidents.length - 1].id + 1,
-          createOn: new Date(),
+          createOn: new Date().toString(),
           createdBy: createdBy,
           type: type,
           location: location,
@@ -113,7 +113,7 @@ var IncidentController = function () {
       }
 
       return res.status(404).json({
-        status: 402,
+        status: 404,
         error: 'Red-flag with id of ' + id + ' was not found'
       });
     }
