@@ -4,10 +4,10 @@
   "description": "iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public.",
   "main": "app.js",
   "scripts": {
-    "test": "mocha",
+    "test": "NODE_ENV=test mocha server/test/**/**.spec.js --exit",
     "babel-node": "babel-node --presets=env",
     "start": "node dist/app.js",
-    "dev": "nodemon --exec npm run babel-node -- server/app.js",
+    "start:dev": "NODE_ENV=development nodemon --exec npm run babel-node -- server/app.js",
     "build": "babel server -d dist"
   },
   "babel": {
@@ -35,11 +35,14 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babel-preset-env": "^1.7.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
     "eslint": "^5.9.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0"
+    "eslint-plugin-import": "^2.14.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.7"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

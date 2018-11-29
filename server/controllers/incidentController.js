@@ -34,7 +34,7 @@ class IncidentController {
     if (isUserIdValid !== -1) {
       const newIncident = {
         id: Incidents[Incidents.length - 1].id + 1,
-        createOn: new Date(),
+        createOn: new Date().toString(),
         createdBy,
         type,
         location,
@@ -82,7 +82,7 @@ class IncidentController {
     }
 
     return res.status(404).json({
-      status: 402,
+      status: 404,
       error: `Red-flag with id of ${id} was not found`,
     });
   }

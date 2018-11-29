@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable consistent-return */
 /* eslint-disable no-useless-escape */
 const locationRegex = new RegExp('^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$');
@@ -73,7 +74,7 @@ class IncidentValidator {
     });
 
     // validate type
-    if (!type.includes('red-flag') || !type.includes('intervention')) {
+    if (type !== 'red-flag' && type !== 'intervention') {
       return res.status(400).json({
         status: 400,
         message: 'Type of incident should either be a red-flag or an intervention',
@@ -101,25 +102,23 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateID(req, res, next) {
-    let { id } = req.params;
-
-    if (!id) {
+    if (!req.params.id) {
       return res.status(403).json({
         status: 404,
         data: 'Incomplete request, red-flag id is empty',
       });
     }
 
-    id = parseInt(id, 10);
+    const id = parseInt(req.params.id, 10);
 
-    if (typeof id !== 'number') {
+    if (isNaN(id)) {
       return res.status(400).json({
         status: 400,
         error: 'red-flag Id should be a number',
       });
     }
 
-    req.params.id = parseInt(id, 10);
+    req.params.id = id;
 
     return next();
   }
