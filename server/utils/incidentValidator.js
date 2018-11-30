@@ -1,7 +1,7 @@
-/* eslint-disable no-restricted-globals */
 /* eslint-disable consistent-return */
 /* eslint-disable no-useless-escape */
-const locationRegex = new RegExp('^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$');
+
+const regex = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/;
 
 /**
  * @class IncidentValidator
@@ -129,35 +129,33 @@ class IncidentValidator {
    * @static
    * @param {object} req - The request object
    * @param {object} res - The response object
-   * @param {object} res - The next middleware
+   * @param {object} next - The next middleware
    * @return {object} token or message
    * @memberof IncidentValidator
    */
   static validateLocation(req, res, next) {
-    const { location } = req.body;
-
-    if (typeof location !== 'string' || !(location instanceof String)) {
-      return res.status(400).json({
-        status: 400,
-        message: 'Geographical coordinates are invalid',
-      });
-    }
-
-    if (!location) {
+    if (!req.body.location) {
       return res.status(400).json({
         status: 400,
         error: 'Location is required',
       });
     }
 
-    if (!locationRegex.test(location)) {
+    const { location } = req.body;
+
+    if (typeof location !== 'string' && !(location instanceof String)) {
       return res.status(400).json({
         status: 400,
-        error: 'Invalid coordinates',
+        error: 'Geographical coordinates are not well formated to a string',
       });
     }
 
-    return next();
+    const isValid = regex.test(location);
+
+    return isValid ? next() : res.status(400).json({
+      status: 400,
+      error: 'Invalid coordinates',
+    });
   }
 
   /**
@@ -166,8 +164,7 @@ class IncidentValidator {
    * @static
    * @param {object} req - The request object
    * @param {object} res - The response object
-   * @param {object} res - The next middleware
-   * @return {object} token or message
+   * @param {object} next - The next middleware
    * @memberof IncidentValidator
    */
   static validateComment(req, res, next) {

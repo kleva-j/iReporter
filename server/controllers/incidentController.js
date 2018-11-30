@@ -176,10 +176,10 @@ class IncidentController {
    * @memberof IncidentController
    */
   static updateRedFlagLocation(req, res) {
-    let { id } = req.params;
+    const { id } = req.params;
     const { location } = req.body;
-    id = parseInt(id, 10);
-    const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
+    const redFlagId = parseInt(id, 10);
+    const redFlagIndex = Incidents.findIndex(incident => incident.id === redFlagId);
     if (redFlagIndex !== -1) {
       Incidents[redFlagIndex].location = location;
       const redFlag = Incidents[redFlagIndex];

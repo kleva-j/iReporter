@@ -29,9 +29,9 @@ incidentRouter.route('/red-flags/:id')
   .delete(validateID, deleteRedFlag);
 
 incidentRouter.route('/red-flags/:id/location')
-  .patch(validateLocation, updateRedFlagLocation);
+  .patch(validateID, validateLocation, updateRedFlagLocation);
 
 incidentRouter.route('/red-flags/:id/comment')
-  .patch(validateComment, updateRedFlagComment);
+  .patch(validateID, validateComment, updateRedFlagComment);
 
 export default incidentRouter;

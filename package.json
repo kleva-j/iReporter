@@ -4,15 +4,18 @@
   "description": "iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public.",
   "main": "app.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha server/test/**/**.spec.js --exit",
+    "test": "mocha --compilers js:@babel/register server/test/**.spec.js --exit",
     "babel-node": "babel-node --presets=env",
-    "start": "node dist/app.js",
+    "start:fake": "node dist/app.js",
+    "start": "nodemon --exec npm run babel-node -- server/app.js",
     "start:dev": "NODE_ENV=development nodemon --exec npm run babel-node -- server/app.js",
-    "build": "babel server -d dist"
+    "build:first": "babel server -d dist",
+    "build": "babel server --out-dir ./dist",
+    "debug": "node --inspect-brk ./dist/app.js"
   },
   "babel": {
     "presets": [
-      "env"
+      "@babel/preset-env"
     ]
   },
   "engines": {
@@ -33,9 +36,11 @@
   },
   "homepage": "https://github.com/kleva-j/iReporter#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/register": "^7.0.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
     "eslint": "^5.9.0",
