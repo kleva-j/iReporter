@@ -8,28 +8,178 @@ const url = '/api/v1/red-flags';
 const hostname = 'http://localhost:2080';
 
 describe('RED_FLAGS', () => {
+  let requestObject
 
-  describe.skip('Create a red-flag record', () => {
-    const requestObject = {
-      createdOn: new Date().toString(),
-      createdBy: 1,
-      type: 'red-flag',
-      location: '6.111111, 3.222222',
-      images: ['www.someImageUrl.com', 'www.someImageUrl.com'],
-      videos: ['www.someVideoUrl.com', 'www.someVideoUrl.com'],
-      comment: 'this is the news report',
-    };
+  describe('Create a red-flag record', () => {
 
+    beforeEach(() => {
+      requestObject = {
+        createdOn: new Date().toString(),
+        createdBy: 1,
+        type: 'red-flag',
+        location: '6.111111, 3.222222',
+        images: ['www.someImageUrl.jpg', 'www.someImageUrl.png'],
+        videos: ['www.someVideoUrl.mp4', 'www.someVideoUrl.avi'],
+        comment: 'this is the news report',
+      };
+    });
+    
     it('should create a new red-flag record', (done) => {
       chai.request(app)
         .post(url)
         .send(requestObject)
-        .end((req, res) => {
+        .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
           expect(res.body).to.have.keys(['status', 'data']);
           expect(res.body.data).to.be.instanceOf(Array);
+          expect(res.body.data[0]).to.have.keys(['id', 'message']);
           expect(res.body.data).length.to.be(1);
+          done();
+        });
+    });
+
+    // test creator id if exist
+    it('should reject if creator id is not defined', (done) => {
+      requestObject.createdBy = undefined;
+      chai.request(app)
+        .post(url)
+        .send(requestObject)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error').to.eq('Red-flag creator id is not defined');
+          expect(res.body).to.have.keys(['status', 'error']);
+          done();
+        });
+    });
+
+    // test validity of creatorId
+    it('should reject if creator id is not valid', (done) => {
+      requestObject.createdBy = 'asdf';
+      chai.request(app)
+        .post(url)
+        .send(requestObject)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error').to.eq('Red-flag creator id is not a valid id');
+          expect(res.body).to.have.keys(['status', 'error']);
+          done();
+        });
+    });
+    
+    //validate type
+    it('should reject if type is not defined', (done) => {
+      requestObject.type = undefined;
+      chai.request(app)
+        .post(url)
+        .send(requestObject)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error').to.eq('Type of incident not present');
+          expect(res.body).to.have.keys(['status', 'error']);
+          done();
+        });
+    });
+
+    it('should reject if type is not a red-flag or an intervention', (done) => {
+      requestObject.type = 'asdf';
+      chai.request(app)
+        .post(url)
+        .send(requestObject)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error').to.eq('Type of incident should either be a red-flag or an intervention');
+          expect(res.body).to.have.keys(['status', 'error']);
+          done();
+        });
+    });
+
+    // validate image
+    it('should reject if images is not defined', (done) => {
+      requestObject.images = undefined;
+      chai.request(app)
+        .post(url)
+        .send(requestObject)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error').to.eq('Images evidence are not available');
+          expect(res.body).to.have.keys(['status', 'error']);
+          done();
+        });
+    });
+
+    it('should reject if images is not a valid format', (done) => {
+      requestObject.images = 1;
+      chai.request(app)
+        .post(url)
+        .send(requestObject)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error').to.eq('Image sources should be contained in an array');
+          expect(res.body).to.have.keys(['status', 'error']);
+          done();
+        });
+    });
+
+    it('should reject if images urls is not of valid format', (done) => {
+      requestObject.images = ['www.imageUrl.com', 'www.imageUrl.com'];
+      chai.request(app)
+        .post(url)
+        .send(requestObject)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error').to.eq('Images should be a string with either of these extension formats jpg, png or jpeg');
+          expect(res.body).to.have.keys(['status', 'error']);
+          done();
+        });
+    });
+
+    //validate video
+    it('should reject if video is not defined', (done) => {
+      requestObject.video = undefined;
+      chai.request(app)
+        .post(url)
+        .send(requestObject)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error').to.eq('Video evidence are not available');
+          expect(res.body).to.have.keys(['status', 'error']);
+          done();
+        });
+    });
+
+    it('should reject if video is not a valid format', (done) => {
+      requestObject.video = 1;
+      chai.request(app)
+        .post(url)
+        .send(requestObject)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error').to.eq('Video sources should be contained in an array');
+          expect(res.body).to.have.keys(['status', 'error']);
+          done();
+        });
+    });
+
+    it('should reject if video urls is not of valid format', (done) => {
+      requestObject.video = ['www.videoUrl.com', 'www.videoUrl.com'];
+      chai.request(app)
+        .post(url)
+        .send(requestObject)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error').to.eq('Accepted video formats are avi, mp4 and mkv');
+          expect(res.body).to.have.keys(['status', 'error']);
           done();
         });
     });
@@ -40,7 +190,7 @@ describe('RED_FLAGS', () => {
     it('should return all red-flag records', (done) => {
       chai.request(app)
         .get(url)
-        .end((req, res) => {
+        .end((err, res) => {
           expect(err).to.be.null;
           expect(res.status).to.eq(200);
           expect(res.body).to.have.keys(['status', 'data']);
@@ -54,7 +204,7 @@ describe('RED_FLAGS', () => {
     it('should return a specific red-flag records', (done) => {
       chai.request(app)
         .get(`${url}/1`)
-        .end((req, res) => {
+        .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
           expect(res.body).to.have.keys(['status', 'data']);
@@ -68,7 +218,7 @@ describe('RED_FLAGS', () => {
       const id = 1000;
       chai.request(app)
         .get(`${url}/${id}`)
-        .end((req, res) => {
+        .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(404);
           expect(res.body).to.have.property('error').to.eq(`Red-flag with id of ${id} was not found`);
@@ -82,7 +232,7 @@ describe('RED_FLAGS', () => {
       const id = 'aaa';
       chai.request(app)
         .get(`${url}/${id}`)
-        .end((req, res) => {
+        .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(400);
           expect(res.body).to.have.property('error').to.eq('red-flag Id should be a number');
@@ -112,7 +262,7 @@ describe('RED_FLAGS', () => {
       const id = 1000;
       chai.request(app)
         .delete(`${url}/${id}`)
-        .end((req, res) => {
+        .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(404);
           expect(res.body).to.have.property('error').to.eq(`Red-flag with id of ${id} was not found`);
@@ -155,9 +305,8 @@ describe('RED_FLAGS', () => {
         });
     });
 
-    // ID number
-
-
+    
+    // validate ID 
     //passed
     it('should reject if location format is not a string', (done) => {
       const id = 1;
@@ -241,6 +390,71 @@ describe('RED_FLAGS', () => {
     });
   });
 
-  describe('Update the comment of a specific red-flag record', () => {});
+  describe('Update the comment of a specific red-flag record', () => {
+    it('should update the red-flag comment', (done) => {
+      const id = 2;
+      chai.request(app)
+        .patch(`${url}/${id}/comment`)
+        .send({
+          comment: 'this is the iReporter incident report'
+        })
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          expect(res.body.data[0]).to.have.property('message').to.eq('Updated red-flag record’s comment');
+          expect(res.body.data[0]).to.have.keys(['id', 'message']);
+          expect(res.body).to.have.keys(['status', 'data']);
+          expect(res.body.data).to.be.instanceOf(Array);
+          done();
+        });
+
+    });
+
+    it('should report id is not a number', (done) => {
+      const id = 'aaa';
+      chai.request(app)
+        .patch(`${url}/${id}/comment`)
+        .send({
+          comment: 'this is the iReporter incident report'
+        })
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error').to.eq(`red-flag Id should be a number`);
+          expect(res.body).to.have.keys(['status', 'error']);
+          done();
+        });
+    });
+
+    it('should return a 404 not found error', (done) => {
+      const id = 1000;
+      chai.request(app)
+        .patch(`${url}/${id}/comment`)
+        .send({
+          comment: 'this is the iRepoter incident update'
+        })
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(404);
+          expect(res.body).to.have.property('error').to.eq(`Red-flag with id of ${id} was not found`);
+          expect(res.body).to.have.keys(['status', 'error']);
+          done();
+        });
+    });
+
+    it('should reject if comment is not found in the body of the request object', (done) => {
+      const id = 1;
+      chai.request(app)
+        .patch(`${url}/${id}/comment`)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error').to.eq(`Comment is required`);
+          expect(res.body).to.have.keys(['status', 'error']);
+          done();
+        });
+    });
+
+  });
 
 })

@@ -19,45 +19,113 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateRedFlag(req, res, next) {
+    let { createdBy } = req.body;
     const {
       type,
-      images,
-      videos,
     } = req.body;
 
-    // validate images
-    if (!Array.isArray(images)) {
+    // validate createdBy
+    if (!createdBy) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Red-flag creator id is not defined',
+      });
+    }
+
+    createdBy = parseInt(createdBy, 10);
+    if (isNaN(createdBy)) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Red-flag creator id is not a valid id',
+      });
+    }
+
+    req.body.createdBy = createdBy;
+
+    // validate type
+    if (!type) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Type of incident not present',
+      });
+    }
+
+    if (type !== 'red-flag' && type !== 'intervention') {
+      return res.status(400).json({
+        status: 400,
+        error: 'Type of incident should either be a red-flag or an intervention',
+      });
+    }
+
+    return next();
+  }
+
+  /**
+   * Validate red-flag image
+   *
+   * @static
+   * @param {object} req - The request object
+   * @param {object} res - The response object
+   * @param {object} res - The next middleware
+   * @return {object} token or message
+   * @memberof IncidentValidator
+   */
+  static validateImages(req, res, next) {
+    const { images } = req.body;
+    const regEX = images.replace(/[\[\]\/]/g, '').split(', ');
+    const imageData = images.split('').slice(1, -1).join('').split(', ');
+
+    if (!images) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Images evidence are not available',
+      });
+    }
+
+    if (!Array.isArray(imageData)) {
       return res.status(400).json({
         status: 400,
         message: 'Image sources should be contained in an array',
       });
     }
 
-    images.forEach((image) => {
-      if (typeof image !== 'string') {
-        return res.status(400).json({
-          status: 400,
-          message: 'Image source should be of a string datatype',
-        });
-      }
+    const isValidImg = imageData.every(image => (image.endsWith('.jpg') && image.endsWith('.jpeg') && image.endsWith('png') && typeof image === 'string'));
 
-      if (!image.endsWith('.jpg') || !image.endsWith('.png') || !image.endsWith('.jpeg')) {
-        return res.status(400).json({
-          status: 400,
-          message: 'Accepted images formats are .jpg, png and jpeg',
-        });
-      }
+    return isValidImg ? next() : res.status(400).json({
+      status: 400,
+      message: 'Images should be a string with either of these extension formats jpg, png or jpeg',
     });
+  }
 
-    // validate Videos
-    if (!Array.isArray(videos)) {
+  /**
+   * Validate red-flag image
+   *
+   * @static
+   * @param {object} req - The request object
+   * @param {object} res - The response object
+   * @param {object} res - The next middleware
+   * @return {object} token or message
+   * @memberof IncidentValidator
+   */
+  static validateVideos(req, res, next) {
+    const { videos } = req.body;
+    const videoData = videos.split('').slice(1, -1).join('').split(', ');
+
+    if (!videos) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Video evidences are not available',
+      });
+    }
+
+    if (!Array.isArray(videoData)) {
       return res.status(400).json({
         status: 400,
         message: 'Video sources should be contained in an array',
       });
     }
 
-    videos.forEach((video) => {
+    videoData.forEach((video) => {
       if (typeof video !== 'string') {
         return res.status(400).json({
           status: 400,
@@ -65,28 +133,13 @@ class IncidentValidator {
         });
       }
 
-      if (!video.endsWith('.mp4') || !video.endsWith('.avi') || !video.endsWith('.mkv')) {
+      if (!video.endsWith('.avi') && !video.endsWith('.mp4') && !video.endsWith('.mkv')) {
         return res.status(400).json({
           status: 400,
-          message: 'Accepted videos formats are .mp4, avi and mkv',
+          message: 'Accepted video formats are avi, mp4 and mkv',
         });
       }
     });
-
-    // validate type
-    if (type !== 'red-flag' && type !== 'intervention') {
-      return res.status(400).json({
-        status: 400,
-        message: 'Type of incident should either be a red-flag or an intervention',
-      });
-    }
-
-    if (!type) {
-      return res.status(400).json({
-        status: 400,
-        message: 'Type of incident not present',
-      });
-    }
 
     return next();
   }
@@ -168,16 +221,30 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateComment(req, res, next) {
+    if (!req.body.comment) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Comment is required',
+      });
+    }
+
     const { comment } = req.body;
 
-    if (typeof comment !== 'string' || comment.length > 350) {
+    if (typeof comment !== 'string') {
+      return res.status(400).json({
+        status: 400,
+        error: 'Comments should be a string type value',
+      });
+    }
+
+    if (comment.length > 350) {
       return res.status(400).json({
         status: 400,
         error: 'Maximum number of word is 350 characters',
       });
     }
 
-    return next;
+    return next();
   }
 
   /**

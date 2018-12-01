@@ -2,7 +2,7 @@ import uuidv4 from 'uuid/v4';
 
 const users = [
   {
-    id: uuidv4(),
+    id: 1,
     firstname: 'kelly',
     lastname: 'white',
     othernames: 'bob',
@@ -14,7 +14,19 @@ const users = [
     isAdmin: true,
   },
   {
-    id: uuidv4(),
+    id: 2,
+    firstname: 'belly',
+    lastname: 'rhite',
+    othernames: 'bob',
+    email: 'belly_rhite@gmail.com',
+    hashPassword: 'belly',
+    phoneNumber: '08001112222',
+    username: 'Belly-R',
+    registered: new Date(),
+    isAdmin: false,
+  },
+  {
+    id: 3,
     firstname: 'kasmic',
     lastname: 'kleva',
     othernames: 'kleva-j',

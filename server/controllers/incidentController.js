@@ -34,7 +34,7 @@ class IncidentController {
     if (isUserIdValid !== -1) {
       const newIncident = {
         id: Incidents[Incidents.length - 1].id + 1,
-        createOn: new Date().toString(),
+        createdOn: new Date().toString(),
         createdBy,
         type,
         location,
@@ -148,6 +148,7 @@ class IncidentController {
     const { comment } = req.body;
     id = parseInt(id, 10);
     const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
+
     if (redFlagIndex !== -1) {
       Incidents[redFlagIndex].comment = comment;
       const redFlag = Incidents[redFlagIndex];
@@ -155,7 +156,7 @@ class IncidentController {
         status: 200,
         data: [{
           id: redFlag.id,
-          message: 'Updated red-flag record’s location',
+          message: 'Updated red-flag record’s comment',
         }],
       });
     }

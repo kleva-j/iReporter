@@ -7,6 +7,8 @@ const {
   validateID,
   validateLocation,
   validateComment,
+  validateImages,
+  validateVideos,
 } = IncidentValidator;
 
 const {
@@ -22,7 +24,7 @@ const incidentRouter = express.Router();
 
 incidentRouter.route('/red-flags')
   .get(getAllRedFlag)
-  .post(validateRedFlag, validateLocation, validateComment, createRedFlag);
+  .post(validateRedFlag, validateImages, validateVideos, validateLocation, validateComment, createRedFlag);
 
 incidentRouter.route('/red-flags/:id')
   .get(validateID, getSpecificRedFlag)

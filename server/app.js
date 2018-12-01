@@ -32,4 +32,7 @@ app.listen(port, () => {
   log(`App listening on port ${port}`);
 });
 
+process.on('uncaughtException', err => log('uncaught exception', err));
+process.on('unhandledRejection', err => log('unhandled rejection', err));
+
 export default app;
