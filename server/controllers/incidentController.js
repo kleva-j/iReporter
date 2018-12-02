@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import models from '../models/index';
+const models = require('../models/index');
 
 const { Incidents, Users } = models;
 
@@ -34,7 +34,7 @@ class IncidentController {
     if (isUserIdValid !== -1) {
       const newIncident = {
         id: Incidents[Incidents.length - 1].id + 1,
-        createOn: new Date(),
+        createdOn: new Date().toString(),
         createdBy,
         type,
         location,
@@ -82,7 +82,7 @@ class IncidentController {
     }
 
     return res.status(404).json({
-      status: 402,
+      status: 404,
       error: `Red-flag with id of ${id} was not found`,
     });
   }
@@ -148,6 +148,7 @@ class IncidentController {
     const { comment } = req.body;
     id = parseInt(id, 10);
     const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
+
     if (redFlagIndex !== -1) {
       Incidents[redFlagIndex].comment = comment;
       const redFlag = Incidents[redFlagIndex];
@@ -155,7 +156,7 @@ class IncidentController {
         status: 200,
         data: [{
           id: redFlag.id,
-          message: 'Updated red-flag record’s location',
+          message: 'Updated red-flag record’s comment',
         }],
       });
     }
@@ -176,10 +177,10 @@ class IncidentController {
    * @memberof IncidentController
    */
   static updateRedFlagLocation(req, res) {
-    let { id } = req.params;
+    const { id } = req.params;
     const { location } = req.body;
-    id = parseInt(id, 10);
-    const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
+    const redFlagId = parseInt(id, 10);
+    const redFlagIndex = Incidents.findIndex(incident => incident.id === redFlagId);
     if (redFlagIndex !== -1) {
       Incidents[redFlagIndex].location = location;
       const redFlag = Incidents[redFlagIndex];
@@ -197,6 +198,55 @@ class IncidentController {
       error: `Red-flag with id of ${id} was not found`,
     });
   }
+
+  /**
+   * Admin can update the status of a red-flag
+   *
+   * @static
+   * @param {object} req - the reequest object
+   * @param {object} res - The response object
+   * @return {object} a token or message
+   * @memberof IncidentController
+   */
+  static updateRedFlagStatus(req, res) {
+    let { id } = req.params;
+
+    if (!req.body.status) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Status was sent in the request',
+      });
+    }
+
+    const { status } = req.body;
+    id = parseInt(id, 10);
+    const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
+    const AcceptedStatus = ['under investigation', 'rejected', 'resolved'];
+
+    if (AcceptedStatus.indexOf(status) === -1) {
+      return res.status(400).json({
+        status: 400,
+        error: 'User red-flag status can either be under investigation, rejected or resolved',
+      });
+    }
+
+    if (redFlagIndex !== -1) {
+      Incidents[redFlagIndex].status = status;
+      const redFlag = Incidents[redFlagIndex];
+      return res.status(200).json({
+        status: 200,
+        data: [{
+          id: redFlag.id,
+          message: "User's red-flag status has been updated",
+        }],
+      });
+    }
+
+    return res.status(404).json({
+      status: 404,
+      error: `Red-flag with id of ${id} was not found`,
+    });
+  }
 }
 
-export default IncidentController;
+module.exports = IncidentController;

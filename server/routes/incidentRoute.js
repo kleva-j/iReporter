@@ -1,12 +1,14 @@
-import express from 'express';
-import IncidentController from '../controllers/incidentController';
-import IncidentValidator from '../utils/incidentValidator';
+const express = require('express');
+const IncidentController = require('../controllers/incidentController');
+const IncidentValidator = require('../utils/incidentValidator');
 
 const {
   validateRedFlag,
   validateID,
   validateLocation,
   validateComment,
+  validateImages,
+  validateVideos,
 } = IncidentValidator;
 
 const {
@@ -16,22 +18,28 @@ const {
   deleteRedFlag,
   updateRedFlagComment,
   updateRedFlagLocation,
+  updateRedFlagStatus,
 } = IncidentController;
 
 const incidentRouter = express.Router();
 
 incidentRouter.route('/red-flags')
   .get(getAllRedFlag)
-  .post(validateRedFlag, validateLocation, validateComment, createRedFlag);
+  .post(validateRedFlag, validateImages,
+    validateVideos, validateLocation,
+    validateComment, createRedFlag);
 
 incidentRouter.route('/red-flags/:id')
   .get(validateID, getSpecificRedFlag)
   .delete(validateID, deleteRedFlag);
 
 incidentRouter.route('/red-flags/:id/location')
-  .patch(validateLocation, updateRedFlagLocation);
+  .patch(validateID, validateLocation, updateRedFlagLocation);
 
 incidentRouter.route('/red-flags/:id/comment')
-  .patch(validateComment, updateRedFlagComment);
+  .patch(validateID, validateComment, updateRedFlagComment);
 
-export default incidentRouter;
+incidentRouter.route('/red-flags/admin/:id/status')
+  .patch(validateID, updateRedFlagStatus);
+
+module.exports = incidentRouter;

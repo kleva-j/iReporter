@@ -1,6 +1,6 @@
-import bcrypt from 'bcryptjs';
-import uuidv4 from 'uuid/v4';
-import models from '../models/index';
+const bcrypt = require('bcryptjs');
+const uuidv4 = require('uuid/v4');
+const models = require('../models/index');
 
 const { Users } = models;
 
@@ -94,4 +94,4 @@ class UserController {
   }
 }
 
-export default UserController;
+module.exports = UserController;
