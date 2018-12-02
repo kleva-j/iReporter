@@ -11,6 +11,7 @@
     "start": "nodemon --exec npm run start:pro",
     "start:dev": "NODE_ENV=development nodemon --exec npm run babel-node -- server/app.js",
     "build": "babel server --out-dir ./dist",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "debug": "node --inspect-brk ./dist/app.js"
   },
   "babel": {
@@ -42,6 +43,7 @@
     "@babel/register": "^7.0.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
+    "coveralls": "^3.0.2",
     "eslint": "^5.9.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",

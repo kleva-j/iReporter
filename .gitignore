@@ -1,3 +1,12 @@
+# Dependency directories
 node_modules
 
+# Coverage directory used by tools like istanbul
+coverage
+dist
+
+# nyc test coverage
 .nyc_output
+
+#logs
+npm-debug.log*
