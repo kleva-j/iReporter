@@ -11,7 +11,7 @@
     "start": "nodemon --exec npm run start:pro",
     "start:dev": "NODE_ENV=development nodemon --exec npm run babel-node -- server/app.js",
     "build": "babel server --out-dir ./dist",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coverage": "npm run test && nyc report --reporter=text-lcov | coveralls",
     "debug": "node --inspect-brk ./dist/app.js"
   },
   "babel": {
