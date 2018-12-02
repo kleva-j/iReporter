@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import models from '../models/index';
+const models = require('../models/index');
 
 const { Incidents, Users } = models;
 
@@ -198,6 +198,55 @@ class IncidentController {
       error: `Red-flag with id of ${id} was not found`,
     });
   }
+
+  /**
+   * Admin can update the status of a red-flag
+   *
+   * @static
+   * @param {object} req - the reequest object
+   * @param {object} res - The response object
+   * @return {object} a token or message
+   * @memberof IncidentController
+   */
+  static updateRedFlagStatus(req, res) {
+    let { id } = req.params;
+
+    if (!req.body.status) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Status was sent in the request',
+      });
+    }
+
+    const { status } = req.body;
+    id = parseInt(id, 10);
+    const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
+    const AcceptedStatus = ['under investigation', 'rejected', 'resolved'];
+
+    if (AcceptedStatus.indexOf(status) === -1) {
+      return res.status(400).json({
+        status: 400,
+        error: 'User red-flag status can either be under investigation, rejected or resolved',
+      });
+    }
+
+    if (redFlagIndex !== -1) {
+      Incidents[redFlagIndex].status = status;
+      const redFlag = Incidents[redFlagIndex];
+      return res.status(200).json({
+        status: 200,
+        data: [{
+          id: redFlag.id,
+          message: "User's red-flag status has been updated",
+        }],
+      });
+    }
+
+    return res.status(404).json({
+      status: 404,
+      error: `Red-flag with id of ${id} was not found`,
+    });
+  }
 }
 
-export default IncidentController;
+module.exports = IncidentController;

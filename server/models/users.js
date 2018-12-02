@@ -1,4 +1,4 @@
-import uuidv4 from 'uuid/v4';
+const uuidv4 = require('uuid/v4');
 
 const users = [
   {
@@ -51,4 +51,4 @@ const users = [
   },
 ];
 
-export default users;
+module.exports = users;

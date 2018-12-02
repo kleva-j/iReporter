@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 /* eslint-disable consistent-return */
 /* eslint-disable no-useless-escape */
 
@@ -71,30 +72,29 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateImages(req, res, next) {
+    if (!req.body.images) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Image evidence were not sent',
+      });
+    }
+
     const { images } = req.body;
-    const regEX = images.replace(/[\[\]\/]/g, '').split(', ');
-    const imageData = images.split('').slice(1, -1).join('').split(', ');
 
-    if (!images) {
+    const regEX = images.toString().replace(/[\[\]\/]/g, '').split(', ');
+
+    const isValidImg = regEX.every(image => (image.endsWith('.jpg') || image.endsWith('.jpeg') || image.endsWith('png') && typeof image === 'string'));
+
+    if (!isValidImg) {
       return res.status(400).json({
         status: 400,
-        error: 'Images evidence are not available',
+        error: 'Images should be a string with either of these extension formats jpg, png or jpeg',
       });
     }
 
-    if (!Array.isArray(imageData)) {
-      return res.status(400).json({
-        status: 400,
-        message: 'Image sources should be contained in an array',
-      });
-    }
+    req.body.images = regEX;
 
-    const isValidImg = imageData.every(image => (image.endsWith('.jpg') && image.endsWith('.jpeg') && image.endsWith('png') && typeof image === 'string'));
-
-    return isValidImg ? next() : res.status(400).json({
-      status: 400,
-      message: 'Images should be a string with either of these extension formats jpg, png or jpeg',
-    });
+    return next();
   }
 
   /**
@@ -108,38 +108,26 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateVideos(req, res, next) {
+    if (!req.body.videos) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Video evidences were not sent',
+      });
+    }
+
     const { videos } = req.body;
-    const videoData = videos.split('').slice(1, -1).join('').split(', ');
+    const videoData = videos.toString().replace(/[\[\]\/]/g, '').split(', ');
 
-    if (!videos) {
+    const isValidVid = videoData.every(video => (video.endsWith('.avi') || video.endsWith('.mp4') || video.endsWith('mkv') && typeof video === 'string'));
+
+    if (!isValidVid) {
       return res.status(400).json({
         status: 400,
-        error: 'Video evidences are not available',
+        error: 'Video urls should be a string datatype with endings of either avi, mkv or mp4',
       });
     }
 
-    if (!Array.isArray(videoData)) {
-      return res.status(400).json({
-        status: 400,
-        message: 'Video sources should be contained in an array',
-      });
-    }
-
-    videoData.forEach((video) => {
-      if (typeof video !== 'string') {
-        return res.status(400).json({
-          status: 400,
-          message: 'Video source should be of a string datatype',
-        });
-      }
-
-      if (!video.endsWith('.avi') && !video.endsWith('.mp4') && !video.endsWith('.mkv')) {
-        return res.status(400).json({
-          status: 400,
-          message: 'Accepted video formats are avi, mp4 and mkv',
-        });
-      }
-    });
+    req.body.videos = videoData;
 
     return next();
   }
@@ -278,4 +266,4 @@ class IncidentValidator {
   }
 }
 
-export default IncidentValidator;
+module.exports = IncidentValidator;

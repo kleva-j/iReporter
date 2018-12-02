@@ -1,11 +1,11 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import morgan from 'morgan';
-import path from 'path';
-import jsend from 'jsend';
-import cors from 'cors';
-import helmet from 'helmet';
-import routers from './routes/index';
+const express = require('express');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const path = require('path');
+const jsend = require('jsend');
+const cors = require('cors');
+const helmet = require('helmet');
+const routers = require('./routes/index');
 
 const { log } = console;
 const app = express();
@@ -35,4 +35,4 @@ app.listen(port, () => {
 process.on('uncaughtException', err => log('uncaught exception', err));
 process.on('unhandledRejection', err => log('unhandled rejection', err));
 
-export default app;
+module.exports = app;

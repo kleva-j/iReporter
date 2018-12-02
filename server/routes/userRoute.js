@@ -1,7 +1,7 @@
-import express from 'express';
-import path from 'path';
-import userController from '../controllers/userController';
-import userValidator from '../utils/userValidator';
+const express = require('express');
+const path = require('path');
+const userController = require('../controllers/userController');
+const userValidator = require('../utils/userValidator');
 
 const {
   validateLogin,
@@ -22,10 +22,8 @@ userRouter.route('/login')
   .post(validateLogin, LoginUser);
 
 userRouter.route('/signup')
-  .get((req, res) => {
-    res.status(200).sendFile(path.join(__dirname, '..', '..', 'template', 'html', 'signup.html'));
-  })
+  .get((req, res) => res.status(200).sendFile(path.join(__dirname, '..', '..', 'template', 'html', 'signup.html')))
   .post(validateSignup, RegisterUser);
 
 
-export default userRouter;
+module.exports = userRouter;

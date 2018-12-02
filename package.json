@@ -4,10 +4,11 @@
   "description": "iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public.",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --compilers js:@babel/register server/test/**.spec.js --timeout 3000 --exit",
+    "test": "NODE_ENV=test nyc mocha server/test --exit",
+    "test:dev": "NODE_ENV=test nyc mocha --require @babel/register server/test --exit",
     "babel-node": "babel-node --presets=@babel/env",
-    "start:fake": "node dist/app.js",
-    "start": "nodemon --exec npm run babel-node -- server/app.js",
+    "start:pro": "node server/app.js",
+    "start": "nodemon --exec npm run start:pro",
     "start:dev": "NODE_ENV=development nodemon --exec npm run babel-node -- server/app.js",
     "build": "babel server --out-dir ./dist",
     "debug": "node --inspect-brk ./dist/app.js"
@@ -37,7 +38,6 @@
   "devDependencies": {
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.6",
-    "@babel/node": "^7.0.0",
     "@babel/preset-env": "^7.1.6",
     "@babel/register": "^7.0.0",
     "chai": "^4.2.0",
@@ -56,7 +56,9 @@
     "helmet": "^3.15.0",
     "jsend": "^1.0.2",
     "morgan": "^1.9.1",
+    "nyc": "^13.1.0",
     "uuid": "^3.3.2",
     "validator": "^10.9.0"
-  }
+  },
+  "browserslist": "> 0.25%, not dead"
 }

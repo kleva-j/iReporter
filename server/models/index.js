@@ -1,7 +1,7 @@
-import Users from './users';
-import Incidents from './incidents';
+const Users = require('./users');
+const Incidents = require('./incidents');
 
-export default {
+module.exports = {
   Users,
   Incidents,
 };
