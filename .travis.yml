@@ -1,0 +1,24 @@
+language: node,
+sudo: required
+language: node_js
+node_js:
+  - "10.9.0"
+env: 
+  global:
+    - CODECLIMATE_REPO_TOKEN=c5994036ccf0e5ca5b9355f1ad8a945337b9c87afffc7eac377d4c35ffbff9cf
+    - NODE_ENV=test
+branches:
+  except:
+  - gh-pages
+  - master
+install:
+  - npm install
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+script:
+  - npm test
+after_success: 
+  - npm run coveralls
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
