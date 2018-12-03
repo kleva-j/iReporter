@@ -9,18 +9,18 @@ iReporter enables any/every citizen to bring any form of corruption to the notic
 
 ___
 
- - Users can signup and login to the application.
- - Users can create a record of a red-flag or intervention.
- - Users can view all record of their red-flag.
- - Users can view the details of their red-flag record.
- - Users can add image or video evidence to a red-flag or intervention record to support the claim.
- - Users can edit a record of a red-flag or intervention.
- - Users can delete a record of a red-flag or intervention.
- - Users can add geographical information (Latitude and Longitude Coordinates) to their red-flag or intervention record.
- - Users can change the georaphical information attached to a red-flag or intervention record.
- - User can receive sms message whenever the status of their red-flag or intervention record is changed.
- - Users can receive email notification update whenever the status of their red-flag or intervention record is changed.
- - An Administrative user can edit the status of a red-flag or intervention record.
+- Users can signup and login to the application.
+- Users can create a record of a red-flag or intervention.
+- Users can view all record of their red-flag.
+- Users can view the details of their red-flag record.
+- Users can add image or video evidence to a red-flag or intervention record to support the claim.
+- Users can edit a record of a red-flag or intervention.
+- Users can delete a record of a red-flag or intervention.
+- Users can add geographical information (Latitude and Longitude Coordinates) to their red-flag or intervention record.
+- Users can change the georaphical information attached to a red-flag or intervention record.
+- User can receive sms message whenever the status of their red-flag or intervention record is changed.
+- Users can receive email notification update whenever the status of their red-flag or intervention record is changed.
+- An Administrative user can edit the status of a red-flag or intervention record.
 
 ## TECHNOLOGIES
 
@@ -62,6 +62,20 @@ The UI templates for this App can be viewed on [GitHub Pages](https://pages.gith
 
 - [IREPORTER:](https://kleva-j.github.io/iReporter/)
 
+### Endpoints
+
+- GET `api/v1/red-flags` :- This route is used to gets all red-flags records
+
+- GET `api/v1/red-flags/:id` :- This route is used to get a specific red-flag record
+
+- POST `api/v1/red-flags` :- This route is used to create a red-flag record
+
+- PATCH `api/v1/red-flags/:id/location` :- This route is used edit the location of a specific red-flag record
+
+- PATCH `api/v1/red-flags/:id/comment` :- This route is used edit the comment of a specific red-flag record
+
+- DELETE `api/v1/red-flags/:id` :- This route is used to delete a specific red-flag record
+
 ## Contributing
 
 - Fork this repository
@@ -76,5 +90,6 @@ The UI templates for this App can be viewed on [GitHub Pages](https://pages.gith
 
 - [Michael Obasi](maito:kasmickleva@gmail.com)
 
-### Licence 
+### Licence
+
 - [MIT License](https://github.com/kleva-j/iReporter/blob/develop/LICENSE)
