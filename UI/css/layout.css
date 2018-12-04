@@ -27,6 +27,23 @@ a{
   display: flex;
 }
 
+.mainsection {
+  max-height: calc(100vh - 150px);
+  background: darkslateblue
+}
+
+.topSec {
+  background: var(--lighten);
+  height: 400px;
+}
+
+.side {
+  margin: auto
+}
+
+.side > h1 {
+  font-size: 3rem
+}
 
 .login-form > *,
 .red-flag > *,
@@ -45,7 +62,8 @@ a{
 .btn.danger,
 .btn.primary,
 .btn.success,
-.btn.file {
+.btn.file,
+.btn.base {
   box-shadow: -1px 2px 1px 0 rgba(0, 0, 0, .5);
   color: white
 }
@@ -74,7 +92,6 @@ a{
 
 .btn.base {
   background: var(--base);
-  box-shadow: var(--shadow)
 }
 
 .btn.green{
@@ -86,7 +103,6 @@ a{
   box-shadow: var(--shadow);
   background: var(--yellow)
 }
-
 
 .btn.file{
   background: var(--primary-light);
@@ -147,6 +163,10 @@ li a{ color: var(--darken)}
   width: 100%;
 }
 
+.flex-center {
+  display: block;
+  margin: 50px auto;
+}
 
 @media (min-width:576px) {
   .login-form, 

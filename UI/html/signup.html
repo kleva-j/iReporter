@@ -40,10 +40,10 @@
 
         <div class="row">
           <div class="col mg-r">
-            <input type="text" class="form-control" placeholder="Firstname">
+            <input type="text" class="form-control" placeholder="Firstname" required>
           </div>
           <div class="col mg-l">
-            <input type="text" class="form-control" placeholder="Lastname">
+            <input type="text" class="form-control" placeholder="Lastname" required>
           </div>
         </div>
 
@@ -51,16 +51,16 @@
           <input type="text" class="form-control" placeholder="Othername">
         </div>
         <div class="form-group">
-          <input type="email" class="form-control" placeholder="Email Address">
+          <input type="email" class="form-control" placeholder="Email Address" required>
         </div> 
         <div class="form-group">
-          <input type="tel" class="form-control" placeholder="Phone number">
+          <input type="tel" class="form-control" placeholder="Phone number" maxlength="11" pattern="/^[0]\d{10}$/" required>
         </div> 
         <div class="form-group">
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" class="form-control" placeholder="Password" required>
         </div>  
         <div class="form-group">
-          <input type="password" class="form-control" placeholder="Confirm Password">
+          <input type="password" class="form-control" placeholder="Confirm Password" required>
         </div>    
 
         <button type="submit" class="btn primary">Sign up</button>

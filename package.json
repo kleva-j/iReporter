@@ -7,7 +7,6 @@
     "test": "NODE_ENV=test nyc mocha server/test --exit",
     "test:dev": "NODE_ENV=test nyc mocha --require @babel/register server/test --exit",
     "babel-node": "babel-node --presets=@babel/env",
-    "start:pro": "node server/app.js",
     "start": "npm run build && node dist/app.js",
     "start:dev": "NODE_ENV=development nodemon --exec npm run babel-node -- server/app.js",
     "build": "npm run clean && babel server --out-dir ./dist",
