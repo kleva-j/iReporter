@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public.">
+  <meta name="author" content="Michael Obasi">
+  <meta name="keyword" content="iReporter">
+  <title>Log in | iReporter</title>
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
+  <link rel="stylesheet" type="text/css" href="/css/layout.css">
+</head>
+
+<body>
+  <header>
+    <div class="navbar fixed shade-default bg-light">
+      <div class="container">      
+        <a href="" class="logo">
+          <img src="/images/bg-2.svg" height="65px" alt="logo">eporter
+        </a>
+        <input type="checkbox" id="burger-toggle">
+        <label id="burger" for="burger-toggle">
+          <div></div>
+        </label>
+        <nav class="nav">
+          <a class="nav-bar-link active" href="/">Home</a>
+          <a class="nav-bar-link" href="#">Login</a>
+          <a class="nav-bar-link" href="/api/v1/users/auth/signup">Signup</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="container j-c-c">
+      <form class="login-form w-100" action="./profile.html">
+        <h1 class="h1">Log In</h1>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Username">
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" placeholder="Password">
+        </div>
+        <button type="submit" class="btn primary">Log in</button>
+        <small class="block text-dark">Don't have an account? sign up <a class="underscore"href="signup.html">Here</a> </small>
+      </form>
+    </div>
+  </section>
+
+  <footer></footer>
+
+</body>
+
+</html>

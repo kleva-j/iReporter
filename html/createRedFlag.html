@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public.">
+  <meta name="author" content="Michael Obasi">
+  <meta name="keyword" content="iReporter">
+  <title>Create Red-Flag record | iReporter</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <div class="navbar fixed shade-default bg-light">
+      <div class="container">      
+        <a href="" class="logo">
+          <img src="../images/bg-2.svg" height="65px" alt="logo">eporter
+        </a>
+        <input type="checkbox" id="burger-toggle">
+        <label id="burger" for="burger-toggle">
+          <div></div>
+        </label>
+        <nav class="nav">
+          <a class="nav-bar-link active" href="../index.html">Home</a>
+          <a class="nav-bar-link" href="./redFlagRecords.html">Red-flags</a>
+          <a class="nav-bar-link" href="./interventionRecords.html">Interventions</a>
+          <a class="nav-bar-link" href="login.html">Logout</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <section class="main">
+    <div class="container j-c-c">
+      <form class="red-flag w-100">
+        <h1 class="h1">Create a Red-Flag record</h1>
+        <div class="form-group">
+          <input type="text" id="subject"class="form-control" placeholder="Subject">
+        </div>
+        <div class="form-group">
+          <textarea class="form-control" id="textarea" placeholder="Description / Story" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <h4>Evidence :</h4>
+          <input name="evidence" type="radio" value="Image" id="checkImage">
+          <label for="checkImage">Image</label>          
+          <input name="evidence" type="radio" value="Video" id="checkVideo">
+          <label for="checkVideo">Video</label>                    
+          <input type="file" name="evidence" class="btn file" accept="image/*, video/*">
+        </div>
+
+        <div class="form-group">
+          <input type="text" placeholder="Enter Address of location" class="form-control" id="address">
+          <button class="btn default address">resolve address</button>
+        </div>
+        <div id="map"></div>
+
+        <button type="submit" class="btn primary">Create</button>
+      </form>
+    </div>
+
+  </section>
+  <footer></footer>
+
+  <script src="../js/geoNotification.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?KEY=AIzaSyB0rESKxxyOCdD5o7BEiUKwHW-hErMDMPI&callback=initMap"></script>
+
+</body> 
+
+</html>
