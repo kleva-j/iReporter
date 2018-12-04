@@ -22,6 +22,8 @@
 
 .mg-lg { margin: 1.2rem }
 
+.mg-lg-t-b { margin-top: 2rem; margin-bottom: 2rem }
+
 .mg { margin: 1rem }
 
 .mg-l { margin-left: .75rem }
@@ -37,6 +39,10 @@
 .mg-auto {  margin: auto }
 
 .mg-0 { margin: 0 }
+
+.pd { padding: .75rem }
+
+.pd-lg { padding: 1.5rem }
 
 .pd-l { padding-left: .75rem }
 
@@ -77,11 +83,12 @@
   justify-content: space-between
 }
 
-
 .j-c-cl{
   display: flex;
   flex-direction: column
 }
+
+.flex{ display: flex}
 
 .grow-1{ flex-grow: 1}
 
