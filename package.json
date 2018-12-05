@@ -8,9 +8,10 @@
     "test:dev": "NODE_ENV=test nyc mocha --require @babel/register server/test --exit",
     "babel-node": "babel-node --presets=@babel/env",
     "start:pro": "node server/app.js",
-    "start": "nodemon --exec npm run start:pro",
+    "start": "npm run build && node dist/app.js",
     "start:dev": "NODE_ENV=development nodemon --exec npm run babel-node -- server/app.js",
-    "build": "babel server --out-dir ./dist",
+    "build": "npm run clean && babel server --out-dir ./dist",
+    "clean": "rm -rf dist && mkdir dist",
     "coveralls": "nyc report --reporter=lcov --reporter=text-lcov | coveralls",
     "coverage": "npm test && nyc report --reporter=lcov --reporter=text-lcov | coveralls",
     "debug": "node --inspect-brk ./dist/app.js"
