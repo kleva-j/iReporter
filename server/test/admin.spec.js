@@ -11,7 +11,7 @@ describe("/PATCH - admin can update the status of a user's red-flag", () => {
   it("The Admin should be able to update a user's red-flag status", (done) => {
     const id = 1;
     chai.request(app)
-      .patch(`${url}/admin/${id}/status`)
+      .patch(`${url}/${id}/status`)
       .send({
         status: 'resolved'
       })
@@ -29,7 +29,7 @@ describe("/PATCH - admin can update the status of a user's red-flag", () => {
   it('should report if status is neither under investigation, rejected nor resolved', (done) => {
     const id = 2;
     chai.request(app)
-      .patch(`${url}/admin/${id}/status`)
+      .patch(`${url}/${id}/status`)
       .send({
         status: 'bbb'
       })
@@ -45,7 +45,7 @@ describe("/PATCH - admin can update the status of a user's red-flag", () => {
   it('should report id is not a number', (done) => {
     const id = 'aaa';
     chai.request(app)
-      .patch(`${url}/admin/${id}/status`)
+      .patch(`${url}/${id}/status`)
       .send({
         status: 'resolved'
       })
@@ -61,7 +61,7 @@ describe("/PATCH - admin can update the status of a user's red-flag", () => {
   it('should return a 404 not found error', (done) => {
     const id = 1000;
     chai.request(app)
-      .patch(`${url}/admin/${id}/status`)
+      .patch(`${url}/${id}/status`)
       .send({
         status: 'resolved'
       })
@@ -77,11 +77,11 @@ describe("/PATCH - admin can update the status of a user's red-flag", () => {
   it('should reject if status is not found in the body of the request object', (done) => {
     const id = 1;
     chai.request(app)
-      .patch(`${url}/admin/${id}/status`)
+      .patch(`${url}/${id}/status`)
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.eq('Status was sent in the request');
+        expect(res.body).to.have.property('error').to.eq('Status was not sent in the request');
         expect(res.body).to.have.keys(['status', 'error']);
         done();
       });

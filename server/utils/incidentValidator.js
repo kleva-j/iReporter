@@ -143,12 +143,6 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateID(req, res, next) {
-    if (!req.params.id) {
-      return res.status(403).json({
-        status: 404,
-        data: 'Incomplete request, red-flag id is empty',
-      });
-    }
 
     const id = parseInt(req.params.id, 10);
 

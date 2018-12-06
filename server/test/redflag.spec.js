@@ -8,7 +8,6 @@ chai.use(chaiHTTP);
 const url = '/api/v1/red-flags';
 
 describe('RED_FLAGS', () => {
-  let requestObject
 
   describe('Get all red flag records', () => {
     it('should return all red-flag records', (done) => {
@@ -281,4 +280,4 @@ describe('RED_FLAGS', () => {
 
   });
 
-})
+});

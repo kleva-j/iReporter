@@ -92,6 +92,24 @@ h1{
   box-shadow: var(--shadow);
   margin: 2px 0;
   background: white;
+  -webkit-transition: 500ms ease-in;
+  -moz-transition: 500ms ease-in; 
+  -o-transition: 500ms ease-in;
+  -ms-transition: 500ms ease-in;
+  transition: 500ms ease-in;
+}
+
+.dip .list-item .item:hover{
+  transform: translateX(3px);
+  background-color: var(--lighten);
+}
+
+.details .list-item .item {
+  border: 2px solid transparent;
+}
+
+.details .list-item .item:hover{
+  border-right: 2px solid var(--primary-light)
 }
 
 .fa-flag-checkered{
@@ -128,6 +146,8 @@ h1{
   border-radius: .25rem;
   transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
+
+small { font-size: 15px }
 
 @media (min-width:456px) {
   .left {

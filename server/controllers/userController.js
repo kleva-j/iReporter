@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 const uuidv4 = require('uuid/v4');
 const models = require('../models/index');
 
@@ -29,34 +29,32 @@ class UserController {
       phoneNumber,
     } = req.body;
 
-    // eslint-disable-next-line consistent-return
-    Users.forEach((user) => {
-      if (username === user.username) {
-        return res.status(400).jsend.fail({ message: 'Username has been taken' });
-      } if (email === user.email) {
-        return res.status(400).jsend.fail({ message: 'Email has been used' });
-      }
-    });
+    const emailFound = Users.find(user => user.email === email);
 
-    const hashPassword = bcrypt.hashSync(password, 10);
+    if (emailFound) {
+      return res.status(403).json({
+        status: 403,
+        error: 'User already exist',
+      });
+    }
 
-    const newUser = {
+    const newUser = [{
       id: uuidv4(),
       firstname,
       lastname,
       othernames,
-      hashPassword,
+      password,
       email,
       phoneNumber,
       username,
       registered: new Date(),
       isAdmin: false,
-    };
+    }];
 
     Users.push(newUser);
 
-    return res.status(201).jsend.success({
-      message: 'User successfully registered',
+    return res.status(201).json({
+      status: 201,
       data: newUser,
     });
   }
@@ -75,21 +73,24 @@ class UserController {
       username, password,
     } = req.body;
 
-    // eslint-disable-next-line consistent-return
-    Users.forEach((user) => {
-      if (username === user.username) {
-        const checkPass = bcrypt.compareSync(password, user.hashPassword);
-        if (checkPass) {
-          return res.status(200).jsend.success({
-            message: 'User successfully logged in',
-            user,
-          });
-        }
-      }
-    });
+    const singleUser = Users.find(user => user.username === username);
 
-    return res.status(404).jsend.fail({
-      message: 'User not found',
+    if (singleUser) {
+      if (singleUser.password === password) {
+        return res.status(200).json({
+          status: 200,
+          data: [singleUser],
+        });
+      }
+      return res.status(403).json({
+        status: 403,
+        error: 'Incorrect password',
+      });
+    }
+
+    return res.status(404).json({
+      status: 404,
+      error: 'User does not exist',
     });
   }
 }

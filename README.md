@@ -76,7 +76,9 @@ The UI templates for this App can be viewed on [GitHub Pages](https://pages.gith
 
 - DELETE `api/v1/red-flags/:id` :- This route is used to delete a specific red-flag record
 
-Link to api endpoints on [HEROKU](https://www.guarded-hamlet-61027.herokuapp.com)
+Link to api endpoints on [Heroku](https://www.heroku.com) below
+
+- [API](https://www.guarded-hamlet-61027.herokuapp.com)
 
 ## Contributing
 

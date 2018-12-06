@@ -15,12 +15,34 @@
   --blue: dodgerblue;
   --green: #38C172;
   --yellow: #F2D024;
-  --top: 77px
+  --top: 81px
 }
+
+.red {color: red}
+
+.yel { color: var(--yellow)}
+
+.grn { color: var(--green)}
+
+.b-red { border: 1px solid red }
+
+.b-yel { border: 1px solid var(--yellow) }
+
+.b-grn {border: 1px solid var(--green) }
+
+.bd-red {border: 1px solid var(--green) !important}
+
+.bd-yel {border: 1px solid var(--yellow) !important}
+
+.bd-grn {border: 1px solid var(--green) !important}
 
 .mg-sm { margin: .25rem }
 
 .mg-lg { margin: 1.2rem }
+
+.mg-lg-t-b { margin-top: 2rem; margin-bottom: 2rem }
+
+.mg-t-b { margin-top: 1rem; margin-bottom: 1rem }
 
 .mg { margin: 1rem }
 
@@ -37,6 +59,10 @@
 .mg-auto {  margin: auto }
 
 .mg-0 { margin: 0 }
+
+.pd { padding: .75rem }
+
+.pd-lg { padding: 1.5rem }
 
 .pd-l { padding-left: .75rem }
 
@@ -77,11 +103,12 @@
   justify-content: space-between
 }
 
-
 .j-c-cl{
   display: flex;
   flex-direction: column
 }
+
+.flex{ display: flex}
 
 .grow-1{ flex-grow: 1}
 
@@ -90,6 +117,8 @@
 .bolder{ font-weight: 600}
 
 .inline{ display: inline-block }
+
+.f-w { font-weight: 400 }
 
 #burger-toggle {
   display: none;

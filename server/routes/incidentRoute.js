@@ -39,7 +39,7 @@ incidentRouter.route('/red-flags/:id/location')
 incidentRouter.route('/red-flags/:id/comment')
   .patch(validateID, validateComment, updateRedFlagComment);
 
-incidentRouter.route('/red-flags/admin/:id/status')
+incidentRouter.route('/red-flags/:id/status')
   .patch(validateID, updateRedFlagStatus);
 
 module.exports = incidentRouter;

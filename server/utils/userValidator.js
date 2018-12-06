@@ -17,7 +17,12 @@ class Validator {
    */
   static validateLogin(req, res, next) {
     const { username, password } = req.body;
-    if (!username || !password) return res.status(400).json({ message: 'Your request was incomplete' });
+    if (!username || !password) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Your request was incomplete',
+      });
+    }
     return next();
   }
 
@@ -42,57 +47,66 @@ class Validator {
     } = req.body;
 
     if (!firstname) {
-      return res.status(400).jsend.fail({
-        message: 'Firstname is empty.',
+      return res.status(400).json({
+        status: 400,
+        error: 'Firstname is required',
       });
     }
 
     if (!lastname) {
-      return res.status(400).jsend.fail({
-        message: 'Lastname is empty.',
+      return res.status(400).json({
+        status: 400,
+        error: 'Lastname is required',
       });
     }
 
     if (!username) {
-      return res.status(400).jsend.fail({
-        message: 'Username is empty.',
+      return res.status(400).json({
+        status: 400,
+        error: 'Username is required',
       });
     }
 
     if (!email) {
-      return res.status(400).jsend.fail({
-        message: 'Email address is empty.',
+      return res.status(400).json({
+        status: 400,
+        error: 'Email address is required',
       });
     }
 
     if (!password) {
-      return res.status(400).jsend.fail({
-        message: 'Password is empty.',
+      return res.status(400).json({
+        status: 400,
+        error: 'Password is required',
       });
     }
 
     if (!phoneNumber) {
-      return res.status(400).jsend.fail({
-        message: 'PhoneNumber is empty.',
+      return res.status(400).json({
+        status: 400,
+        error: 'PhoneNumber is required',
       });
     }
 
     if (typeof username !== 'string') {
-      return res.status(400).jsend.fail({
-        message: 'Your username was invalid.',
+      return res.status(400).json({
+        status: 400,
+        error: 'Your username is invalid',
       });
     }
 
     if (!isEmail(email)) {
-      return res.status(400).jsend.fail({
-        message: 'Your email address was invalid.',
+      return res.status(400).json({
+        status: 400,
+        error: 'Your Email address is invalid',
       });
     }
 
     const passwordLength = password.length;
     if (passwordLength < 8 || passwordLength > 4000) {
-      return res.status(400).jsend.fail({
-        message: 'The password length should be a least 8 digit in length',
+      return res.status(400).json({
+        status: 400,
+        error: 'The password length should be a least 8 digit in length',
       });
     }
 

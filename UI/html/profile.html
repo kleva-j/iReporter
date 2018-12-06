@@ -29,8 +29,7 @@
         </label>
         <nav class="nav">
           <a class="nav-bar-link active" href="../index.html">Home</a>
-          <a class="nav-bar-link" href="./createRedFlag.html">Create Red-flags</a>
-          <a class="nav-bar-link" href="./createIntervention.html">Create Interventions</a>
+          <a class="nav-bar-link" href="#">About Us</a>
           <a class="nav-bar-link" href="./login.html">Logout</a>
         </nav>
       </div>
@@ -68,60 +67,72 @@
               <a href="./interventionRecords.html"><i class="fas fa-headset" title="interventions"></i></a>
               <a href="./interventionRecords.html" class="sd">Interventions <b>75</b></a>
             </li>
-            <li class="item">
-              <a href=""><i class="fas fa-bell" title="notifications"></i></a>
-              <a href="./createRedFlag.html" class="sd">Create Red-flag <i></i></a>
-            </li>
-            <li class="item">
-              <a href="../index.html"><i class="fas fa-sign-out-alt" title="sign out"></i></i></a>
-              <a href="./createIntervention.html" class="sd">Create Intervention <i></i></a>
-            </li>
           </ul>
         </div>
       </div>
 
       <div class="right w-100">
         <div class="breadboard">
-          <h2 class="breadboard-header">Intervention Records</h2>
-
-          <div class="top">
-            <div class="heading mg-b">Edit Intervention</div>
-            <div class="container">
-              <div class="flex mg-b">
-                <h3 class="mg-0 topic">Subject: </h3>
-                <div contenteditable="true" class="form-control subject">Lorem ipsum dolor sit, amet consectetur
-                  adipisicing elit.</div>
-              </div>
-              <div class="flex">
-                <h3 class="mg-0 topic">Description: </h3>
-                <textarea class="form-control subject" id="textarea" placeholder="Description / Story" rows="5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maiores suscipit tenetur quis ratione, eveniet voluptate corporis magni earum quidem eaque esse neque eum quasi quibusdam magnam ullam laborum possimus error.</textarea>
-              </div>
-              <div>
-                <h3 class="mg-sm">Evidence :</h3>
-                <input name="evidence" type="radio" value="Image" id="checkImage">
-                <label for="checkImage">Image</label>
-                <input name="evidence" type="radio" value="Video" id="checkVideo">
-                <label for="checkVideo">Video</label>
-                <input type="file" name="evidence" class="btn file mg-l" accept="image/*, video/*">
-              </div>
-
-              <div class="edit-buttons">
-                <span>
-                  <button type="submit" class="btn success mg-r lg">Save</button>
-                  <button type="reset" class="btn base lg">Delete</button>
-                </span>
-              </div>
-
-            </div>
+          <div class="breadboard-header j-c-sb mg-t-b">
+            <h3 class="mg-auto">Dashboard</h3>
           </div>
 
+          <div class="top">
+            <div class="heading">Red-Flags</div>
+            <div class="drop">
+              <div class="j-c-sa grow-1">
+                <div>
+                  <h1>124</h1>
+                  <h4>Total</h4>
+                </div>
+                <div>
+                  <h1>72</h1>
+                  <h4>Resolved</h4>
+                </div>
+              </div>
+              <div class="j-c-sa grow-1">
+                <div>
+                  <h1>41</h1>
+                  <h4>Unresolved</h4>
+                </div>
+                <div>
+                  <h1>11</h1>
+                  <h4>Rejected</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bottom">
+            <div class="heading">Interventions</div>
+            <div class="drop">
+              <div class="j-c-sa grow-1">
+                <div>
+                  <h1>75</h1>
+                  <h4>Total</h4>
+                </div>
+                <div>
+                  <h1>23</h1>
+                  <h4>Resolved</h4>
+                </div>
+              </div>
+              <div class="j-c-sa grow-1">
+                <div>
+                  <h1>41</h1>
+                  <h4>Unresolved</h4>
+                </div>
+                <div>
+                  <h1>11</h1>
+                  <h4>Rejected</h4>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    </div>
   </section>
-  <footer></footer>
 
+  <script src="../js/notify.js"></script>
 </body>
 
 </html>
