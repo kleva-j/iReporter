@@ -32,9 +32,24 @@ a{
   background: darkslateblue
 }
 
+.mainsection h1 { 
+  margin: 0
+}
+
 .topSec {
   background: var(--lighten);
-  height: 400px;
+  height: 450px;
+  margin: 0;
+  padding: 50px
+}
+
+.topSec h1 {
+  font-size: 2rem
+}
+
+.l-h {
+  line-height: 2.2rem;
+  font-size: 1.2rem
 }
 
 .side {
@@ -45,9 +60,13 @@ a{
   font-size: 3rem
 }
 
-.login-form > *,
-.red-flag > *,
-.intervention > * {
+.side p {
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, .5);
+  margin-top: 0
+}
+
+.login-form > * {
   margin: .75rem;
 }
 
@@ -55,14 +74,13 @@ a{
   margin-top: 1rem
 }
 
-.red-flag h4{ margin: .15rem}
-
 
 .login-form .btn,
 .btn.danger,
 .btn.primary,
 .btn.success,
 .btn.file,
+.btn.green,
 .btn.base {
   box-shadow: -1px 2px 1px 0 rgba(0, 0, 0, .5);
   color: white
@@ -70,8 +88,9 @@ a{
 
 .btn.default{
   box-shadow: -1px 2px 1px 0 rgba(0, 0, 0, .5);
-  color: var(darken) !important;
-  margin: .75rem 0;
+  color: white;
+  margin: 1.2rem 0;
+  background-color: var(--primary-light);
 }
 
 .pos{ 
@@ -95,13 +114,12 @@ a{
 }
 
 .btn.green{
-  box-shadow: var(--shadow);
   background: var(--green)
 }
 
 .btn.yellow{
-  box-shadow: var(--shadow);
-  background: var(--yellow)
+  background: var(--yellow);
+  box-shadow: -1px 2px 1px 0 rgba(0, 0, 0, .5);
 }
 
 .btn.file{
@@ -158,6 +176,7 @@ li a{ color: var(--darken)}
   padding-right: .75em
 }
 
+
 #map{
   height: 350px;
   width: 100%;
@@ -169,9 +188,7 @@ li a{ color: var(--darken)}
 }
 
 @media (min-width:576px) {
-  .login-form, 
-  .red-flag,
-  .intervention{
+  .login-form {
     width: 95% !important
   }
 
@@ -182,17 +199,13 @@ li a{ color: var(--darken)}
 }
 
 @media (min-width:768px) {
-  .login-form,
-  .red-flag,
-  .intervention {
+  .login-form {
     width: 80% !important
   }
 }
 
 @media (min-width:992px) {
-  .login-form,
-  .red-flag,
-  .intervention {
+  .login-form {
     width: 60% !important
   }
 }
