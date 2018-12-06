@@ -214,7 +214,7 @@ class IncidentController {
     if (!req.body.status) {
       return res.status(400).json({
         status: 400,
-        error: 'Status was sent in the request',
+        error: 'Status was not sent in the request',
       });
     }
 

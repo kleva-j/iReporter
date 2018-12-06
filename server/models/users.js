@@ -1,4 +1,4 @@
-const uuidv4 = require('uuid/v4');
+// const uuidv4 = require('uuid/v4');
 
 const users = [
   {
@@ -7,7 +7,7 @@ const users = [
     lastname: 'white',
     othernames: 'bob',
     email: 'kelly_white@gmail.com',
-    hashPassword: 'kelly',
+    password: 'kelly',
     phoneNumber: '08001112222',
     username: 'kelly-W',
     registered: new Date(),
@@ -19,7 +19,7 @@ const users = [
     lastname: 'rhite',
     othernames: 'bob',
     email: 'belly_rhite@gmail.com',
-    hashPassword: 'belly',
+    password: 'belly',
     phoneNumber: '08001112222',
     username: 'Belly-R',
     registered: new Date(),
@@ -31,19 +31,19 @@ const users = [
     lastname: 'kleva',
     othernames: 'kleva-j',
     email: 'kasmic_kleva@gmail.com',
-    hashPassword: 'kkkkk',
+    password: 'kkkkk',
     phoneNumber: '09012233344',
     username: 'kasmickleva',
     registered: new Date(),
     isAdmin: false,
   },
   {
-    id: uuidv4(),
+    id: 4,
     firstname: 'clinton',
     lastname: 'nkwodia',
     othernames: 'sule',
     email: 'clinton_sule@gmail.com',
-    hashPassword: 'ccccc',
+    password: 'ccccc',
     phoneNumber: '08048890112',
     username: 'akproko',
     registered: new Date(),
