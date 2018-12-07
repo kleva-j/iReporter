@@ -3,7 +3,8 @@
   --shadow: 0 2px 4px 0 rgba(0,0,0,.10);
   --shadow-md: 0 4px 8px 0 rgba(0,0,0,0.12),
   0 2px 4px 0 rgba(0,0,0,0.08);
-  --light: hsl(210, 17%, 78%);
+  --light: #bdc6d0;
+  --lighter: #edf0f3;
   --lighten: #f8f9fa;
   --dark: #7f8c8d;
   --darken: #343a40;
@@ -66,6 +67,8 @@
 
 .pd-l { padding-left: .75rem }
 
+.pd-l-sm { padding-left: .25rem }
+
 .pd-r { padding-right: .75rem }
 
 .pd-r-sm { padding-right: .25rem }
@@ -120,7 +123,7 @@
 
 .f-w { font-weight: 400 }
 
-#burger-toggle {
+#burger-toggle, #checkbox1, #checkbox2 {
   display: none;
 }
 
@@ -367,7 +370,7 @@ img {
 }
 
 .shade-lg {
-  box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175) !important
+  box-shadow: 0 1rem 3rem rgba(233, 196, 196, 0.175) !important
 }
 
 .shade-lg:hover {

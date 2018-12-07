@@ -29,7 +29,6 @@
         </label>
         <nav class="nav">
           <a class="nav-bar-link active" href="../index.html">Home</a>
-          <a class="nav-bar-link" href="./editRedFlag.html">Edit Red-flag</a>
           <a class="nav-bar-link" href="./profile.html">Profile</a>
           <a class="nav-bar-link" href="./login.html">Logout</a>
         </nav>
@@ -61,13 +60,24 @@
         <div class="details">
           <ul class="list-item">
             <li class="item">
-              <a href="./redFlagRecords.html"><i class="fas fa-flag-checkered" title="red-flags"></i></a>
-              <a href="./redFlagRecords.html" class="sd">Red-Flags <b>124</b></a>
+              <label for="checkbox1" class="j-c-sb w-100">
+                <a href="./redFlagRecords.html"><i class="hic fas fa-flag-checkered" title="red-flags"></i></a>
+                <a href="./redFlagRecords.html" class="sd grow-1">Red-Flags <b>124</b></a>
+                <i class="fas fa-chevron-circle-down w-35"></i>
+              </label>
+              <input type="checkbox" id="checkbox1">
             </li>
+
+            <li class="item toggle1"><a href="editRedFlag.html">Edit Red-Flag</a></li>
+
             <li class="item">
-              <a href="./interventionRecords.html"><i class="fas fa-headset" title="interventions"></i></a>
-              <a href="./interventionRecords.html" class="sd">Interventions <b>75</b></a>
+              <label for="checkbox2" class="j-c-sb w-100">
+                <a href="./interventionRecords.html"><i class="hic fas fa-headset"  title="interventions"></i></a>
+                <a href="./interventionRecords.html" class="sd grow-1">Interventions <b>75</b></a>
+              </label>
+              <input type='checkbox' id="checkbox2">
             </li>
+
           </ul>
         </div>
       </div>
@@ -91,6 +101,7 @@
     </div>
   </section>
 
+  <script src="../js/main.js"></script>
 </body>
 
 </html>
