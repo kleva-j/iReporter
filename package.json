@@ -8,11 +8,12 @@
     "test:dev": "NODE_ENV=test nyc mocha --require @babel/register server/test --exit",
     "babel-node": "babel-node --presets=@babel/env",
     "start": "npm run build && node dist/app.js",
-    "start:dev": "NODE_ENV=development nodemon --exec npm run babel-node -- server/app.js",
+    "dev": "NODE_ENV=development nodemon --exec npm run babel-node -- server/app.js",
     "build": "npm run clean && babel server --out-dir ./dist",
     "clean": "rm -rf dist && mkdir dist",
-    "coveralls": "nyc report --reporter=lcov --reporter=text-lcov | coveralls",
-    "coverage": "npm test && nyc report --reporter=lcov --reporter=text-lcov | coveralls",
+    "coveralls": "npm test && nyc report --reporter=lcov --reporter=text-lcov | coveralls",
+    "coverage": "nyc report --reporter=lcov --reporter=text-lcov | coveralls",
+    "db:setup": "node server/models/db",
     "debug": "node --inspect-brk ./dist/app.js"
   },
   "babel": {
@@ -53,13 +54,16 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
+    "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "helmet": "^3.15.0",
     "jsend": "^1.0.2",
     "morgan": "^1.9.1",
     "nyc": "^13.1.0",
+    "pg-promise": "^8.5.3",
     "uuid": "^3.3.2",
     "validator": "^10.9.0"
   },
