@@ -11,8 +11,8 @@
     "dev": "NODE_ENV=development nodemon --exec npm run babel-node -- server/app.js",
     "build": "npm run clean && babel server --out-dir ./dist",
     "clean": "rm -rf dist && mkdir dist",
-    "coveralls": "npm test && nyc report --reporter=lcov --reporter=text-lcov | coveralls",
-    "coverage": "nyc report --reporter=lcov --reporter=text-lcov | coveralls",
+    "coveralls": "npm test && nyc --reporter=lcov --reporter=text-lcov",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "db:setup": "node server/models/db",
     "debug": "node --inspect-brk ./dist/app.js"
   },
