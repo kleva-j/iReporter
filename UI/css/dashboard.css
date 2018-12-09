@@ -80,7 +80,10 @@ h1{
   display: none
 }
 
+/* .cb{ padding: 0} */
+
 .list-item{
+  position: relative;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -91,12 +94,19 @@ h1{
   padding: 1rem;
   box-shadow: var(--shadow);
   margin: 2px 0;
+  text-align: left;
   background: white;
   -webkit-transition: 500ms ease-in;
   -moz-transition: 500ms ease-in; 
   -o-transition: 500ms ease-in;
   -ms-transition: 500ms ease-in;
   transition: 500ms ease-in;
+}
+
+.toggle1, .toggle2 {
+  display: none;
+  background-color: rgb(239, 245, 248) !important;
+  text-align: center;
 }
 
 .dip .list-item .item:hover{
@@ -206,15 +216,14 @@ small { font-size: 15px }
 
   .sd{
     display: flex;
-    justify-content: space-around
+    justify-content: space-between
   }
 
   .close{
     display: block
   }
 
-  .far,
-  .fas,
+  .hic,
   .user{
     display: none;
   }
@@ -227,3 +236,4 @@ small { font-size: 15px }
     border-top: .01rem solid var(--light)
   }
 }
+
