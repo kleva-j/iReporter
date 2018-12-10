@@ -13,7 +13,7 @@
     "clean": "rm -rf dist && mkdir dist",
     "coveralls": "npm test && nyc --reporter=lcov --reporter=text-lcov",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "db:setup": "node server/models/db",
+    "db:setup": "node server/models/createTable",
     "debug": "node --inspect-brk ./dist/app.js"
   },
   "babel": {

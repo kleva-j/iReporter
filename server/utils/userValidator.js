@@ -43,7 +43,7 @@ class Validator {
       username,
       email,
       password,
-      phoneNumber,
+      phonenumber,
     } = req.body;
 
     if (!firstname) {
@@ -81,7 +81,7 @@ class Validator {
       });
     }
 
-    if (!phoneNumber) {
+    if (!phonenumber) {
       return res.status(400).json({
         status: 400,
         error: 'PhoneNumber is required',
