@@ -19,23 +19,55 @@
   --top: 81px
 }
 
+.btn:disabled {
+  border: 1px solid #999999 !important;
+  background-color: #cccccc !important;
+  color: #666666 !important;
+  cursor: not-allowed;
+}
+
+.btn:disabled a,
+.btn:disabled a:hover,
+.btn:disabled:hover {
+  color: #666666 !important;
+  cursor: not-allowed;
+}
+
 .red {color: red}
 
 .yel { color: var(--yellow)}
 
 .grn { color: var(--green)}
 
+.blu{ color: var(--blue)}
+
 .b-red { border: 1px solid red }
 
-.b-yel { border: 1px solid var(--yellow) }
+.bd-create { background: transparent; color: var(--blue); border: 1px solid var(--blue) !important }
 
-.b-grn {border: 1px solid var(--green) }
+.bd-create:hover { background: var(--blue)}
 
-.bd-red {border: 1px solid var(--green) !important}
+.bd-create:hover a,
+.edit > .btn:hover a,
+.edit > .btn:nth-child(2):hover { 
+  color: white
+}
+
+.edit > .btn:first-child:hover { background: var(--green); color: white }
+
+.edit > .btn:nth-child(2):hover { background: red }
+
+.b-yel { border: 1px solid var(--yellow) !important}
+
+.b-grn {border: 1px solid var(--green) !important}
+
+.bd-red {border: 1px solid red !important}
 
 .bd-yel {border: 1px solid var(--yellow) !important}
 
 .bd-grn {border: 1px solid var(--green) !important}
+
+.bg-t { background: transparent }
 
 .mg-sm { margin: .25rem }
 
