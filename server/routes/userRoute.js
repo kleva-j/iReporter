@@ -10,6 +10,7 @@ const {
 const {
   RegisterUser,
   LoginUser,
+  getAllUsers,
 } = userController;
 
 const userRouter = express.Router();
@@ -19,5 +20,8 @@ userRouter.route('/login')
 
 userRouter.route('/signup')
   .post(validateSignup, RegisterUser);
+
+userRouter.route('/users')
+  .get(getAllUsers);
 
 module.exports = userRouter;

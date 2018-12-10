@@ -1,8 +1,10 @@
-// const bcrypt = require('bcryptjs');
-const uuidv4 = require('uuid/v4');
+/* eslint-disable consistent-return */
+const crypto = require('../utils/crypto');
 const models = require('../models/index');
+const db = require('../models/db');
 
 const { Users } = models;
+const { encrypt } = crypto;
 
 /**
  * @class UserController
@@ -20,43 +22,44 @@ class UserController {
    */
   static RegisterUser(req, res) {
     const {
-      firstname,
-      lastname,
-      othernames,
-      password,
-      email,
-      username,
-      phoneNumber,
+      firstname, lastname, othernames,
+      password, email, username, phonenumber,
     } = req.body;
 
-    const emailFound = Users.find(user => user.email === email);
-
-    if (emailFound) {
-      return res.status(403).json({
-        status: 403,
-        error: 'User already exist',
-      });
-    }
-
-    const newUser = [{
-      id: uuidv4(),
-      firstname,
-      lastname,
-      othernames,
-      password,
-      email,
-      phoneNumber,
-      username,
-      registered: new Date(),
-      isAdmin: false,
-    }];
-
-    Users.push(newUser);
-
-    return res.status(201).json({
-      status: 201,
-      data: newUser,
-    });
+    db.task('signup', t => t.users.GetByUsername(username)
+      .then(($user) => {
+        if ($user) {
+          return res.status(403).json({
+            status: 403,
+            error: 'User already exist',
+          });
+        }
+        return t.users.GetByEmail(email)
+          .then(($email) => {
+            if ($email) {
+              return res.status(403).json({
+                status: 403,
+                error: 'Email already exist',
+              });
+            }
+            const hash = encrypt(password);
+            const newUser = {
+              firstname,
+              lastname,
+              othernames,
+              password: hash,
+              email,
+              phonenumber,
+              username,
+              isadmin: false,
+            };
+            return t.users.createUser(newUser)
+              .then(user => res.status(200).json({
+                status: 200,
+                data: [user],
+              }));
+          });
+      }));
   }
 
   /**
@@ -92,6 +95,19 @@ class UserController {
       status: 404,
       error: 'User does not exist',
     });
+  }
+
+  /**
+   *
+   * @param {object} req - the request object
+   * @param {object} res - the response object
+   */
+  static getAllUsers(req, res) {
+    db.users.GetAllUsers()
+      .then(users => res.status(200).json({
+        status: 200,
+        data: users,
+      }));
   }
 }
 
