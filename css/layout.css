@@ -15,6 +15,10 @@ a{
   text-decoration: none
 }
 
+.no-hover:hover{
+  background: white;
+}
+
 .section{
   width: 100%;
   height: auto;
