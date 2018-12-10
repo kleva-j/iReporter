@@ -19,6 +19,20 @@
   --top: 81px
 }
 
+.btn:disabled {
+  border: 1px solid #999999 !important;
+  background-color: #cccccc !important;
+  color: #666666 !important;
+  cursor: not-allowed;
+}
+
+.btn:disabled a,
+.btn:disabled a:hover,
+.btn:disabled:hover {
+  color: #666666 !important;
+  cursor: not-allowed;
+}
+
 .red {color: red}
 
 .yel { color: var(--yellow)}
