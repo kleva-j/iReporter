@@ -20,7 +20,7 @@ class Users {
    * @param  {object} values - the user details
    */
   createUser(values) {
-    const sql = 'INSERT INTO users (firstname, lastname, username, email, password, phonenumber, isadmin) VALUES($(firstname), $(lastname), $(username), $(email), $(password), $(phonenumber), $(isadmin)) RETURNING (firstname, lastname, username, email, phonenumber)';
+    const sql = 'INSERT INTO users (firstname, lastname, username, email, password, phonenumber, isadmin) VALUES($(firstname), $(lastname), $(username), $(email), $(password), $(phonenumber), $(isadmin)) RETURNING (id, firstname, lastname, username, email, phonenumber)';
     return this[db].one(sql, values);
   }
 
@@ -46,7 +46,11 @@ class Users {
    * @memberof Users
    */
   GetByID(id) {
-    return this[db].one('SELECT * FROM users WHERE id = $1', id);
+    return this[db].oneOrNone('SELECT * FROM users WHERE id = $1', id);
+  }
+
+  GetByPhoneNumber(number) {
+    return this[db].oneOrNone('SELECT * FROM users WHERE phonenumber = $1', number);
   }
 
   /**
