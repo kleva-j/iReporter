@@ -9,6 +9,7 @@ env:
     - NODE_ENV=test
     - touch .env
     - echo DB_TEST=postgres://gcaodvcy:5xqoYh6dDUqT1o2M-TGxgAQmnY_BDbOT@tantor.db.elephantsql.com:5432/gcaodvcy >> .env
+    - echo SECRET_KEY=MYSECRET >> .env
 branches:
   except:
   - gh-pages
