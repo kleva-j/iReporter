@@ -1,8 +1,8 @@
 /* eslint-disable consistent-return */
-const jwt = require('jsonwebtoken');
-const crypto = require('../utils/crypto');
-const db = require('../models/db');
-const sanitize = require('../utils/sanitizer');
+import jwt from 'jsonwebtoken';
+import db from '../models/db';
+import sanitize from '../utils/sanitizer';
+import crypto from '../utils/crypto';
 
 const {
   encrypt,
@@ -24,7 +24,7 @@ class UserController {
    * @memberof UserController
    */
   static RegisterUser(req, res) {
-    db.task('signup', t => t.users.GetByUsername(req.body.username)
+    db.task('signup', t => t.users.getByUsername(req.body.username)
       .then(($user) => {
         if ($user) {
           return res.status(403).json({
@@ -32,7 +32,7 @@ class UserController {
             error: 'Username already exist',
           });
         }
-        return t.users.GetByEmail(req.body.email)
+        return t.users.getByEmail(req.body.email)
           .then(($email) => {
             if ($email) {
               return res.status(403).json({
@@ -40,7 +40,7 @@ class UserController {
                 error: 'Email already exist',
               });
             }
-            return t.users.GetByPhoneNumber(req.body.phonenumber)
+            return t.users.getByPhoneNumber(req.body.phonenumber)
               .then(($phone) => {
                 if ($phone) {
                   return res.status(403).json({
@@ -79,7 +79,7 @@ class UserController {
    * @static
    * @param {object} req - The request object
    * @param {object} res - The response object
-   * @return {object} token or message
+   * @return {object} An authenticated user with a token
    * @memberof UserController
    */
   static LoginUser(req, res) {
@@ -88,7 +88,7 @@ class UserController {
       password,
     } = req.body;
 
-    db.task('login', t => t.users.GetByUsername(username)
+    db.task('login', t => t.users.getByUsername(username)
       .then(($user) => {
         if ($user) {
           const isValidPassword = decrypt(password, $user.password);
@@ -127,12 +127,13 @@ class UserController {
   }
 
   /**
-   *
+   * @static
    * @param {object} req - the request object
    * @param {object} res - the response object
+   * @returns An array of all the users
    */
   static getAllUsers(req, res) {
-    db.users.GetAllUsers()
+    db.users.getAllUsers()
       .then(users => res.status(200).json({
         status: 200,
         data: users,
@@ -140,4 +141,4 @@ class UserController {
   }
 }
 
-module.exports = UserController;
+export default UserController;

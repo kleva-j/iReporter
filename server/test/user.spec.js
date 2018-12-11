@@ -1,16 +1,18 @@
-const chai = require('chai');
-const { expect } = require('chai');
-const chaiHTTP = require('chai-http');
-const db = require('../models/db');
-const app = require('../../server/app');
-
+import chai from 'chai';
+import { expect } from 'chai';
+import chaiHTTP from 'chai-http';
+import db from '../models/db';
+import app from '../app';
 
 chai.use(chaiHTTP);
 
 const url = '/api/v1/users/auth';
 
-db.query('DELETE FROM users')
-  .then(() => console.log("All users have been deleted"));
+before((done) => {
+  db.query('DELETE FROM users')
+    .then(() => console.log("All users have been deleted"));
+  done();
+});
 
 describe('USERS', () => {
 
