@@ -3,6 +3,9 @@ import { expect } from 'chai';
 import chaiHTTP from 'chai-http';
 import db from '../models/db';
 import app from '../app';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 chai.use(chaiHTTP);
 
