@@ -7,7 +7,7 @@ chai.use(chaiHTTP);
 
 const url = '/api/v1/red-flags';
 
-describe('/POST - create a red-flag record', () => {
+describe.skip('/POST - create a red-flag record', () => {
   let requestObject;
   beforeEach(() => {
     requestObject = {
