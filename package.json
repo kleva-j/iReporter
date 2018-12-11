@@ -4,22 +4,20 @@
   "description": "iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public.",
   "main": "app.js",
   "scripts": {
-    "test": "NODE_ENV=test nyc mocha server/test --exit",
-    "test:dev": "NODE_ENV=test nyc mocha --require @babel/register server/test --exit",
-    "babel-node": "babel-node --presets=@babel/env",
+    "test": "NODE_ENV=test nyc mocha --timeout 10000 --compilers js:babel-core/register server/test/**.spec.js --exit",
     "start": "npm run build && node dist/app.js",
-    "dev": "NODE_ENV=development nodemon --exec npm run babel-node -- server/app.js",
+    "dev": "NODE_ENV=development nodemon --exec babel-node server/app.js",
     "build": "npm run clean && babel server --out-dir ./dist",
     "clean": "rm -rf dist && mkdir dist",
     "coveralls": "npm test && nyc --reporter=lcov --reporter=text-lcov",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "db:setup": "node server/models/createTable",
-    "testdb:setup": "NODE_ENV=test node server/models/createTable",
+    "db:setup": "node server/models/createTable --exit",
+    "testdb:setup": "NODE_ENV=test node server/models/createTable --exit",
     "debug": "node --inspect-brk ./dist/app.js"
   },
   "babel": {
     "presets": [
-      "@babel/preset-env"
+      "env"
     ]
   },
   "engines": {
@@ -40,10 +38,9 @@
   },
   "homepage": "https://github.com/kleva-j/iReporter#readme",
   "devDependencies": {
-    "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.1.6",
-    "@babel/preset-env": "^7.1.6",
-    "@babel/register": "^7.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
     "coveralls": "^3.0.2",

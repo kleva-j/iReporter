@@ -1,5 +1,7 @@
 const Users = require('./users');
 
-module.exports = {
+const index = {
   Users,
 };
+
+export default index;

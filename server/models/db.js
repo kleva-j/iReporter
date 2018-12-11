@@ -1,7 +1,7 @@
-const pgp = require('pg-promise');
-const bluebird = require('bluebird');
-const dotenv = require('dotenv');
-const Users = require('./users');
+import pgp from 'pg-promise';
+import bluebird from 'bluebird';
+import dotenv from 'dotenv';
+import Users from './users';
 
 dotenv.config();
 
@@ -26,4 +26,4 @@ const $db = pgp(initConfig);
 
 const db = $db(connectionString);
 
-module.exports = db;
+export default db;

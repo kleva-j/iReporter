@@ -1,6 +1,6 @@
-const express = require('express');
-const userController = require('../controllers/userController');
-const userValidator = require('../utils/userValidator');
+import { Router } from 'express';
+import userController from '../controllers/userController';
+import userValidator from '../utils/userValidator';
 
 const {
   validateLogin,
@@ -13,7 +13,7 @@ const {
   getAllUsers,
 } = userController;
 
-const userRouter = express.Router();
+const userRouter = Router();
 
 userRouter.route('/login')
   .post(validateLogin, LoginUser);
@@ -24,4 +24,4 @@ userRouter.route('/signup')
 userRouter.route('/users')
   .get(getAllUsers);
 
-module.exports = userRouter;
+export default userRouter;

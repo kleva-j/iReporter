@@ -1,7 +1,7 @@
-const userRouter = require('./userRoute');
-const incidentRouter = require('./incidentRoute');
+import userRouter from './userRoute';
+import incidentRouter from './incidentRoute';
 
-module.exports = (app) => {
+export default (app) => {
   app.use('/api/v1/users/auth', userRouter);
   app.use('/api/v1', incidentRouter);
 };

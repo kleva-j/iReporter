@@ -1,6 +1,6 @@
-const express = require('express');
-const IncidentController = require('../controllers/incidentController');
-const IncidentValidator = require('../utils/incidentValidator');
+import { Router } from 'express';
+import IncidentController from '../controllers/incidentController';
+import IncidentValidator from '../utils/incidentValidator';
 
 const {
   validateRedFlag,
@@ -21,7 +21,7 @@ const {
   updateRedFlagStatus,
 } = IncidentController;
 
-const incidentRouter = express.Router();
+const incidentRouter = Router();
 
 incidentRouter.route('/red-flags')
   .get(getAllRedFlag)
@@ -42,4 +42,4 @@ incidentRouter.route('/red-flags/:id/comment')
 incidentRouter.route('/red-flags/:id/status')
   .patch(validateID, updateRedFlagStatus);
 
-module.exports = incidentRouter;
+export default incidentRouter;
