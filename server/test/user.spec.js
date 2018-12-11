@@ -8,13 +8,15 @@ chai.use(chaiHTTP);
 
 const url = '/api/v1/users/auth';
 
-before((done) => {
-  db.query('DELETE FROM users')
-    .then(() => console.log("All users have been deleted"));
-  done();
-});
-
 describe('USERS', () => {
+
+  before((done) => {
+    db.query('DELETE FROM users')
+      .then(() => {
+        console.log("All users have been deleted");
+        done();
+    });
+  });
 
   describe('SIGN UP A NEW USER', () => {
     let newUser;

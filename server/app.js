@@ -1,4 +1,4 @@
-import express, { static } from 'express';
+import express from 'express';
 import { json, urlencoded } from 'body-parser';
 import morgan from 'morgan';
 import { join } from 'path';
@@ -11,7 +11,7 @@ const { log } = console;
 const app = express();
 app.use(helmet());
 app.use(cors());
-app.use(static(join(__dirname, '..', '/UI')));
+app.use(express.static(join(__dirname, '..', '/UI')));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(middleware);
