@@ -1,6 +1,6 @@
-const path = require('path');
-const { QueryFile } = require('pg-promise');
-const db = require('./db');
+import path from 'path';
+import { QueryFile } from 'pg-promise';
+import db from './db';
 
 const { log } = console;
 

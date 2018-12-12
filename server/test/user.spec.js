@@ -1,13 +1,25 @@
-const chai = require('chai');
-const { expect } = require('chai');
-const chaiHTTP = require('chai-http');
-const app = require('../../server/app');
+import chai from 'chai';
+import { expect } from 'chai';
+import chaiHTTP from 'chai-http';
+import db from '../models/db';
+import app from '../app';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 chai.use(chaiHTTP);
 
 const url = '/api/v1/users/auth';
 
 describe('USERS', () => {
+
+  before((done) => {
+    db.query('DELETE FROM users')
+      .then(() => {
+        console.log("All users have been deleted");
+        done();
+    });
+  });
 
   describe('SIGN UP A NEW USER', () => {
     let newUser;
@@ -19,7 +31,7 @@ describe('USERS', () => {
         othernames: 'albert',
         email: 'kasmickleva@gmail.com',
         password: 'bbdd-@@@@',
-        phoneNumber: '08062308772',
+        phonenumber: '08062308772',
       }
     });
     
@@ -31,13 +43,12 @@ describe('USERS', () => {
           expect(err).to.be.null;
           expect(res.status).to.eq(201);
           expect(res.body).to.have.keys(['status', 'data']);
-          expect(res.body.data[0]).to.have.property('id');
-          expect(res.body.data[0]).to.have.property('firstname');
-          expect(res.body.data[0]).to.have.property('lastname');
-          expect(res.body.data[0]).to.have.property('username');
-          expect(res.body.data[0]).to.have.property('email');
-          expect(res.body.data[0]).to.have.property('phoneNumber');
-          expect(res.body.data[0]).to.have.property('othernames');
+          expect(res.body.data[0].$usr).to.have.property('id');
+          expect(res.body.data[0].$usr).to.have.property('firstname');
+          expect(res.body.data[0].$usr).to.have.property('lastname');
+          expect(res.body.data[0].$usr).to.have.property('username');
+          expect(res.body.data[0].$usr).to.have.property('email');
+          expect(res.body.data[0].$usr).to.have.property('phonenumber');
           expect(res.body.data).to.be.instanceOf(Array);
           done();
         });
@@ -120,7 +131,7 @@ describe('USERS', () => {
 
     // no phoneNumber
     it('It should fail to signup if phoneNumber is not sent', (done) => {
-      newUser.phoneNumber = undefined;
+      newUser.phonenumber = undefined;
       chai.request(app)
         .post(`${url}/signup`)
         .send(newUser)
@@ -164,7 +175,7 @@ describe('USERS', () => {
     });
 
     // Invalid Username
-    it('It should fail to signup if length of password is less than 8', (done) => {
+    it('It should fail to signup if username is not valid', (done) => {
       newUser.username = 2233;
       chai.request(app)
         .post(`${url}/signup`)
@@ -181,12 +192,31 @@ describe('USERS', () => {
   });
 
   describe('LOG IN A USER', () => {
+
+    before((done) => {
+      chai.request(app)
+        .post(`${url}/signup`)
+        .send({
+          firstname: 'firstname',
+          lastname: 'lastname',
+          username: 'username',
+          email: 'email@gmail.com',
+          password: 'password',
+          phonenumber:'phonenumber',
+        })
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(res.status).to.eq(201);
+          done();
+        });
+    });
+
     let registeredUser;
 
     beforeEach(() => {
       registeredUser = {
-        username: 'kelly-W',
-        password: 'kelly',
+        username: 'username',
+        password: 'password',
       }
     });
 
@@ -204,7 +234,7 @@ describe('USERS', () => {
           expect(res.body.data[0]).to.have.property('othernames');
           expect(res.body.data[0]).to.have.property('username');
           expect(res.body.data[0]).to.have.property('email');
-          expect(res.body.data[0]).to.have.property('phoneNumber');
+          expect(res.body.data[0]).to.have.property('phonenumber');
           expect(res.body.data).to.be.instanceOf(Array);
           done();
         });
@@ -245,7 +275,7 @@ describe('USERS', () => {
         .send(registeredUser)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res.status).to.eq(403);
+          expect(res.status).to.eq(401);
           expect(res.body).to.have.keys(['status', 'error']);
           expect(res.body).to.have.property('error').to.eq('Incorrect password');
           done();

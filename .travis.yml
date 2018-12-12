@@ -7,6 +7,9 @@ env:
   global:
     - CODECLIMATE_REPO_TOKEN=c5994036ccf0e5ca5b9355f1ad8a945337b9c87afffc7eac377d4c35ffbff9cf
     - NODE_ENV=test
+    - touch .env
+    - echo DB_TEST=postgres://gcaodvcy:5xqoYh6dDUqT1o2M-TGxgAQmnY_BDbOT@tantor.db.elephantsql.com:5432/gcaodvcy >> .env
+    - echo SECRET_KEY=MYSECRET >> .env
 branches:
   except:
   - gh-pages

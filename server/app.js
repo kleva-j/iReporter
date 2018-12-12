@@ -1,20 +1,20 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
-const path = require('path');
-const jsend = require('jsend');
-const cors = require('cors');
-const helmet = require('helmet');
-const routers = require('./routes/index');
+import express from 'express';
+import { json, urlencoded } from 'body-parser';
+import morgan from 'morgan';
+import { join } from 'path';
+import { middleware } from 'jsend';
+import cors from 'cors';
+import helmet from 'helmet';
+import routers from './routes/index';
 
 const { log } = console;
 const app = express();
 app.use(helmet());
 app.use(cors());
-app.use(express.static(path.join(__dirname, '..', '/UI')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(jsend.middleware);
+app.use(express.static(join(__dirname, '..', '/UI')));
+app.use(json());
+app.use(urlencoded({ extended: false }));
+app.use(middleware);
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined'));
@@ -35,4 +35,4 @@ app.listen(port, () => {
 process.on('uncaughtException', err => log('uncaught exception', err));
 process.on('unhandledRejection', err => log('unhandled rejection', err));
 
-module.exports = app;
+export default app;

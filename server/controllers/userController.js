@@ -1,10 +1,13 @@
 /* eslint-disable consistent-return */
-const crypto = require('../utils/crypto');
-const models = require('../models/index');
-const db = require('../models/db');
+import jwt from 'jsonwebtoken';
+import db from '../models/db';
+import sanitize from '../utils/sanitizer';
+import crypto from '../utils/crypto';
 
-const { Users } = models;
-const { encrypt } = crypto;
+const {
+  encrypt,
+  decrypt,
+} = crypto;
 
 /**
  * @class UserController
@@ -21,20 +24,15 @@ class UserController {
    * @memberof UserController
    */
   static RegisterUser(req, res) {
-    const {
-      firstname, lastname, othernames,
-      password, email, username, phonenumber,
-    } = req.body;
-
-    db.task('signup', t => t.users.GetByUsername(username)
+    db.task('signup', t => t.users.getByUsername(req.body.username)
       .then(($user) => {
         if ($user) {
           return res.status(403).json({
             status: 403,
-            error: 'User already exist',
+            error: 'Username already exist',
           });
         }
-        return t.users.GetByEmail(email)
+        return t.users.getByEmail(req.body.email)
           .then(($email) => {
             if ($email) {
               return res.status(403).json({
@@ -42,22 +40,35 @@ class UserController {
                 error: 'Email already exist',
               });
             }
-            const hash = encrypt(password);
-            const newUser = {
-              firstname,
-              lastname,
-              othernames,
-              password: hash,
-              email,
-              phonenumber,
-              username,
-              isadmin: false,
-            };
-            return t.users.createUser(newUser)
-              .then(user => res.status(200).json({
-                status: 200,
-                data: [user],
-              }));
+            return t.users.getByPhoneNumber(req.body.phonenumber)
+              .then(($phone) => {
+                if ($phone) {
+                  return res.status(403).json({
+                    status: 403,
+                    error: 'Phone number already taken',
+                  });
+                }
+                const hash = encrypt(req.body.password);
+                req.body.password = hash;
+                req.body.isadmin = false;
+                const { body } = req;
+                return t.users.createUser(body)
+                  .then((user) => {
+                    const $usr = sanitize(user);
+                    const token = jwt.sign({
+                      userId: $usr.id,
+                      firstname: $usr.firstname,
+                      lastname: $usr.lastname,
+                      username: $usr.username,
+                      email: $usr.email,
+                      phonenumber: $usr.phonenumber,
+                    }, process.env.SECRET_KEY, { expiresIn: '1 day' });
+                    return res.status(201).json({
+                      status: 201,
+                      data: [{ $usr, token }],
+                    });
+                  });
+              });
           });
       }));
   }
@@ -68,42 +79,61 @@ class UserController {
    * @static
    * @param {object} req - The request object
    * @param {object} res - The response object
-   * @return {object} token or message
+   * @return {object} An authenticated user with a token
    * @memberof UserController
    */
   static LoginUser(req, res) {
     const {
-      username, password,
+      username,
+      password,
     } = req.body;
 
-    const singleUser = Users.find(user => user.username === username);
-
-    if (singleUser) {
-      if (singleUser.password === password) {
-        return res.status(200).json({
-          status: 200,
-          data: [singleUser],
+    db.task('login', t => t.users.getByUsername(username)
+      .then(($user) => {
+        if ($user) {
+          const isValidPassword = decrypt(password, $user.password);
+          if (isValidPassword) {
+            const token = jwt.sign({
+              userId: $user.id,
+              username: $user.username,
+              email: $user.email,
+            }, process.env.SECRET_KEY, {
+              expiresIn: '1 day',
+            });
+            return res.status(200).json({
+              status: 200,
+              data: [{
+                id: $user.id,
+                firstname: $user.firstname,
+                lastname: $user.lastname,
+                othernames: $user.othernames,
+                phonenumber: $user.phonenumber,
+                username: $user.username,
+                email: $user.email,
+                token,
+              }],
+            });
+          }
+          return res.status(401).json({
+            status: 401,
+            error: 'Incorrect password',
+          });
+        }
+        return res.status(404).json({
+          status: 403,
+          error: 'User does not exist',
         });
-      }
-      return res.status(403).json({
-        status: 403,
-        error: 'Incorrect password',
-      });
-    }
-
-    return res.status(404).json({
-      status: 404,
-      error: 'User does not exist',
-    });
+      }));
   }
 
   /**
-   *
+   * @static
    * @param {object} req - the request object
    * @param {object} res - the response object
+   * @returns An array of all the users
    */
   static getAllUsers(req, res) {
-    db.users.GetAllUsers()
+    db.users.getAllUsers()
       .then(users => res.status(200).json({
         status: 200,
         data: users,
@@ -111,4 +141,4 @@ class UserController {
   }
 }
 
-module.exports = UserController;
+export default UserController;
