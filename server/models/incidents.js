@@ -101,6 +101,18 @@ class Incident {
     return this[db].oneOrNone('SELECT id FROM users WHERE email = $1 ', userEmail)
       .then(userId => this[db].any('SELECT * FROM incidents WHERE id = $1', userId));
   }
+
+  updateARecordStatus(status, id) {
+    return this[db].one('UPDATE incidents SET status=$1 WHERE id=$2', [status, id]);
+  }
+
+  updateARecordComment(comment, id) {
+    return this[db].one('UPDATE incidents SET comment=$1 WHERE id=$2', [comment, id]);
+  }
+
+  updateARecordLocation(location, id) {
+    return this[db].one('UPDATE incidents SET location=$1 WHERE id=$2', [location, id]);
+  }
 }
 
 export default Incident;

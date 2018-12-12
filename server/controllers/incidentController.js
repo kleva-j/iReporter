@@ -123,31 +123,31 @@ class IncidentController {
    * @static
    * @param {object} req - The request object
    * @param {object} res - The response object
-   * @return {object} token or message
+   * @return {object} A json object of the results
    * @memberof IncidentController
    */
   static updateRedFlagComment(req, res) {
     let { id } = req.params;
     const { comment } = req.body;
     id = parseInt(id, 10);
-    const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
 
-    if (redFlagIndex !== -1) {
-      Incidents[redFlagIndex].comment = comment;
-      const redFlag = Incidents[redFlagIndex];
-      return res.status(200).json({
-        status: 200,
-        data: [{
-          id: redFlag.id,
-          message: 'Updated red-flag record’s comment',
-        }],
-      });
-    }
-
-    return res.status(404).json({
-      status: 404,
-      error: `Red-flag with id of ${id} was not found`,
-    });
+    db.task('update comment', t => t.incident.getById(id)
+      .then((result) => {
+        if (result) {
+          return t.incidents.updateRedFlagComment(comment, id)
+            .then(response => res.status(200).json({
+              status: 200,
+              data: [{
+                response,
+                message: 'Updated incident record location',
+              }],
+            }));
+        }
+        return res.status(404).json({
+          status: 404,
+          error: `Red-flag with id of ${id} was not found`,
+        });
+      }));
   }
 
   /**
@@ -160,26 +160,27 @@ class IncidentController {
    * @memberof IncidentController
    */
   static updateRedFlagLocation(req, res) {
-    const { id } = req.params;
+    let { id } = req.params;
     const { location } = req.body;
-    const redFlagId = parseInt(id, 10);
-    const redFlagIndex = Incidents.findIndex(incident => incident.id === redFlagId);
-    if (redFlagIndex !== -1) {
-      Incidents[redFlagIndex].location = location;
-      const redFlag = Incidents[redFlagIndex];
-      return res.status(200).json({
-        status: 200,
-        data: [{
-          id: redFlag.id,
-          message: 'Updated red-flag record’s location',
-        }],
-      });
-    }
+    id = parseInt(id, 10);
 
-    return res.status(404).json({
-      status: 404,
-      error: `Red-flag with id of ${id} was not found`,
-    });
+    db.task('update location', t => t.incident.getById(id)
+      .then((result) => {
+        if (result) {
+          return t.incidents.updateRedFlagLocation(location, id)
+            .then(response => res.status(200).json({
+              status: 200,
+              data: [{
+                response,
+                message: 'Updated incident record location',
+              }],
+            }));
+        }
+        return res.status(404).json({
+          status: 404,
+          error: `Red-flag with id of ${id} was not found`,
+        });
+      }));
   }
 
   /**
@@ -193,6 +194,7 @@ class IncidentController {
    */
   static updateRedFlagStatus(req, res) {
     let { id } = req.params;
+    id = parseInt(id, 10);
 
     if (!req.body.status) {
       return res.status(400).json({
@@ -202,33 +204,34 @@ class IncidentController {
     }
 
     const { status } = req.body;
-    id = parseInt(id, 10);
-    const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
-    const AcceptedStatus = ['under investigation', 'rejected', 'resolved'];
 
-    if (AcceptedStatus.indexOf(status) === -1) {
-      return res.status(400).json({
-        status: 400,
-        error: 'User red-flag status can either be under investigation, rejected or resolved',
-      });
-    }
+    db.task('update location', t => t.incident.getById(id)
+      .then((result) => {
+        if (result) {
+          const AcceptedStatus = ['under investigation', 'rejected', 'resolved'];
 
-    if (redFlagIndex !== -1) {
-      Incidents[redFlagIndex].status = status;
-      const redFlag = Incidents[redFlagIndex];
-      return res.status(200).json({
-        status: 200,
-        data: [{
-          id: redFlag.id,
-          message: "User's red-flag status has been updated",
-        }],
-      });
-    }
+          if (AcceptedStatus.indexOf(status) === -1) {
+            return res.status(400).json({
+              status: 400,
+              error: 'User record status can either be updated to under investigation, rejected or resolved',
+            });
+          }
 
-    return res.status(404).json({
-      status: 404,
-      error: `Red-flag with id of ${id} was not found`,
-    });
+          return t.incidents.updateRedFlagStatus(status, id)
+            .then(response => res.status(200).json({
+              status: 200,
+              data: [{
+                id: response.id,
+                message: "User's red-flag status has been updated",
+              }],
+            }));
+        }
+
+        return res.status(404).json({
+          status: 404,
+          error: `Red-flag with id of ${id} was not found`,
+        });
+      }));
   }
 }
 
