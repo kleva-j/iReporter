@@ -12,7 +12,7 @@ class IncidentController {
    * @static
    * @param {object} req - The request object
    * @param {object} res - The response object
-   * @return {object} token or message
+   * @return {object} The created incident record
    * @memberof IncidentController
    */
   static createRedFlag(req, res) {
@@ -25,7 +25,7 @@ class IncidentController {
       comment: req.body.comment,
     };
 
-    db.task('create a record', t => t.users.getById(newRecord.createdby)
+    db.task('create a record', t => t.users.getByCreatorId(newRecord.createdby)
       .then((user) => {
         if (user) {
           return t.incidents.createIncident(newRecord)
