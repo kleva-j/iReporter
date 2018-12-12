@@ -102,16 +102,59 @@ class Incident {
       .then(userId => this[db].any('SELECT * FROM incidents WHERE id = $1', userId));
   }
 
+  /**
+   * @param {string} status - the updated status
+   * @param {number} id - the id of the record
+   */
   updateARecordStatus(status, id) {
     return this[db].one('UPDATE incidents SET status=$1 WHERE id=$2', [status, id]);
   }
 
+  /**
+   * @param {*} comment - the updated comment
+   * @param {*} id - the id of the record
+   */
   updateARecordComment(comment, id) {
     return this[db].one('UPDATE incidents SET comment=$1 WHERE id=$2', [comment, id]);
   }
 
+  /**
+   * @param {*} location - the updated location
+   * @param {*} id - the id of the record
+   */
   updateARecordLocation(location, id) {
     return this[db].one('UPDATE incidents SET location=$1 WHERE id=$2', [location, id]);
+  }
+
+  /**
+   * @method getAllRedflags
+   * @returns {Array} The result of all red-flag records
+   * @memberof Incidents
+   */
+  getAllRedflags() {
+    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'Red-flag');
+  }
+
+  /**
+   * @method getAllInterventions
+   * @returns {Array} The result of all intervention records
+   * @memberof Incidents
+   */
+  getAllInterventions() {
+    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'Interventions');
+  }
+
+  /**
+   * @method getAllRecords
+   * @returns {Array} The result of all incident record
+   * @memberof Incidents
+   */
+  getAllRecords() {
+    return this[db].any('SELECT * FROM incidents');
+  }
+
+  deleteRecord(id) {
+    return this[db].result('DELETE * FROM incident WHERE id = $1', id);
   }
 }
 
