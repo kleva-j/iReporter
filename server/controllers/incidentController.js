@@ -1,7 +1,5 @@
 /* eslint-disable consistent-return */
-const models = require('../models/index');
-
-const { Incidents, Users } = models;
+import db from '../models/db';
 
 /**
  * @class IncidentController
@@ -18,47 +16,32 @@ class IncidentController {
    * @memberof IncidentController
    */
   static createRedFlag(req, res) {
-    const {
-      createdBy,
-      type,
-      location,
-      images,
-      videos,
-      comment,
-    } = req.body;
+    const newRecord = {
+      createdby: req.body.createdBy,
+      type: req.body.type,
+      location: req.body.location,
+      images: req.body.images,
+      videos: req.body.videos,
+      comment: req.body.comment,
+    };
 
-    const userId = createdBy;
-
-    const isUserIdValid = Users.findIndex(user => user.id === userId);
-
-    if (isUserIdValid !== -1) {
-      const newIncident = {
-        id: Incidents[Incidents.length - 1].id + 1,
-        createdOn: new Date().toString(),
-        createdBy,
-        type,
-        location,
-        status: 'draft',
-        images,
-        videos,
-        comment,
-      };
-
-      Incidents.push(newIncident);
-
-      return res.status(200).json({
-        status: 200,
-        data: [{
-          id: newIncident,
-          message: 'Created red-flag record',
-        }],
-      });
-    }
-
-    return res.status(404).json({
-      status: 404,
-      error: 'User id is invalid',
-    });
+    db.task('create a record', t => t.users.getById(newRecord.createdby)
+      .then((user) => {
+        if (user) {
+          return t.incidents.createIncident(newRecord)
+            .then(record => res.status(201).json({
+              status: 201,
+              data: [{
+                record,
+                message: 'Created a new record',
+              }],
+            }));
+        }
+        return res.status(404).json({
+          status: 404,
+          error: 'User id is invalid',
+        });
+      }));
   }
 
   /**

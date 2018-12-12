@@ -2,6 +2,7 @@ import pgp from 'pg-promise';
 import bluebird from 'bluebird';
 import dotenv from 'dotenv';
 import Users from './users';
+import Incidents from './incidents';
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ const initConfig = {
   extend(obj) {
     const rep = obj;
     rep.users = new Users(obj, pgp);
+    rep.incidents = new Incidents(obj, pgp);
     return rep;
   },
 };
