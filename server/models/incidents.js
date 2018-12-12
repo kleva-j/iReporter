@@ -101,6 +101,33 @@ class Incident {
     return this[db].oneOrNone('SELECT id FROM users WHERE email = $1 ', userEmail)
       .then(userId => this[db].any('SELECT * FROM incidents WHERE id = $1', userId));
   }
+
+  /**
+   * @method getAllRedflags
+   * @returns {Array} The result of all red-flag records
+   * @memberof Incidents
+   */
+  getAllRedflags() {
+    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'Red-flag');
+  }
+
+  /**
+   * @method getAllInterventions
+   * @returns {Array} The result of all intervention records
+   * @memberof Incidents
+   */
+  getAllInterventions() {
+    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'Interventions');
+  }
+
+  /**
+   * @method getAllRecords
+   * @returns {Array} The result of all incident record
+   * @memberof Incidents
+   */
+  getAllRecords() {
+    return this[db].any('SELECT * FROM incidents');
+  }
 }
 
 export default Incident;

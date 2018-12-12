@@ -260,4 +260,4 @@ class IncidentValidator {
   }
 }
 
-module.exports = IncidentValidator;
+export default IncidentValidator;
