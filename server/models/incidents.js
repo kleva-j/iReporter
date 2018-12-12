@@ -168,6 +168,18 @@ class Incident {
   deleteRedflagById(id) {
     return this[db].result('DELETE FROM incidents WHERE id = $1', id);
   }
+
+  updateARecordStatus(status, id) {
+    return this[db].one('UPDATE incidents SET status=$1 WHERE id=$2', [status, id]);
+  }
+
+  updateARecordComment(comment, id) {
+    return this[db].one('UPDATE incidents SET comment=$1 WHERE id=$2', [comment, id]);
+  }
+
+  updateARecordLocation(location, id) {
+    return this[db].one('UPDATE incidents SET location=$1 WHERE id=$2', [location, id]);
+  }
 }
 
 export default Incident;
