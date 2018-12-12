@@ -9,10 +9,10 @@ dotenv.config();
 let connectionString = '';
 
 if (process.env.NODE_ENV === 'development') {
-  connectionString = process.env.DB_DEV;
+  connectionString = process.env.DATABASE_URL;
 } else if (process.env.NODE_ENV === 'test') {
   connectionString = process.env.DB_TEST;
-} else { connectionString = process.env.DB_DEV; }
+} else { connectionString = process.env.DATABASE_URL; }
 
 const initConfig = {
   promiseLib: bluebird,
