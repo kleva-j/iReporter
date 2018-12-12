@@ -4,6 +4,10 @@ import db from './db';
 
 const { log } = console;
 
+/**
+ * @param {string} file - the file name of the sql file
+ * @returns {object} an instance of a Queryfile
+ */
 const qs = file => new QueryFile(path.join(__dirname, file), { minify: true });
 
 db
