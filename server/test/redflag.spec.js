@@ -1,17 +1,37 @@
-const chai = require('chai');
-const { expect } = require('chai');
-const chaiHTTP = require('chai-http');
-const app = require('../../server/app');
+import { use, request } from 'chai';
+import { expect } from 'chai';
+import chaiHTTP from 'chai-http';
+import app from '../../server/app';
+import db from '../models/db';
+import { QueryFile } from 'pg-promise';
+import path from 'path';
 
-chai.use(chaiHTTP);
+const { log } = console;
+
+use(chaiHTTP);
 
 const url = '/api/v1/red-flags';
 
-describe.skip('RED_FLAGS', () => {
+describe('RED_FLAGS', () => {
+
+  // before((done) => {
+
+  //   const qs = file => new QueryFile(path.join(__dirname, file), { minify: true });
+
+  //   db.task('create data items', t => t.query(qs('createIncident.sql'))
+  //     .then(() => {
+  //       log('User records created');
+  //       return t.query(qs('createUser.sql'))
+  //       .then(() => {
+  //         log('Incident records added')
+  //         done();
+  //       })
+  //     }));
+  // });
 
   describe('Get all red flag records', () => {
     it('should return all red-flag records', (done) => {
-      chai.request(app)
+      request(app)
         .get(url)
         .end((err, res) => {
           expect(err).to.be.null;
@@ -24,11 +44,13 @@ describe.skip('RED_FLAGS', () => {
   });
 
   describe('Get a specific red flag record', () => {
-    it('should return a specific red-flag records', (done) => {
-      chai.request(app)
-        .get(`${url}/1`)
+    it.skip('should return a specific red-flag records', (done) => {
+      const id = 1;
+      request(app)
+        .get(`${url}/${id}`)
         .end((err, res) => {
           expect(err).to.be.null;
+          log(res.text)
           expect(res).to.have.status(200);
           expect(res.body).to.have.keys(['status', 'data']);
           expect(res.body.data).to.be.instanceOf(Array);
@@ -39,7 +61,7 @@ describe.skip('RED_FLAGS', () => {
     //id not found
     it('should raise a 404 not found', (done) => {
       const id = 1000;
-      chai.request(app)
+      request(app)
         .get(`${url}/${id}`)
         .end((err, res) => {
           expect(err).to.be.null;
@@ -53,7 +75,7 @@ describe.skip('RED_FLAGS', () => {
     // id not recognised
     it('should report id is not a number', (done) => {
       const id = 'aaa';
-      chai.request(app)
+      request(app)
         .get(`${url}/${id}`)
         .end((err, res) => {
           expect(err).to.be.null;
@@ -67,8 +89,8 @@ describe.skip('RED_FLAGS', () => {
   });
 
   describe('Delete a specific red-flag record', () => {
-    it('should delete a specific red-flag', (done) => {
-      chai.request(app)
+    it.skip('should delete a specific red-flag', (done) => {
+      request(app)
         .delete(`${url}/1`)
         .end((err, res) => {
           expect(err).to.be.null;
@@ -81,12 +103,13 @@ describe.skip('RED_FLAGS', () => {
         });
     });
 
-    it('should raise a 404 not found error', (done) => {
+    it.skip('should raise a 404 not found error', (done) => {
       const id = 1000;
-      chai.request(app)
+      request(app)
         .delete(`${url}/${id}`)
         .end((err, res) => {
           expect(err).to.be.null;
+          log(res);
           expect(res).to.have.status(404);
           expect(res.body).to.have.property('error').to.eq(`Red-flag with id of ${id} was not found`);
           expect(res.body).to.have.keys(['status', 'error']);
@@ -97,7 +120,7 @@ describe.skip('RED_FLAGS', () => {
     // id not recognised
     it('should report id is not a number', (done) => {
       const id = 'aaa';
-      chai.request(app)
+      request(app)
         .get(`${url}/${id}`)
         .end((err, res) => {
           expect(err).to.be.null;
@@ -111,9 +134,9 @@ describe.skip('RED_FLAGS', () => {
   });
 
   describe('Update the location of a specific red-flag record', () => {
-    it("should update a red-flag record's location", (done) => {
+    it.skip("should update a red-flag record's location", (done) => {
       const id = 3;
-      chai.request(app)
+      request(app)
         .patch(`${url}/${id}/location`)
         .send({
           location: '45, 180'
@@ -133,7 +156,7 @@ describe.skip('RED_FLAGS', () => {
     //passed
     it('should reject if location format is not a string', (done) => {
       const id = 1;
-      chai.request(app)
+      request(app)
         .patch(`${url}/${id}/location`)
         .send({
           location: 11.22
@@ -150,7 +173,7 @@ describe.skip('RED_FLAGS', () => {
     //passed
     it('should reject if location is not found in the req.body object', (done) => {
       const id = 1;
-      chai.request(app)
+      request(app)
         .patch(`${url}/${id}/location`)
         .end((err, res) => {
           expect(err).to.be.null;
@@ -164,7 +187,7 @@ describe.skip('RED_FLAGS', () => {
     //passed
     it('should reject if location is not a valid geo-coord', (done) => {
       const id = 1;
-      chai.request(app)
+      request(app)
         .patch(`${url}/${id}/location`)
         .send({
           location: '-90., -180.'
@@ -181,7 +204,7 @@ describe.skip('RED_FLAGS', () => {
     //passed
     it('should report id is not a number', (done) => {
       const id = 'aaa';
-      chai.request(app)
+      request(app)
         .patch(`${url}/${id}/location`)
         .send({
           location: '45, 180'
@@ -196,9 +219,9 @@ describe.skip('RED_FLAGS', () => {
     });
 
     //passed
-    it('should respond with a 404 not found error', (done) => {
+    it.skip('should respond with a 404 not found error', (done) => {
       const id = 1000;
-      chai.request(app)
+      request(app)
         .patch(`${url}/${id}/location`)
         .send({
           location: '45, 180'
@@ -214,9 +237,9 @@ describe.skip('RED_FLAGS', () => {
   });
 
   describe('Update the comment of a specific red-flag record', () => {
-    it('should update the red-flag comment', (done) => {
+    it.skip('should update the red-flag comment', (done) => {
       const id = 2;
-      chai.request(app)
+      request(app)
         .patch(`${url}/${id}/comment`)
         .send({
           comment: 'this is the iReporter incident report'
@@ -235,7 +258,7 @@ describe.skip('RED_FLAGS', () => {
 
     it('should report id is not a number', (done) => {
       const id = 'aaa';
-      chai.request(app)
+      request(app)
         .patch(`${url}/${id}/comment`)
         .send({
           comment: 'this is the iReporter incident report'
@@ -249,9 +272,9 @@ describe.skip('RED_FLAGS', () => {
         });
     });
 
-    it('should return a 404 not found error', (done) => {
+    it.skip('should return a 404 not found error', (done) => {
       const id = 1000;
-      chai.request(app)
+      request(app)
         .patch(`${url}/${id}/comment`)
         .send({
           comment: 'this is the iRepoter incident update'
@@ -267,7 +290,7 @@ describe.skip('RED_FLAGS', () => {
 
     it('should reject if comment is not found in the body of the request object', (done) => {
       const id = 1;
-      chai.request(app)
+      request(app)
         .patch(`${url}/${id}/comment`)
         .end((err, res) => {
           expect(err).to.be.null;

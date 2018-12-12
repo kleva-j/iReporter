@@ -1,13 +1,40 @@
 import { use, request } from 'chai';
 import { expect } from 'chai';
 import chaiHTTP from 'chai-http';
+import dotenv  from 'dotenv';
+import db from '../models/db';
 import app from '../../server/app';
+
+dotenv.config();
 
 use(chaiHTTP);
 
 const url = '/api/v1/red-flags';
 
 describe('/POST - create a red-flag record', () => {
+
+  before((done) => {
+    let newuser;
+    db.query('DELETE FROM users')
+      .then(() => {
+        console.log("All users have been deleted");
+        return db.users.createUser({
+          firstname: 'firstname',
+          lastname: 'lastname',
+          username: 'username',
+          email: 'email',
+          password: 'password',
+          phonenumber: 'phonenumber',
+          isadmin: false,
+        })
+          .then((user) => {
+            console.log('User created successfully');
+            newuser = user;
+            done()
+          });
+    });
+  });
+
   let requestObject;
   beforeEach(() => {
     requestObject = {
