@@ -11,8 +11,8 @@
     "clean": "rm -rf dist && mkdir dist",
     "coveralls": "npm test && nyc --reporter=lcov --reporter=text-lcov",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "db:setup": "node server/models/createTable --exit",
-    "testdb:setup": "NODE_ENV=test node server/models/createTable --exit",
+    "db:setup": "babel-node server/models/createTable --exit",
+    "testdb:setup": "NODE_ENV=test babel-node server/models/createTable --exit",
     "debug": "node --inspect-brk ./dist/app.js"
   },
   "babel": {
