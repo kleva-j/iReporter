@@ -153,8 +153,20 @@ class Incident {
     return this[db].any('SELECT * FROM incidents');
   }
 
+  /**
+   *
+   * @param {number} id - the id of the record
+   */
   deleteRecord(id) {
     return this[db].result('DELETE * FROM incident WHERE id = $1', id);
+  }
+
+  /**
+   *
+   * @param {number} id - the id of the redflag
+   */
+  deleteRedflagById(id) {
+    return this[db].result('DELETE FROM incidents WHERE id = $1', id);
   }
 }
 
