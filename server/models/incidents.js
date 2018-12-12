@@ -128,6 +128,10 @@ class Incident {
   getAllRecords() {
     return this[db].any('SELECT * FROM incidents');
   }
+
+  deleteRedflagById(id) {
+    return this[db].result('DELETE FROM incidents WHERE id = $1', id);
+  }
 }
 
 export default Incident;
