@@ -158,8 +158,12 @@ class IncidentController {
    * @memberof IncidentController
    */
   static updateRedFlagComment(req, res) {
-    let { id } = req.params;
-    const { comment } = req.body;
+    let {
+      id
+    } = req.params;
+    const {
+      comment
+    } = req.body;
     id = parseInt(id, 10);
 
     db.task('update comment', t => t.incident.getById(id)
