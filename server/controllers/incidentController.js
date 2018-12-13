@@ -1,6 +1,8 @@
 /* eslint-disable consistent-return */
 import db from '../models/db';
 
+const { log } = console;
+
 /**
  * @class IncidentController
  * @classdesc Implements red-flag creation, edition and deletion
@@ -41,7 +43,7 @@ class IncidentController {
           status: 404,
           error: 'User id is invalid',
         });
-      }));
+      })).catch(err => log(err));
   }
 
   /**
@@ -56,34 +58,66 @@ class IncidentController {
   static getSpecificRedFlag(req, res) {
     const { id } = req.params;
 
-    const redFlag = Incidents.find(incident => incident.id === id);
-    if (redFlag) {
-      return res.status(200).json({
-        status: 200,
-        data: [redFlag],
-      });
-    }
-
-    return res.status(404).json({
-      status: 404,
-      error: `Red-flag with id of ${id} was not found`,
-    });
+    db.incidents.getById(id)
+      .then((result) => {
+        if (result) {
+          return res.status(200).json({
+            status: 200,
+            data: [result],
+          });
+        }
+        return res.status(404).json({
+          status: 404,
+          error: `Red-flag with id of ${id} was not found`,
+        });
+      }).catch(err => log(err));
   }
 
   /**
    * Get all red-flag incidents
    *
    * @static
-   * @param {object} req - The request object
+   * @param {object} _req - The request object
    * @param {object} res - The response object
    * @return {object} token or message
    * @memberof IncidentController
    */
-  static getAllRedFlag(req, res) {
-    return res.status(200).json({
-      status: 200,
-      data: Incidents,
-    });
+  static getAllRecords(_req, res) {
+    db.incidents.getAllRecords()
+      .then(results => res.status(200).json({
+        status: 200,
+        data: results,
+      })).catch(err => log(err));
+  }
+
+  /**
+   * @static getAllRedflag
+   * @param {object} _req - the request object
+   * @param {object} res - the reponse object
+   * @return {object} An array of red-flag records
+   * @memberof IncidentController
+   */
+  static getAllRedflags(_req, res) {
+    db.incidents.getAllRedflags()
+      .then(results => res.status(200).json({
+        status: 200,
+        data: results,
+      })).catch(err => log(err));
+  }
+
+  /**
+   * @static getAllInterventions
+   * @param {object} _req - the request object
+   * @param {object} res - the reponse object
+   * @return {object} An array of intervention records
+   * @memberof IncidentController
+   */
+  static getAllInterventions(_req, res) {
+    db.incidents.getAllInterventions()
+      .then(results => res.status(200).json({
+        status: 200,
+        data: results,
+      }));
   }
 
   /**
@@ -96,7 +130,9 @@ class IncidentController {
    * @memberof IncidentController
    */
   static deleteRedFlag(req, res) {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
 
     const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
 
@@ -127,8 +163,12 @@ class IncidentController {
    * @memberof IncidentController
    */
   static updateRedFlagComment(req, res) {
-    let { id } = req.params;
-    const { comment } = req.body;
+    let {
+      id
+    } = req.params;
+    const {
+      comment
+    } = req.body;
     id = parseInt(id, 10);
     const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
 
@@ -160,8 +200,12 @@ class IncidentController {
    * @memberof IncidentController
    */
   static updateRedFlagLocation(req, res) {
-    const { id } = req.params;
-    const { location } = req.body;
+    const {
+      id
+    } = req.params;
+    const {
+      location
+    } = req.body;
     const redFlagId = parseInt(id, 10);
     const redFlagIndex = Incidents.findIndex(incident => incident.id === redFlagId);
     if (redFlagIndex !== -1) {
@@ -192,7 +236,9 @@ class IncidentController {
    * @memberof IncidentController
    */
   static updateRedFlagStatus(req, res) {
-    let { id } = req.params;
+    let {
+      id
+    } = req.params;
 
     if (!req.body.status) {
       return res.status(400).json({
@@ -201,7 +247,9 @@ class IncidentController {
       });
     }
 
-    const { status } = req.body;
+    const {
+      status
+    } = req.body;
     id = parseInt(id, 10);
     const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
     const AcceptedStatus = ['under investigation', 'rejected', 'resolved'];
@@ -232,4 +280,4 @@ class IncidentController {
   }
 }
 
-module.exports = IncidentController;
+export default IncidentController;

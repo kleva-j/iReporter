@@ -14,6 +14,9 @@ if (process.env.NODE_ENV === 'development') {
   connectionString = process.env.DB_TEST;
 } else { connectionString = process.env.DATABASE_URL; }
 
+/**
+ * @constant initConfig - database configuration object
+ */
 const initConfig = {
   promiseLib: bluebird,
   extend(obj) {

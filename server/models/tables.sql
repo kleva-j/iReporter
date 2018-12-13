@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS incidents (
   id SERIAL PRIMARY KEY,
   createdBy INT REFERENCES users(id) ON DELETE CASCADE,
   createdOn TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-  type VARCHAR(255) DEFAULT 'Red-flag',
+  type VARCHAR(255) DEFAULT 'red-flag',
   status VARCHAR(255) DEFAULT 'Draft',
   location VARCHAR(255) NOT NULL,
   images TEXT[] DEFAULT '{}',
