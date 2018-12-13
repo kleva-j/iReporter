@@ -54,7 +54,7 @@ class UserController {
                 const { body } = req;
                 return t.users.createUser(body)
                   .then(($usr) => {
-                    const user = $usr.rows[0];
+                    const user = sanitize($usr.rows[0]);
                     const token = jwt.sign({
                       userId: user.id,
                       firstname: user.firstname,

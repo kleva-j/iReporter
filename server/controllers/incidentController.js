@@ -138,14 +138,19 @@ class IncidentController {
     db.task('delete incidents', t => t.incidents.getById(id)
       .then((results) => {
         if (results) {
-          return t.incidents.deleteRecord(id)
-            .then(() => res.status(200).json({
-              status: 200,
-              data: [{
-                id: results.id,
-                message: `${results.type} record with id of ${results.id} has been deleted successfully`,
-              }],
-            }));
+          if (req.auth.isadmin === results.id) {
+            return t.incidents.deleteRecord(id)
+              .then(() => res.status(200).json({
+                status: 200,
+                data: [{
+                  id: results.id,
+                  message: `${results.type} record with id of ${results.id} has been deleted successfully`,
+                }],
+              }));
+          } return res.status(403).json({
+            status: 403,
+            error: 'Unauthorized, this record does not belong to this user',
+          });
         }
         return res.status(404).json({
           status: 404,
@@ -168,17 +173,23 @@ class IncidentController {
     const { comment } = req.body;
     id = parseInt(id, 10);
 
-    db.task('update comment', t => t.incident.getById(id)
+    db.task('update comment', t => t.incidents.getById(id)
       .then((result) => {
         if (result) {
-          return t.incidents.updateARecordComment(comment, id)
-            .then(() => res.status(200).json({
-              status: 200,
-              data: [{
-                id,
-                message: 'Updated record comment',
-              }],
-            }));
+          if (req.auth.userId === result.id) {
+            return t.incidents.updateARecordComment(comment, id)
+              .then(() => res.status(200).json({
+                status: 200,
+                data: [{
+                  id,
+                  message: 'Updated record comment',
+                }],
+              }));
+          }
+          return res.status(403).json({
+            status: 403,
+            error: 'Unauthorized, this record does not belong to this user',
+          });
         }
         return res.status(404).json({
           status: 404,
@@ -204,14 +215,19 @@ class IncidentController {
     db.task('update location', t => t.incidents.getById(id)
       .then((result) => {
         if (result) {
-          return t.incidents.updateARecordLocation(location, id)
-            .then(() => res.status(200).json({
-              status: 200,
-              data: [{
-                id,
-                message: 'Updated record location',
-              }],
-            }));
+          if (req.auth.isadmin === result.id) {
+            return t.incidents.updateARecordLocation(location, id)
+              .then(() => res.status(200).json({
+                status: 200,
+                data: [{
+                  id,
+                  message: 'Updated record location',
+                }],
+              }));
+          } return res.status(403).json({
+            status: 403,
+            error: 'Unauthorized, this record does not belong to this user',
+          });
         }
         return res.status(404).json({
           status: 404,
@@ -237,6 +253,13 @@ class IncidentController {
       return res.status(400).json({
         status: 400,
         error: 'Status was not sent in the request',
+      });
+    }
+
+    if (req.auth.isadmin === false) {
+      return res.status(403).json({
+        status: 403,
+        error: 'Unauthorized, Admin access required',
       });
     }
 
