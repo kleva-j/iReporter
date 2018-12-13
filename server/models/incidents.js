@@ -160,7 +160,7 @@ class Incident {
    * @memberof Incidents
    */
   deleteRecord(id) {
-    return this[db].result('DELETE * FROM incident WHERE id = $1', id);
+    return this[db].result('DELETE FROM incidents WHERE id = $1', id);
   }
 
   /**

@@ -126,6 +126,13 @@ class IncidentController {
    * @memberof IncidentController
    */
   static deleteRedFlag(req, res) {
+    if (!req.params.id) {
+      return res.status(404).json({
+        status: 403,
+        message: 'Record id was not found',
+      });
+    }
+
     const { id } = req.params;
 
     db.task('delete incidents', t => t.incidents.getById(id)
@@ -134,12 +141,15 @@ class IncidentController {
           return t.incidents.deleteRecord(id)
             .then(() => res.status(200).json({
               status: 200,
-              message: 'Record has been deleted successfully',
+              data: [{
+                id: results.id,
+                message: `${results.type} record with id of ${results.id} has been deleted successfully`,
+              }],
             }));
         }
         return res.status(404).json({
           status: 404,
-          error: `Red-flag with id of ${id} was not found`,
+          error: `Record with id of ${id} was not found`,
         });
       }));
   }
