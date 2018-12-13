@@ -8,9 +8,9 @@
 const sanitizer = (obj) => {
   const { row } = obj;
   const sanitized = row.replace(/[\(\)]/g, '').split(',');
-  const [id, firstname, lastname, username, email, phonenumber] = sanitized;
+  const [id, firstname, lastname, username, email, phonenumber, isadmin] = sanitized;
   return {
-    id, firstname, lastname, username, email, phonenumber,
+    id, firstname, lastname, username, email, phonenumber, isadmin,
   };
 };
 

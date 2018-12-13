@@ -39,10 +39,10 @@ incidentRouter.route('/red-flags/:id')
   .delete(authToken, validateID, deleteRedFlag);
 
 incidentRouter.route('/red-flags/:id/location')
-  .patch(validateID, validateLocation, updateRedFlagLocation);
+  .patch(authToken, validateID, validateLocation, updateRedFlagLocation);
 
 incidentRouter.route('/red-flags/:id/comment')
-  .patch(validateID, validateComment, updateRedFlagComment);
+  .patch(authToken, validateID, validateComment, updateRedFlagComment);
 
 // Interventions
 incidentRouter.route('/interventions')
@@ -55,10 +55,10 @@ incidentRouter.route('/intervention/:id')
   .delete(authToken, validateID, deleteRedFlag);
 
 incidentRouter.route('/intervention/:id/location')
-  .patch(validateID, validateLocation, updateRedFlagLocation);
+  .patch(authToken, validateID, validateLocation, updateRedFlagLocation);
 
 incidentRouter.route('/intervention/:id/comment')
-  .patch(validateID, validateComment, updateRedFlagComment);
+  .patch(authToken, validateID, validateComment, updateRedFlagComment);
 
 // Admin
 incidentRouter.route('/red-flags/all')
