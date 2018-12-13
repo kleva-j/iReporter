@@ -24,7 +24,7 @@ class Incident {
    * @memberof Incidents
    */
   createIncident(values) {
-    const sql = 'INSERT INTO incidents(createdby, type, location, images, videos, comment) VALUES($(createdby), $(type), $(location), $(images), $(videos)) RETURNING *';
+    const sql = 'INSERT INTO incidents(createdby, type, location, images, videos, comment) VALUES($(createdby), $(type), $(location), $(images), $(videos), $(comment)) RETURNING *';
     return this[db].one(sql, values);
   }
 

@@ -27,23 +27,19 @@ class IncidentController {
       comment: req.body.comment,
     };
 
-    db.task('create a record', t => t.users.getByCreatorId(newRecord.createdby)
-      .then((user) => {
-        if (user) {
-          return t.incidents.createIncident(newRecord)
-            .then(record => res.status(201).json({
-              status: 201,
-              data: [{
-                record,
-                message: 'Created a new record',
-              }],
-            }));
+    const { type } = req.body;
+    db.incidents.createIncident(newRecord)
+      .then((result) => {
+        if (result) {
+          return res.status(201).json({
+            status: 201,
+            data: [{
+              id: result.id,
+              message: `Created new ${type} record`,
+            }],
+          });
         }
-        return res.status(404).json({
-          status: 404,
-          error: 'User id is invalid',
-        });
-      })).catch(err => log(err));
+      });
   }
 
   /**
