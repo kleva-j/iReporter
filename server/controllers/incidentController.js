@@ -17,7 +17,7 @@ class IncidentController {
    * @return {object} The created incident record
    * @memberof IncidentController
    */
-  static createRedFlag(req, res) {
+  static createRecord(req, res) {
     const newRecord = {
       createdby: req.body.createdBy,
       type: req.body.type,
@@ -158,12 +158,8 @@ class IncidentController {
    * @memberof IncidentController
    */
   static updateRedFlagComment(req, res) {
-    let {
-      id
-    } = req.params;
-    const {
-      comment
-    } = req.body;
+    let { id } = req.params;
+    const { comment } = req.body;
     id = parseInt(id, 10);
 
     db.task('update comment', t => t.incident.getById(id)
