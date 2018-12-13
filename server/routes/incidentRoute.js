@@ -36,7 +36,7 @@ incidentRouter.route('/red-flags')
 
 incidentRouter.route('/red-flags/:id')
   .get(validateID, getSpecificRedFlag)
-  .delete(validateID, deleteRedFlag);
+  .delete(authToken, validateID, deleteRedFlag);
 
 incidentRouter.route('/red-flags/:id/location')
   .patch(validateID, validateLocation, updateRedFlagLocation);
@@ -52,7 +52,7 @@ incidentRouter.route('/interventions')
 
 incidentRouter.route('/intervention/:id')
   .get(validateID, getSpecificRedFlag)
-  .delete(validateID, deleteRedFlag);
+  .delete(authToken, validateID, deleteRedFlag);
 
 incidentRouter.route('/intervention/:id/location')
   .patch(validateID, validateLocation, updateRedFlagLocation);
