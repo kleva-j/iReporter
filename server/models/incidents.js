@@ -107,7 +107,7 @@ class Incident {
    * @param {number} id - the id of the record
    */
   updateARecordStatus(status, id) {
-    return this[db].one('UPDATE incidents SET status=$1 WHERE id=$2', [status, id]);
+    return this[db].result('UPDATE incidents SET status=$1 WHERE id=$2', [status, id]);
   }
 
   /**
@@ -115,7 +115,7 @@ class Incident {
    * @param {*} id - the id of the record
    */
   updateARecordComment(comment, id) {
-    return this[db].one('UPDATE incidents SET comment=$1 WHERE id=$2', [comment, id]);
+    return this[db].result('UPDATE incidents SET comment=$1 WHERE id=$2', [comment, id]);
   }
 
   /**
@@ -123,7 +123,7 @@ class Incident {
    * @param {*} id - the id of the record
    */
   updateARecordLocation(location, id) {
-    return this[db].one('UPDATE incidents SET location=$1 WHERE id=$2', [location, id]);
+    return this[db].result('UPDATE incidents SET location=$1 WHERE id=$2', [location, id]);
   }
 
   /**

@@ -22,8 +22,8 @@ class Users {
    * @memberof Users
    */
   createUser(values) {
-    const sql = 'INSERT INTO users (firstname, lastname, username, email, password, phonenumber, isadmin) VALUES($(firstname), $(lastname), $(username), $(email), $(password), $(phonenumber), $(isadmin)) RETURNING (id, firstname, lastname, username, email, phonenumber)';
-    return this[db].one(sql, values);
+    const sql = 'INSERT INTO users (firstname, lastname, username, email, password, phonenumber, isadmin) VALUES($(firstname), $(lastname), $(username), $(email), $(password), $(phonenumber), $(isadmin)) RETURNING (id, firstname, lastname, username, email, phonenumber, isadmin)';
+    return this[db].result(sql, values);
   }
 
   /**
