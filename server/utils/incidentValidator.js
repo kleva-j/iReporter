@@ -19,7 +19,7 @@ class IncidentValidator {
    * @return {object} token or message
    * @memberof IncidentValidator
    */
-  static validateRedFlag(req, res, next) {
+  static validateRecord(req, res, next) {
     let { createdBy } = req.body;
     const {
       type,
@@ -55,6 +55,19 @@ class IncidentValidator {
       return res.status(400).json({
         status: 400,
         error: 'Type of incident should either be a red-flag or an intervention',
+      });
+    }
+
+    return next();
+  }
+
+  static validateIntervention(req, res, next) {
+    const { type } = req.body;
+
+    if (type !== 'intervention') {
+      return res.status(403).json({
+        status: 403,
+        error: 'Use endpoint to create interventions',
       });
     }
 

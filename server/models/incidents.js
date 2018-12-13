@@ -24,7 +24,7 @@ class Incident {
    * @memberof Incidents
    */
   createIncident(values) {
-    const sql = 'INSERT INTO incidents(createdby, type, location, images, videos, comment) VALUES($(createdby), $(type), $(location), $(images), $(videos)) RETURNING *';
+    const sql = 'INSERT INTO incidents(createdby, type, location, images, videos, comment) VALUES($(createdby), $(type), $(location), $(images), $(videos), $(comment)) RETURNING *';
     return this[db].one(sql, values);
   }
 
@@ -156,6 +156,8 @@ class Incident {
   /**
    *
    * @param {number} id - the id of the record
+   * @returns {Array} The result of all incident record
+   * @memberof Incidents
    */
   deleteRecord(id) {
     return this[db].result('DELETE * FROM incident WHERE id = $1', id);
@@ -164,6 +166,8 @@ class Incident {
   /**
    *
    * @param {number} id - the id of the redflag
+   * @returns {Array} The result of all incident record
+   * @memberof Incidents
    */
   deleteRedflagById(id) {
     return this[db].result('DELETE FROM incidents WHERE id = $1', id);

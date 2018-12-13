@@ -17,7 +17,7 @@ class IncidentController {
    * @return {object} The created incident record
    * @memberof IncidentController
    */
-  static createRedFlag(req, res) {
+  static createRecord(req, res) {
     const newRecord = {
       createdby: req.body.createdBy,
       type: req.body.type,
@@ -27,23 +27,19 @@ class IncidentController {
       comment: req.body.comment,
     };
 
-    db.task('create a record', t => t.users.getByCreatorId(newRecord.createdby)
-      .then((user) => {
-        if (user) {
-          return t.incidents.createIncident(newRecord)
-            .then(record => res.status(201).json({
-              status: 201,
-              data: [{
-                record,
-                message: 'Created a new record',
-              }],
-            }));
+    const { type } = req.body;
+    db.incidents.createIncident(newRecord)
+      .then((result) => {
+        if (result) {
+          return res.status(201).json({
+            status: 201,
+            data: [{
+              id: result.id,
+              message: `Created new ${type} record`,
+            }],
+          });
         }
-        return res.status(404).json({
-          status: 404,
-          error: 'User id is invalid',
-        });
-      })).catch(err => log(err));
+      });
   }
 
   /**
@@ -158,12 +154,8 @@ class IncidentController {
    * @memberof IncidentController
    */
   static updateRedFlagComment(req, res) {
-    let {
-      id
-    } = req.params;
-    const {
-      comment
-    } = req.body;
+    let { id } = req.params;
+    const { comment } = req.body;
     id = parseInt(id, 10);
 
     db.task('update comment', t => t.incident.getById(id)
