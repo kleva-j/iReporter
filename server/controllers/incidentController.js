@@ -171,18 +171,18 @@ class IncidentController {
     db.task('update comment', t => t.incident.getById(id)
       .then((result) => {
         if (result) {
-          return t.incidents.updateRedFlagComment(comment, id)
-            .then(response => res.status(200).json({
+          return t.incidents.updateARecordComment(comment, id)
+            .then(() => res.status(200).json({
               status: 200,
               data: [{
-                response,
-                message: 'Updated incident record location',
+                id,
+                message: 'Updated record comment',
               }],
             }));
         }
         return res.status(404).json({
           status: 404,
-          error: `Red-flag with id of ${id} was not found`,
+          error: `Record with id of ${id} was not found`,
         });
       }));
   }
@@ -201,21 +201,21 @@ class IncidentController {
     const { location } = req.body;
     id = parseInt(id, 10);
 
-    db.task('update location', t => t.incident.getById(id)
+    db.task('update location', t => t.incidents.getById(id)
       .then((result) => {
         if (result) {
-          return t.incidents.updateRedFlagLocation(location, id)
-            .then(response => res.status(200).json({
+          return t.incidents.updateARecordLocation(location, id)
+            .then(() => res.status(200).json({
               status: 200,
               data: [{
-                response,
-                message: 'Updated incident record location',
+                id,
+                message: 'Updated record location',
               }],
             }));
         }
         return res.status(404).json({
           status: 404,
-          error: `Red-flag with id of ${id} was not found`,
+          error: `Record with id of ${id} was not found`,
         });
       }));
   }
@@ -242,7 +242,7 @@ class IncidentController {
 
     const { status } = req.body;
 
-    db.task('update location', t => t.incident.getById(id)
+    db.task('update status', t => t.incident.getById(id)
       .then((result) => {
         if (result) {
           const AcceptedStatus = ['under investigation', 'rejected', 'resolved'];
@@ -254,7 +254,7 @@ class IncidentController {
             });
           }
 
-          return t.incidents.updateRedFlagStatus(status, id)
+          return t.incidents.updateARecordStatus(status, id)
             .then(response => res.status(200).json({
               status: 200,
               data: [{
