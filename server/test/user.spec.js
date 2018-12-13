@@ -43,7 +43,7 @@ describe('USERS', () => {
           expect(err).to.be.null;
           expect(res.status).to.eq(201);
           expect(res.body).to.have.keys(['status', 'data']);
-          expect(res.body.data[0].$usr).to.have.property('id');
+          expect(res.body.data[0].user).to.have.property('id');
           expect(res.body.data[0].user).to.have.property('firstname');
           expect(res.body.data[0].user).to.have.property('lastname');
           expect(res.body.data[0].user).to.have.property('username');
