@@ -12,7 +12,7 @@ use(chaiHTTP);
 
 const url = '/api/v1/red-flags';
 
-describe('RED_FLAGS', () => {
+describe.skip('RED_FLAGS', () => {
 
   // before((done) => {
 

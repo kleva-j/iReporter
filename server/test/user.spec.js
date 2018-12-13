@@ -28,10 +28,10 @@ describe('USERS', () => {
         firstname: 'Michael',
         lastname: 'Obasi',
         username: 'kleva-j',
-        othernames: 'albert',
         email: 'kasmickleva@gmail.com',
         password: 'bbdd-@@@@',
         phonenumber: '08062308772',
+        isadmin: false,
       }
     });
     
@@ -44,11 +44,11 @@ describe('USERS', () => {
           expect(res.status).to.eq(201);
           expect(res.body).to.have.keys(['status', 'data']);
           expect(res.body.data[0].$usr).to.have.property('id');
-          expect(res.body.data[0].$usr).to.have.property('firstname');
-          expect(res.body.data[0].$usr).to.have.property('lastname');
-          expect(res.body.data[0].$usr).to.have.property('username');
-          expect(res.body.data[0].$usr).to.have.property('email');
-          expect(res.body.data[0].$usr).to.have.property('phonenumber');
+          expect(res.body.data[0].user).to.have.property('firstname');
+          expect(res.body.data[0].user).to.have.property('lastname');
+          expect(res.body.data[0].user).to.have.property('username');
+          expect(res.body.data[0].user).to.have.property('email');
+          expect(res.body.data[0].user).to.have.property('phonenumber');
           expect(res.body.data).to.be.instanceOf(Array);
           done();
         });
