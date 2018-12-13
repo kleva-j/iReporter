@@ -132,7 +132,25 @@ class Incident {
    * @memberof Incidents
    */
   getAllRedflags() {
-    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'Red-flag');
+    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'red-flag');
+  }
+
+  /**
+   * @method getAllRedflags
+   * @returns {Array} The result of all red-flag records
+   * @memberof Incidents
+   */
+  getUserRedflags(id) {
+    return this[db].any(`SELECT * FROM incidents WHERE (type = 'red-flag' AND createdby='${id}')`);
+  }
+
+  /**
+   * @method getAllInterventions
+   * @returns {Array} The result of all intervention records
+   * @memberof Incidents
+   */
+  getUserInterventions(id) {
+    return this[db].any(`SELECT * FROM incidents WHERE type='intervention' AND createdby='${id}'`);
   }
 
   /**
@@ -141,7 +159,7 @@ class Incident {
    * @memberof Incidents
    */
   getAllInterventions() {
-    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'Interventions');
+    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'interventions');
   }
 
   /**

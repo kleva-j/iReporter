@@ -117,13 +117,13 @@ class UserController {
               }],
             });
           }
-          return res.status(401).json({
-            status: 401,
+          return res.status(403).json({
+            status: 403,
             error: 'Incorrect password',
           });
         }
         return res.status(404).json({
-          status: 403,
+          status: 404,
           error: 'User does not exist',
         });
       }));

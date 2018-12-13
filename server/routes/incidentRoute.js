@@ -17,8 +17,8 @@ const {
   createRecord,
   getSpecificRedFlag,
   getAllRecords,
-  getAllRedflags,
-  getAllInterventions,
+  getUserRedflags,
+  getUserInterventions,
   deleteRedFlag,
   updateRedFlagComment,
   updateRedFlagLocation,
@@ -29,13 +29,13 @@ const incidentRouter = Router();
 
 // redflags
 incidentRouter.route('/red-flags')
-  .get(getAllRedflags)
+  .get(authToken, getUserRedflags)
   .post(authToken, validateRecord, validateImages,
     validateVideos, validateLocation,
     validateComment, createRecord);
 
 incidentRouter.route('/red-flags/:id')
-  .get(validateID, getSpecificRedFlag)
+  .get(authToken, validateID, getSpecificRedFlag)
   .delete(authToken, validateID, deleteRedFlag);
 
 incidentRouter.route('/red-flags/:id/location')
@@ -46,12 +46,12 @@ incidentRouter.route('/red-flags/:id/comment')
 
 // Interventions
 incidentRouter.route('/interventions')
-  .get(getAllInterventions)
+  .get(authToken, getUserInterventions)
   .post(authToken, validateRecord, validateIntervention, validateImages,
     validateVideos, validateLocation, validateComment, createRecord);
 
 incidentRouter.route('/intervention/:id')
-  .get(validateID, getSpecificRedFlag)
+  .get(authToken, validateID, getSpecificRedFlag)
   .delete(authToken, validateID, deleteRedFlag);
 
 incidentRouter.route('/intervention/:id/location')
@@ -60,11 +60,12 @@ incidentRouter.route('/intervention/:id/location')
 incidentRouter.route('/intervention/:id/comment')
   .patch(authToken, validateID, validateComment, updateRedFlagComment);
 
-// Admin
-incidentRouter.route('/red-flags/all')
-  .get(getAllRecords);
+// All records
+incidentRouter.route('/all')
+  .get(authToken, getAllRecords);
 
+// Admin
 incidentRouter.route('/red-flags/:id/status')
-  .patch(validateID, updateRedFlagStatus);
+  .patch(authToken, validateID, updateRedFlagStatus);
 
 export default incidentRouter;

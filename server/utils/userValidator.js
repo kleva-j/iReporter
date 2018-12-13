@@ -88,6 +88,11 @@ class Validator {
       });
     }
 
+    const isNumber = parseInt(phonenumber, 10);
+    if (isNaN(isNumber)) {
+      return res.staus(400)
+    }
+
     if (typeof username !== 'string') {
       return res.status(400).json({
         status: 400,

@@ -20,28 +20,9 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateRecord(req, res, next) {
-    let { createdBy } = req.body;
     const {
       type,
     } = req.body;
-
-    // validate createdBy
-    if (!createdBy) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Red-flag creator id is not defined',
-      });
-    }
-
-    createdBy = parseInt(createdBy, 10);
-    if (isNaN(createdBy)) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Red-flag creator id is not a valid id',
-      });
-    }
-
-    req.body.createdBy = createdBy;
 
     // validate type
     if (!type) {
@@ -157,7 +138,7 @@ class IncidentValidator {
    */
   static validateID(req, res, next) {
 
-    const id = parseInt(req.params.id, 10);
+    const id = parseInt(req.auth.userId, 10);
 
     if (isNaN(id)) {
       return res.status(400).json({
@@ -165,8 +146,6 @@ class IncidentValidator {
         error: 'red-flag Id should be a number',
       });
     }
-
-    req.params.id = id;
 
     return next();
   }
