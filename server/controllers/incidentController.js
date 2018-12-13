@@ -130,22 +130,20 @@ class IncidentController {
    * @memberof IncidentController
    */
   static deleteRedFlag(req, res) {
-    const {
-      id
-    } = req.params;
+    const { id } = req.params;
 
-    const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
-
-    if (redFlagIndex !== -1) {
-      Incidents.splice(redFlagIndex, 1);
-      return res.status(200).json({
+    db.incidents.deleteRedFlagById()
+      .then(() => res.status(200).json({
         status: 200,
-        data: [{
-          id,
-          message: 'red-flag record has been deleted',
-        }],
+        message: 'red-flag record has been deleted',
+      }))
+      .catch((err) => {
+        log(err);
+        return res.status(200).json({
+          status: 500,
+          error: 'Internal server error',
+        });
       });
-    }
 
     return res.status(404).json({
       status: 404,
@@ -201,10 +199,10 @@ class IncidentController {
    */
   static updateRedFlagLocation(req, res) {
     const {
-      id
+      id,
     } = req.params;
     const {
-      location
+      location,
     } = req.body;
     const redFlagId = parseInt(id, 10);
     const redFlagIndex = Incidents.findIndex(incident => incident.id === redFlagId);
@@ -237,7 +235,7 @@ class IncidentController {
    */
   static updateRedFlagStatus(req, res) {
     let {
-      id
+      id,
     } = req.params;
 
     if (!req.body.status) {
@@ -248,7 +246,7 @@ class IncidentController {
     }
 
     const {
-      status
+      status,
     } = req.body;
     id = parseInt(id, 10);
     const redFlagIndex = Incidents.findIndex(incident => incident.id === id);
