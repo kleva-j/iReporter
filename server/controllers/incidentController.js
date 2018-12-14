@@ -19,7 +19,7 @@ class IncidentController {
    */
   static createRecord(req, res) {
     const newRecord = {
-      createdby: req.body.createdBy,
+      createdby: req.auth.userId,
       type: req.body.type,
       location: req.body.location,
       images: req.body.images,
@@ -78,12 +78,18 @@ class IncidentController {
    * @return {object} token or message
    * @memberof IncidentController
    */
-  static getAllRecords(_req, res) {
-    db.incidents.getAllRecords()
-      .then(results => res.status(200).json({
-        status: 200,
-        data: results,
-      })).catch(err => log(err));
+  static getAllRecords(req, res) {
+    if (req.auth.isadmin === true) {
+      db.incidents.getAllRecords()
+        .then(results => res.status(200).json({
+          status: 200,
+          data: results,
+        })).catch(err => log(err));
+    }
+    return res.status(403).json({
+      status: 200,
+      error: 'Unauthorized, this requires admin access',
+    });
   }
 
   /**
@@ -93,27 +99,37 @@ class IncidentController {
    * @return {object} An array of red-flag records
    * @memberof IncidentController
    */
-  static getAllRedflags(_req, res) {
-    db.incidents.getAllRedflags()
-      .then(results => res.status(200).json({
-        status: 200,
-        data: results,
-      })).catch(err => log(err));
+  static getUserRedflags(req, res) {
+    const id = req.auth.userId;
+    if (req.auth.isadmin) {
+      db.incidents.getAllRedflags()
+        .then(redflags => res.status(200).json({
+          status: 200,
+          data: redflags,
+        }));
+    } else {
+      db.incidents.getUserRedflags(id)
+        .then(results => res.status(200).json({
+          status: 200,
+          data: results,
+        })).catch(err => log(err));
+    }
   }
 
   /**
    * @static getAllInterventions
-   * @param {object} _req - the request object
+   * @param {object} req - the request object
    * @param {object} res - the reponse object
    * @return {object} An array of intervention records
    * @memberof IncidentController
    */
-  static getAllInterventions(_req, res) {
-    db.incidents.getAllInterventions()
+  static getUserInterventions(req, res) {
+    const id = req.auth.userId;
+    db.incidents.getUserInterventions(id)
       .then(results => res.status(200).json({
         status: 200,
         data: results,
-      }));
+      })).catch(err => log(err));
   }
 
   /**
@@ -138,14 +154,19 @@ class IncidentController {
     db.task('delete incidents', t => t.incidents.getById(id)
       .then((results) => {
         if (results) {
-          return t.incidents.deleteRecord(id)
-            .then(() => res.status(200).json({
-              status: 200,
-              data: [{
-                id: results.id,
-                message: `${results.type} record with id of ${results.id} has been deleted successfully`,
-              }],
-            }));
+          if (req.auth.userId === results.createdby) {
+            return t.incidents.deleteRecord(id)
+              .then(() => res.status(200).json({
+                status: 200,
+                data: [{
+                  id: results.id,
+                  message: `${results.type} record with id of ${results.id} has been deleted successfully`,
+                }],
+              }));
+          } return res.status(403).json({
+            status: 403,
+            error: 'Unauthorized, this record does not belong to this user',
+          });
         }
         return res.status(404).json({
           status: 404,
@@ -168,21 +189,27 @@ class IncidentController {
     const { comment } = req.body;
     id = parseInt(id, 10);
 
-    db.task('update comment', t => t.incident.getById(id)
+    db.task('update comment', t => t.incidents.getById(id)
       .then((result) => {
         if (result) {
-          return t.incidents.updateRedFlagComment(comment, id)
-            .then(response => res.status(200).json({
-              status: 200,
-              data: [{
-                response,
-                message: 'Updated incident record location',
-              }],
-            }));
+          if (req.auth.userId === result.id) {
+            return t.incidents.updateARecordComment(comment, id)
+              .then(() => res.status(200).json({
+                status: 200,
+                data: [{
+                  id,
+                  message: 'Updated record comment',
+                }],
+              }));
+          }
+          return res.status(403).json({
+            status: 403,
+            error: 'Unauthorized, this record does not belong to this user',
+          });
         }
         return res.status(404).json({
           status: 404,
-          error: `Red-flag with id of ${id} was not found`,
+          error: `Record with id of ${id} was not found`,
         });
       }));
   }
@@ -201,21 +228,26 @@ class IncidentController {
     const { location } = req.body;
     id = parseInt(id, 10);
 
-    db.task('update location', t => t.incident.getById(id)
+    db.task('update location', t => t.incidents.getById(id)
       .then((result) => {
         if (result) {
-          return t.incidents.updateRedFlagLocation(location, id)
-            .then(response => res.status(200).json({
-              status: 200,
-              data: [{
-                response,
-                message: 'Updated incident record location',
-              }],
-            }));
+          if (req.auth.userId === result.id) {
+            return t.incidents.updateARecordLocation(location, id)
+              .then(() => res.status(200).json({
+                status: 200,
+                data: [{
+                  id,
+                  message: 'Updated record location',
+                }],
+              }));
+          } return res.status(403).json({
+            status: 403,
+            error: 'Unauthorized, this record does not belong to this user',
+          });
         }
         return res.status(404).json({
           status: 404,
-          error: `Red-flag with id of ${id} was not found`,
+          error: `Record with id of ${id} was not found`,
         });
       }));
   }
@@ -240,9 +272,16 @@ class IncidentController {
       });
     }
 
+    if (req.auth.isadmin === false) {
+      return res.status(403).json({
+        status: 403,
+        error: 'Unauthorized, Admin access required',
+      });
+    }
+
     const { status } = req.body;
 
-    db.task('update location', t => t.incident.getById(id)
+    db.task('update status', t => t.incident.getById(id)
       .then((result) => {
         if (result) {
           const AcceptedStatus = ['under investigation', 'rejected', 'resolved'];
@@ -254,7 +293,7 @@ class IncidentController {
             });
           }
 
-          return t.incidents.updateRedFlagStatus(status, id)
+          return t.incidents.updateARecordStatus(status, id)
             .then(response => res.status(200).json({
               status: 200,
               data: [{

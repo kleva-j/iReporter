@@ -53,19 +53,20 @@ class UserController {
                 req.body.isadmin = false;
                 const { body } = req;
                 return t.users.createUser(body)
-                  .then((user) => {
-                    const $usr = sanitize(user);
+                  .then(($usr) => {
+                    const user = sanitize($usr.rows[0]);
                     const token = jwt.sign({
-                      userId: $usr.id,
-                      firstname: $usr.firstname,
-                      lastname: $usr.lastname,
-                      username: $usr.username,
-                      email: $usr.email,
-                      phonenumber: $usr.phonenumber,
+                      userId: user.id,
+                      firstname: user.firstname,
+                      lastname: user.lastname,
+                      username: user.username,
+                      email: user.email,
+                      phonenumber: user.phonenumber,
+                      isadmin: user.isadmin,
                     }, process.env.SECRET_KEY, { expiresIn: '1 day' });
                     return res.status(201).json({
                       status: 201,
-                      data: [{ $usr, token }],
+                      data: [{ user, token }],
                     });
                   });
               });
@@ -97,6 +98,7 @@ class UserController {
               userId: $user.id,
               username: $user.username,
               email: $user.email,
+              isadmin: $user.isadmin,
             }, process.env.SECRET_KEY, {
               expiresIn: '1 day',
             });
@@ -110,17 +112,18 @@ class UserController {
                 phonenumber: $user.phonenumber,
                 username: $user.username,
                 email: $user.email,
+                isadmin: $user.isadmin,
                 token,
               }],
             });
           }
-          return res.status(401).json({
-            status: 401,
+          return res.status(403).json({
+            status: 403,
             error: 'Incorrect password',
           });
         }
         return res.status(404).json({
-          status: 403,
+          status: 404,
           error: 'User does not exist',
         });
       }));

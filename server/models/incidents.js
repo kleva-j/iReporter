@@ -107,7 +107,7 @@ class Incident {
    * @param {number} id - the id of the record
    */
   updateARecordStatus(status, id) {
-    return this[db].one('UPDATE incidents SET status=$1 WHERE id=$2', [status, id]);
+    return this[db].result('UPDATE incidents SET status=$1 WHERE id=$2', [status, id]);
   }
 
   /**
@@ -115,7 +115,7 @@ class Incident {
    * @param {*} id - the id of the record
    */
   updateARecordComment(comment, id) {
-    return this[db].one('UPDATE incidents SET comment=$1 WHERE id=$2', [comment, id]);
+    return this[db].result('UPDATE incidents SET comment=$1 WHERE id=$2', [comment, id]);
   }
 
   /**
@@ -123,7 +123,7 @@ class Incident {
    * @param {*} id - the id of the record
    */
   updateARecordLocation(location, id) {
-    return this[db].one('UPDATE incidents SET location=$1 WHERE id=$2', [location, id]);
+    return this[db].result('UPDATE incidents SET location=$1 WHERE id=$2', [location, id]);
   }
 
   /**
@@ -132,7 +132,25 @@ class Incident {
    * @memberof Incidents
    */
   getAllRedflags() {
-    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'Red-flag');
+    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'red-flag');
+  }
+
+  /**
+   * @method getAllRedflags
+   * @returns {Array} The result of all red-flag records
+   * @memberof Incidents
+   */
+  getUserRedflags(id) {
+    return this[db].any(`SELECT * FROM incidents WHERE (type = 'red-flag' AND createdby='${id}')`);
+  }
+
+  /**
+   * @method getAllInterventions
+   * @returns {Array} The result of all intervention records
+   * @memberof Incidents
+   */
+  getUserInterventions(id) {
+    return this[db].any(`SELECT * FROM incidents WHERE type='intervention' AND createdby='${id}'`);
   }
 
   /**
@@ -141,7 +159,7 @@ class Incident {
    * @memberof Incidents
    */
   getAllInterventions() {
-    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'Interventions');
+    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'interventions');
   }
 
   /**

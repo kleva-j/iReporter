@@ -4,6 +4,9 @@ import chaiHTTP from 'chai-http';
 import db from '../models/db';
 import app from '../app';
 import dotenv from 'dotenv';
+import crypto from '../utils/crypto';
+
+const { encrypt } = crypto;
 
 dotenv.config();
 
@@ -13,12 +16,13 @@ const url = '/api/v1/users/auth';
 
 describe('USERS', () => {
 
-  before((done) => {
-    db.query('DELETE FROM users')
-      .then(() => {
-        console.log("All users have been deleted");
-        done();
-    });
+  before(async () => {
+    try {
+      await db.query('DELETE FROM users')
+      console.log('Users deleted successfully')
+    } catch(error) {
+      console.log(error);
+    }
   });
 
   describe('SIGN UP A NEW USER', () => {
@@ -28,10 +32,10 @@ describe('USERS', () => {
         firstname: 'Michael',
         lastname: 'Obasi',
         username: 'kleva-j',
-        othernames: 'albert',
         email: 'kasmickleva@gmail.com',
         password: 'bbdd-@@@@',
         phonenumber: '08062308772',
+        isadmin: false,
       }
     });
     
@@ -43,19 +47,19 @@ describe('USERS', () => {
           expect(err).to.be.null;
           expect(res.status).to.eq(201);
           expect(res.body).to.have.keys(['status', 'data']);
-          expect(res.body.data[0].$usr).to.have.property('id');
-          expect(res.body.data[0].$usr).to.have.property('firstname');
-          expect(res.body.data[0].$usr).to.have.property('lastname');
-          expect(res.body.data[0].$usr).to.have.property('username');
-          expect(res.body.data[0].$usr).to.have.property('email');
-          expect(res.body.data[0].$usr).to.have.property('phonenumber');
+          expect(res.body.data[0].user).to.have.property('id');
+          expect(res.body.data[0].user).to.have.property('firstname');
+          expect(res.body.data[0].user).to.have.property('lastname');
+          expect(res.body.data[0].user).to.have.property('username');
+          expect(res.body.data[0].user).to.have.property('email');
+          expect(res.body.data[0].user).to.have.property('phonenumber');
           expect(res.body.data).to.be.instanceOf(Array);
           done();
         });
     });
 
     // no firstname
-    it('It should fail to signup if username is not sent', (done) => {
+    it('It should fail to signup if firstname is not sent', (done) => {
       newUser.firstname = undefined;
       chai.request(app)
         .post(`${url}/signup`)
@@ -193,22 +197,24 @@ describe('USERS', () => {
 
   describe('LOG IN A USER', () => {
 
-    before((done) => {
-      chai.request(app)
-        .post(`${url}/signup`)
-        .send({
+    before(async () => {
+      try {
+        await db.query('DELETE FROM users')
+        console.log('Users deleted successfully again')
+        
+        const password = encrypt('password');
+        await db.users.createUser({
           firstname: 'firstname',
           lastname: 'lastname',
           username: 'username',
-          email: 'email@gmail.com',
-          password: 'password',
-          phonenumber:'phonenumber',
+          email: 'email@email.com',
+          password,
+          phonenumber: '08064477211',
+          isadmin: false
         })
-        .end((err, res) => {
-          expect(err).to.be.null;
-          expect(res.status).to.eq(201);
-          done();
-        });
+      } catch(error) {
+        console.log(error);
+      }
     });
 
     let registeredUser;
@@ -275,7 +281,7 @@ describe('USERS', () => {
         .send(registeredUser)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res.status).to.eq(401);
+          expect(res.status).to.eq(403);
           expect(res.body).to.have.keys(['status', 'error']);
           expect(res.body).to.have.property('error').to.eq('Incorrect password');
           done();
