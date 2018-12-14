@@ -4,6 +4,9 @@ import chaiHTTP from 'chai-http';
 import db from '../models/db';
 import app from '../app';
 import dotenv from 'dotenv';
+import crypto from '../utils/crypto';
+
+const { encrypt } = crypto;
 
 dotenv.config();
 
@@ -13,12 +16,13 @@ const url = '/api/v1/users/auth';
 
 describe('USERS', () => {
 
-  before((done) => {
-    db.query('DELETE FROM users')
-      .then(() => {
-        console.log("All users have been deleted");
-        done();
-    });
+  before(async () => {
+    try {
+      await db.query('DELETE FROM users')
+      console.log('Users deleted successfully')
+    } catch(error) {
+      console.log(error);
+    }
   });
 
   describe('SIGN UP A NEW USER', () => {
@@ -55,7 +59,7 @@ describe('USERS', () => {
     });
 
     // no firstname
-    it('It should fail to signup if username is not sent', (done) => {
+    it('It should fail to signup if firstname is not sent', (done) => {
       newUser.firstname = undefined;
       chai.request(app)
         .post(`${url}/signup`)
@@ -193,17 +197,24 @@ describe('USERS', () => {
 
   describe('LOG IN A USER', () => {
 
-    before((done) => {
-      db.users.createUser({
-        firstname: 'firstname',
-        lastname: 'lastname',
-        username: 'username',
-        email: 'email',
-        password: 'password',
-        phonenumber: 08062308772,
-        isadmin: false
-      })
-        .then(() => { console.log('user created successfully')})
+    before(async () => {
+      try {
+        await db.query('DELETE FROM users')
+        console.log('Users deleted successfully again')
+        
+        const password = encrypt('password');
+        await db.users.createUser({
+          firstname: 'firstname',
+          lastname: 'lastname',
+          username: 'username',
+          email: 'email@email.com',
+          password,
+          phonenumber: '08064477211',
+          isadmin: false
+        })
+      } catch(error) {
+        console.log(error);
+      }
     });
 
     let registeredUser;
@@ -215,7 +226,7 @@ describe('USERS', () => {
       }
     });
 
-    it.skip('It should login a user', (done) => {
+    it('It should login a user', (done) => {
       chai.request(app)
         .post(`${url}/login`)
         .send(registeredUser)
@@ -263,14 +274,14 @@ describe('USERS', () => {
         });
     });
 
-    it.skip('It should fail to login if password is incorrect', (done) => {
+    it('It should fail to login if password is incorrect', (done) => {
       registeredUser.password = 'asadssasd'
       chai.request(app)
         .post(`${url}/login`)
         .send(registeredUser)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res.status).to.eq(401);
+          expect(res.status).to.eq(403);
           expect(res.body).to.have.keys(['status', 'error']);
           expect(res.body).to.have.property('error').to.eq('Incorrect password');
           done();

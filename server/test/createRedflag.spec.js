@@ -4,6 +4,8 @@ import chaiHTTP from 'chai-http';
 import dotenv  from 'dotenv';
 import db from '../models/db';
 import app from '../../server/app';
+import { encrypt } from '../utils/crypto';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
@@ -11,28 +13,33 @@ use(chaiHTTP);
 
 const url = '/api/v1/red-flags';
 
-describe.skip('/POST - create a red-flag record', () => {
+describe('/POST - create a red-flag record', () => {
 
-  before((done) => {
-    let newuser;
-    db.query('DELETE FROM users')
-      .then(() => {
-        console.log("All users have been deleted");
-        return db.users.createUser({
-          firstname: 'firstname',
-          lastname: 'lastname',
-          username: 'username',
-          email: 'email',
-          password: 'password',
-          phonenumber: 'phonenumber',
-          isadmin: false,
-        })
-          .then((user) => {
-            console.log('User created successfully');
-            newuser = user;
-            done()
-          });
-    });
+  let userToken;
+  before(async () => {
+    try {
+      await db.query('DELETE FROM users')
+      const password = encrypt('password');
+      await db.users.createUser({
+        firstname: 'firstname',
+        lastname: 'lastname',
+        username: 'username',
+        email: 'email@email.com',
+        password,
+        phonenumber: '08064477211',
+        isadmin: false
+      });
+      const userDetails = await db.users.getByUsername('username');
+      userToken = jwt.sign({
+        userId: userDetails.id,
+        username: userDetails.username,
+        email: userDetails.email,
+        isadmin: userDetails.isadmin
+      }, process.env.SECRET_KEY, { expiresIn: '1 day' });
+
+    } catch(error) {
+      console.log(error);
+    }
   });
 
   let requestObject;
@@ -48,32 +55,39 @@ describe.skip('/POST - create a red-flag record', () => {
     };
   });
 
-  // test creator id if exist
-  it('should reject if creator id is not defined', (done) => {
-    requestObject.createdBy = undefined;
+  // 
+  it('should create a red-flag', (done) => {
     request(app)
       .post(url)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
-        expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.eq('Red-flag creator id is not defined');
-        expect(res.body).to.have.keys(['status', 'error']);
+        expect(res.status).to.eq(201);
+        expect(res.body).to.have.keys(['status', 'data']);
+        expect(res.body.data[0]).to.have.property('id');
+        expect(res.body.data[0]).to.have.property('message');
+        expect(res.body.data[0]).to.have.property('message').to.eq('Created new red-flag record');
+        expect(res.body.data).to.be.instanceOf(Array);
         done();
       });
   });
 
-  // test validity of creatorId
-  it('should reject if creator id is not valid', (done) => {
-    requestObject.createdBy = 'asdf';
+   // test validity of creatorId
+   it('should reject if user is not logged in', (done) => {
     request(app)
       .post(url)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
-        expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.eq('Red-flag creator id is not a valid id');
-        expect(res.body).to.have.keys(['status', 'error']);
+        expect(res).to.have.status(401);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.keys(['status', 'message']);
+        expect(res.body).to.have.property('message').eql('You are required to login to access this endpoint');
         done();
       });
   });
@@ -83,6 +97,9 @@ describe.skip('/POST - create a red-flag record', () => {
     requestObject.type = undefined;
     request(app)
       .post(url)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
@@ -97,6 +114,9 @@ describe.skip('/POST - create a red-flag record', () => {
     requestObject.type = 'asdf';
     request(app)
       .post(url)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
@@ -111,7 +131,10 @@ describe.skip('/POST - create a red-flag record', () => {
   it('should reject if image source are not sent', (done) => {
     requestObject.images = undefined;
     request(app)
-    .post(url)  
+    .post(url)
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .set('x-access-token', userToken)
     .send(requestObject)
     .end((err, res) => {
       expect(err).to.be.null;
@@ -125,7 +148,10 @@ describe.skip('/POST - create a red-flag record', () => {
   it('should reject if image source do not end in either jpg, jpeg or png', (done) => {
     requestObject.images = 'undefined';
     request(app)
-    .post(url)  
+    .post(url)
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .set('x-access-token', userToken)
     .send(requestObject)
     .end((err, res) => {
       expect(err).to.be.null;
@@ -141,6 +167,9 @@ describe.skip('/POST - create a red-flag record', () => {
     requestObject.videos = undefined;
     request(app)
     .post(url)
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .set('x-access-token', userToken)
     .send(requestObject)
     .end((err, res) => {
       expect(err).to.be.null;
@@ -154,7 +183,10 @@ describe.skip('/POST - create a red-flag record', () => {
   it('should reject if video source do not end in either avi, mp4 or mkv', (done) => {
     requestObject.videos = 'undefined';
     request(app)
-    .post(url)  
+    .post(url)
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .set('x-access-token', userToken)
     .send(requestObject)
     .end((err, res) => {
       expect(err).to.be.null;
@@ -170,6 +202,9 @@ describe.skip('/POST - create a red-flag record', () => {
     requestObject.comment = undefined;
     request(app)
       .post(url)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
@@ -184,6 +219,9 @@ describe.skip('/POST - create a red-flag record', () => {
     requestObject.comment = 1000;
     request(app)
       .post(url)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
@@ -198,6 +236,9 @@ describe.skip('/POST - create a red-flag record', () => {
     requestObject.comment = 'In one lightning fast movement, the old crocodile bolted out of the water, wrapped his jaws around the great wildebeest and pulled him under the river. Awestruck the young crocodile swam up with the tiny bird hanging from his mouth and watched as the old crocodile enjoyed his 500 lb meal. In one lightning fast movement, the old crocodile bolted out of the water, wrapped his jaws around the great wildebeest and pulled him under the river. Awestruck the young crocodile swam up with the tiny bird hanging from his mouth and watched as the old crocodile enjoyed his 500 lb meal.'
     request(app)
       .post(url)
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;

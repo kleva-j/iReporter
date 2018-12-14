@@ -112,6 +112,8 @@ class IncidentValidator {
     const { videos } = req.body;
     const videoData = videos.toString().replace(/[\[\]\/]/g, '').split(', ');
 
+    if (videoData.length === 0) console.log('huu........................................');
+
     const isValidVid = videoData.every(video => (video.endsWith('.avi') || video.endsWith('.mp4') || video.endsWith('mkv') && typeof video === 'string'));
 
     if (!isValidVid) {
@@ -137,8 +139,14 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateID(req, res, next) {
+    if (!req.params.id) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Red-flag id is required',
+      });
+    }
 
-    const id = parseInt(req.auth.userId, 10);
+    const id = parseInt(req.params.id, 10);
 
     if (isNaN(id)) {
       return res.status(400).json({

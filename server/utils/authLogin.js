@@ -8,7 +8,7 @@ const authToken = (req, res, next) => {
   if (!token) {
     return res.status(401).json({
       status: 401,
-      messsage: 'You are required to login to access this endpoint',
+      message: 'You are required to login to access this endpoint',
     });
   }
   jwt.verify(token, process.env.SECRET_KEY, (err, response) => {
