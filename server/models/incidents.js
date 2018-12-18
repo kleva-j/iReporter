@@ -190,6 +190,10 @@ class Incident {
   deleteRedflagById(id) {
     return this[db].result('DELETE FROM incidents WHERE id = $1', id);
   }
+
+  updateImage(filename, id) {
+    return this[db].result('UPDATE incident SET images = array_append(images, $1) WHERE id=$2', [filename, id]);
+  }
 }
 
 export default Incident;

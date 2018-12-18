@@ -18,7 +18,9 @@ describe('/POST - create a red-flag record', () => {
   let userToken;
   before(async () => {
     try {
-      await db.query('DELETE FROM users')
+      await db.query('DELETE FROM users');
+      await db.query('DELETE FROM incidents');
+      console.log('Users and Incidents deleted successfully')
       const password = encrypt('password');
       await db.users.createUser({
         firstname: 'firstname',
@@ -49,8 +51,7 @@ describe('/POST - create a red-flag record', () => {
       createdBy: 1,
       type: 'red-flag',
       location: '6.111111, 3.222222',
-      images: "[www.someImageUrl.jpg, www.someImageUrl.png]",
-      videos: "[www.someVideoUrl.mp4, www.someVideoUrl.avi]",
+      evidence: '',
       comment: 'this is the news report',
     };
   });
@@ -125,76 +126,6 @@ describe('/POST - create a red-flag record', () => {
         expect(res.body).to.have.keys(['status', 'error']);
         done();
       });
-  });
-
-  // validate Images
-  it('should reject if image source are not sent', (done) => {
-    requestObject.images = undefined;
-    request(app)
-    .post(url)
-    .set('Content-Type', 'application/json')
-    .set('Accept', 'application/json')
-    .set('x-access-token', userToken)
-    .send(requestObject)
-    .end((err, res) => {
-      expect(err).to.be.null;
-      expect(res).to.have.status(400);
-      expect(res.body).to.have.property('error').to.eq('Image evidence were not sent');
-      expect(res.body).to.have.keys(['status', 'error']);
-      done();
-    });
-  });
-
-  it('should reject if image source do not end in either jpg, jpeg or png', (done) => {
-    requestObject.images = 'undefined';
-    request(app)
-    .post(url)
-    .set('Content-Type', 'application/json')
-    .set('Accept', 'application/json')
-    .set('x-access-token', userToken)
-    .send(requestObject)
-    .end((err, res) => {
-      expect(err).to.be.null;
-      expect(res).to.have.status(400);
-      expect(res.body).to.have.property('error').to.eq('Images should be a string with either of these extension formats jpg, png or jpeg');
-      expect(res.body).to.have.keys(['status', 'error']);
-      done();
-    });
-  });
-
-  //validate Videos
-  it('should reject if video source are not sent', (done) => {
-    requestObject.videos = undefined;
-    request(app)
-    .post(url)
-    .set('Content-Type', 'application/json')
-    .set('Accept', 'application/json')
-    .set('x-access-token', userToken)
-    .send(requestObject)
-    .end((err, res) => {
-      expect(err).to.be.null;
-      expect(res).to.have.status(400);
-      expect(res.body).to.have.property('error').to.eq('Video evidences were not sent');
-      expect(res.body).to.have.keys(['status', 'error']);
-      done();
-    });
-  });
-
-  it('should reject if video source do not end in either avi, mp4 or mkv', (done) => {
-    requestObject.videos = 'undefined';
-    request(app)
-    .post(url)
-    .set('Content-Type', 'application/json')
-    .set('Accept', 'application/json')
-    .set('x-access-token', userToken)
-    .send(requestObject)
-    .end((err, res) => {
-      expect(err).to.be.null;
-      expect(res).to.have.status(400);
-      expect(res.body).to.have.property('error').to.eq('Video urls should be a string datatype with endings of either avi, mkv or mp4');
-      expect(res.body).to.have.keys(['status', 'error']);
-      done();
-    });
   });
 
   //validate comment 

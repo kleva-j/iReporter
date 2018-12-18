@@ -18,8 +18,8 @@ describe('USERS', () => {
 
   before(async () => {
     try {
-      await db.query('DELETE FROM users')
-      console.log('Users deleted successfully')
+      await db.query('DELETE FROM users');
+      console.log('Users deleted successfully');
     } catch(error) {
       console.log(error);
     }
