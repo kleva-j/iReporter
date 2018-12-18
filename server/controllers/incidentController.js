@@ -18,12 +18,17 @@ class IncidentController {
    * @memberof IncidentController
    */
   static createRecord(req, res) {
+    let images; let videos;
+    if (req.files) {
+      images = (req.files.filter(item => item.mimetype.includes('image')).map(img => img.path)) || [];
+      videos = (req.files.filter(item => item.mimetype.includes('video')).map(vid => vid.path)) || [];
+    }
     const newRecord = {
       createdby: req.auth.userId,
       type: req.body.type,
       location: req.body.location,
-      images: req.body.images,
-      videos: req.body.videos,
+      images,
+      videos,
       comment: req.body.comment,
     };
 
@@ -73,7 +78,7 @@ class IncidentController {
    * Get all red-flag incidents
    *
    * @static
-   * @param {object} _req - The request object
+   * @param {object} req - The request object
    * @param {object} res - The response object
    * @return {object} token or message
    * @memberof IncidentController
@@ -85,11 +90,12 @@ class IncidentController {
           status: 200,
           data: results,
         })).catch(err => log(err));
+    } else {
+      return res.status(403).json({
+        status: 200,
+        error: 'Unauthorized, this requires admin access',
+      });
     }
-    return res.status(403).json({
-      status: 200,
-      error: 'Unauthorized, this requires admin access',
-    });
   }
 
   /**
@@ -192,7 +198,7 @@ class IncidentController {
     db.task('update comment', t => t.incidents.getById(id)
       .then((result) => {
         if (result) {
-          if (req.auth.userId === result.id) {
+          if (req.auth.userId === result.createdby) {
             return t.incidents.updateARecordComment(comment, id)
               .then(() => res.status(200).json({
                 status: 200,
@@ -231,7 +237,7 @@ class IncidentController {
     db.task('update location', t => t.incidents.getById(id)
       .then((result) => {
         if (result) {
-          if (req.auth.userId === result.id) {
+          if (req.auth.userId === result.createdby) {
             return t.incidents.updateARecordLocation(location, id)
               .then(() => res.status(200).json({
                 status: 200,
@@ -265,13 +271,6 @@ class IncidentController {
     let { id } = req.params;
     id = parseInt(id, 10);
 
-    if (!req.body.status) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Status was not sent in the request',
-      });
-    }
-
     if (req.auth.isadmin === false) {
       return res.status(403).json({
         status: 403,
@@ -281,7 +280,7 @@ class IncidentController {
 
     const { status } = req.body;
 
-    db.task('update status', t => t.incident.getById(id)
+    db.task('update status', t => t.incidents.getById(id)
       .then((result) => {
         if (result) {
           const AcceptedStatus = ['under investigation', 'rejected', 'resolved'];
@@ -298,7 +297,7 @@ class IncidentController {
               status: 200,
               data: [{
                 id: response.id,
-                message: "User's red-flag status has been updated",
+                message: `User's ${result.type} status has been updated`,
               }],
             }));
         }
@@ -306,6 +305,38 @@ class IncidentController {
         return res.status(404).json({
           status: 404,
           error: `Red-flag with id of ${id} was not found`,
+        });
+      }));
+  }
+
+  static updateImage(req, res) {
+    const { file } = req;
+    let { id } = req.params;
+    id = parseInt(id, 10);
+
+    db.task('update image', t => t.getById(id)
+      .then((result) => {
+        if (result) {
+          if (req.auth.userId === result.id) {
+            return t.updateImage(file.path, id)
+              .then(response => res.status(200).json({
+                status: 200,
+                data: [{
+                  id: response.id,
+                  message: `Updated ${result.type} image evidence`,
+                }],
+              }));
+          }
+
+          return res.status(403).json({
+            status: 403,
+            error: 'Unauthrized, this record does not belong to the current user',
+          });
+        }
+
+        return res.status(404).json({
+          status: 404,
+          error: `Record with id of ${id} was not found`,
         });
       }));
   }

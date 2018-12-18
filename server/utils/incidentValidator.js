@@ -1,6 +1,7 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-mixed-operators */
-/* eslint-disable consistent-return */
 /* eslint-disable no-useless-escape */
+import multer from 'multer';
 
 const regex = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/;
 
@@ -65,67 +66,44 @@ class IncidentValidator {
    * @return {object} token or message
    * @memberof IncidentValidator
    */
-  static validateImages(req, res, next) {
-    if (!req.body.images) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Image evidence were not sent',
-      });
-    }
+  static validateEvidence(req, res, next) {
+    const storage = multer.diskStorage({
+      destination: (_req, _file, cb) => {
+        cb(null, './upload/');
+      },
 
-    const { images } = req.body;
+      filename: (reQ, file, cb) => {
+        const format = file.mimetype.split('/')[1];
+        cb(null, `${reQ.auth.userId}${Date.now()}.${format}`);
+      },
+    });
 
-    const regEX = images.toString().replace(/[\[\]\/]/g, '').split(', ');
+    const fileFilter = (_req, file, cb) => {
+      if (file.mimetype === 'image/jpg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
+        cb(null, true);
+      } else if (file.mimetype === 'video/mp4' || file.mimetype === 'video/avi' || file.mimetype === 'video/mkv') {
+        cb(null, true);
+      } else cb(new Error('Unaccepted file mimetype'), false);
+    };
 
-    const isValidImg = regEX.every(image => (image.endsWith('.jpg') || image.endsWith('.jpeg') || image.endsWith('png') && typeof image === 'string'));
+    const upload = multer({
+      storage,
+      limit: {
+        fileSize: 1024 * 1024 * 8,
+      },
+      fileFilter,
+    }).array('evidence', 5);
 
-    if (!isValidImg) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Images should be a string with either of these extension formats jpg, png or jpeg',
-      });
-    }
-
-    req.body.images = regEX;
-
-    return next();
-  }
-
-  /**
-   * Validate red-flag image
-   *
-   * @static
-   * @param {object} req - The request object
-   * @param {object} res - The response object
-   * @param {object} res - The next middleware
-   * @return {object} token or message
-   * @memberof IncidentValidator
-   */
-  static validateVideos(req, res, next) {
-    if (!req.body.videos) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Video evidences were not sent',
-      });
-    }
-
-    const { videos } = req.body;
-    const videoData = videos.toString().replace(/[\[\]\/]/g, '').split(', ');
-
-    if (videoData.length === 0) console.log('huu........................................');
-
-    const isValidVid = videoData.every(video => (video.endsWith('.avi') || video.endsWith('.mp4') || video.endsWith('mkv') && typeof video === 'string'));
-
-    if (!isValidVid) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Video urls should be a string datatype with endings of either avi, mkv or mp4',
-      });
-    }
-
-    req.body.videos = videoData;
-
-    return next();
+    upload(req, res, (err) => {
+      if (err) {
+        return res.status(400).json({
+          status: 400,
+          error: 'Error uploading file(s)',
+          err,
+        });
+      }
+      return next();
+    });
   }
 
   /**

@@ -8,8 +8,7 @@ const {
   validateID,
   validateLocation,
   validateComment,
-  validateImages,
-  validateVideos,
+  validateEvidence,
   validateIntervention,
 } = IncidentValidator;
 
@@ -30,9 +29,8 @@ const incidentRouter = Router();
 // redflags
 incidentRouter.route('/red-flags')
   .get(authToken, getUserRedflags)
-  .post(authToken, validateRecord, validateImages,
-    validateVideos, validateLocation,
-    validateComment, createRecord);
+  .post(authToken, validateEvidence, validateRecord,
+    validateLocation, validateComment, createRecord);
 
 incidentRouter.route('/red-flags/:id')
   .get(authToken, validateID, getSpecificRedFlag)
@@ -44,11 +42,14 @@ incidentRouter.route('/red-flags/:id/location')
 incidentRouter.route('/red-flags/:id/comment')
   .patch(authToken, validateID, validateComment, updateRedFlagComment);
 
+incidentRouter.route('/red-flags/:id/addImage')
+  .patch(authToken, validateID);
+
 // Interventions
 incidentRouter.route('/interventions')
   .get(authToken, getUserInterventions)
-  .post(authToken, validateRecord, validateIntervention, validateImages,
-    validateVideos, validateLocation, validateComment, createRecord);
+  .post(authToken, validateEvidence, validateRecord,
+    validateIntervention, validateLocation, validateComment, createRecord);
 
 incidentRouter.route('/intervention/:id')
   .get(authToken, validateID, getSpecificRedFlag)
@@ -60,12 +61,18 @@ incidentRouter.route('/intervention/:id/location')
 incidentRouter.route('/intervention/:id/comment')
   .patch(authToken, validateID, validateComment, updateRedFlagComment);
 
+incidentRouter.route('/intervention/:id/addImage')
+  .patch(authToken, validateID);
+
 // All records
 incidentRouter.route('/all')
   .get(authToken, getAllRecords);
 
 // Admin
 incidentRouter.route('/red-flags/:id/status')
+  .patch(authToken, validateID, updateRedFlagStatus);
+
+incidentRouter.route('/intervention/:id/status')
   .patch(authToken, validateID, updateRedFlagStatus);
 
 export default incidentRouter;
