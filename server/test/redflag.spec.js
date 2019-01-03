@@ -49,7 +49,7 @@ describe('RED_FLAGS', () => {
       });
 
     } catch(error) {
-      console.log(error);
+      log(error);
     }
   });
 
@@ -116,7 +116,7 @@ describe('RED_FLAGS', () => {
   });
 
   describe('Update the location of a specific red-flag record', () => {
-    it.skip("should update a red-flag record's location", (done) => {
+    it("should update a red-flag record's location", (done) => {
       const id = incident.id;
       request(app)
         .patch(`${url}/${id}/location`)
@@ -127,7 +127,7 @@ describe('RED_FLAGS', () => {
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
-          expect(res.body.data[0]).to.have.property('message').to.eq('Updated red-flag record’s location');
+          expect(res.body.data[0]).to.have.property('message').to.eq('Updated record location');
           expect(res.body.data[0]).to.have.keys(['id', 'message']);
           expect(res.body.data).to.be.instanceOf(Array);
           done();
