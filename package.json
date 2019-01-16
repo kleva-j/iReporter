@@ -4,7 +4,7 @@
   "description": "iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public.",
   "main": "app.js",
   "scripts": {
-    "test": "NODE_ENV=test nyc --reporter=text --reporter=html mocha --timeout 10000 --compilers js:babel-core/register server/test/**.spec.js --exit",
+    "test": "NODE_ENV=test nyc --reporter=text --reporter=html --repoter=lcov mocha --timeout 10000 --compilers js:babel-core/register server/test/**.spec.js --exit",
     "start": "npm run build && node dist/app.js",
     "dev": "NODE_ENV=development nodemon --exec babel-node server/app.js",
     "build": "npm run clean && babel server --out-dir ./dist",
