@@ -16,7 +16,7 @@ class IncidentValidator {
    * @static
    * @param {object} req - The request object
    * @param {object} res - The response object
-   * @param {object} res - The next middleware
+   * @param {object} next - The next middleware
    * @return {object} token or message
    * @memberof IncidentValidator
    */
@@ -43,9 +43,15 @@ class IncidentValidator {
     return next();
   }
 
+  /**
+   *
+   * @param {Object} req the request object
+   * @param {Object} res the response object
+   * @param {*} next the next middleware
+   * @returns {object} token or message
+   */
   static validateIntervention(req, res, next) {
     const { type } = req.body;
-
     if (type !== 'intervention') {
       return res.status(403).json({
         status: 403,
@@ -62,7 +68,7 @@ class IncidentValidator {
    * @static
    * @param {object} req - The request object
    * @param {object} res - The response object
-   * @param {object} res - The next middleware
+   * @param {object} next - The next middleware
    * @return {object} token or message
    * @memberof IncidentValidator
    */
@@ -112,7 +118,7 @@ class IncidentValidator {
    * @static
    * @param {object} req - The request object
    * @param {object} res - The response object
-   * @param {object} res - The next middleware
+   * @param {object} next - The next middleware
    * @return {object} token or message
    * @memberof IncidentValidator
    */
@@ -178,6 +184,7 @@ class IncidentValidator {
    * @param {object} req - The request object
    * @param {object} res - The response object
    * @param {object} next - The next middleware
+   * @returns {object} token or message
    * @memberof IncidentValidator
    */
   static validateComment(req, res, next) {
@@ -213,7 +220,7 @@ class IncidentValidator {
    * @static
    * @param {object} req - The request object
    * @param {object} res - The response object
-   * @param {object} res - The next middleware
+   * @param {object} next - The next middleware
    * @return {object} token or message
    * @memberof IncidentValidator
    */

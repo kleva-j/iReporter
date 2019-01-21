@@ -1,24 +1,13 @@
-import dotenv from 'dotenv';
+/* eslint-disable consistent-return */
 import jwt from 'jsonwebtoken';
-
-dotenv.config();
+import { sendFileResponse } from './sanitizer';
 
 const authToken = (req, res, next) => {
-  const token = req.headers['x-access-token'] || req.body.token || req.query.token;
-  if (!token) {
-    return res.status(401).json({
-      status: 401,
-      message: 'You are required to login to access this endpoint',
-    });
-  }
+  const { authorization } = req.headers;
+  if (!authorization) return sendFileResponse(res, 'login', 401);
+  const token = authorization.split(' ')[1];
   jwt.verify(token, process.env.SECRET_KEY, (err, response) => {
-    if (err) {
-      return res.status(401).json({
-        status: 401,
-        message: 'failed to authenticate',
-      });
-    }
-
+    if (err) return sendFileResponse(res, 'login', 401);
     req.auth = response;
     return next();
   });
