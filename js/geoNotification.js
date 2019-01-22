@@ -1,3 +1,8 @@
+/**
+ * @function initMap
+ * @description initialise the google map object
+ * @returns {undefined} returns undefine
+ */
 function initMap() {
   const options = {
     enableHighAccuracy: true,
@@ -18,9 +23,14 @@ function initMap() {
       infoWindow.open(map);
       map.setCenter(pos);
 
-      const checkAddress = document.querySelector('.address')
-        .addEventListener('click', getLocation);
+      const checkAddress = document.querySelector('.address');
+      checkAddress.addEventListener('click', getLocation);
 
+      /**
+         * @async
+         * @param {Object} event the event Object
+         * @returns {undefined}
+         */
       async function getLocation(event) {
         event.preventDefault();
         const address = document.querySelector('#address').value;
@@ -55,6 +65,12 @@ function initMap() {
   } else {
     handleLocationError(false, infoWindow, map.getCenter());
   }
+  /**
+   * @param {Boolean} browserHasGeolocation check if browser has geolocation enabled
+   * @param {Object} infoWindow the infowindow
+   * @param {Object} pos lat and long position
+   * @returns {Object} returns map object
+   */
   function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation
