@@ -1,11 +1,12 @@
 /* eslint-disable no-useless-escape */
+import path from 'path';
 /**
  * @function
  * @name sanitizer
  * @param {string} obj - the result of a database query
  * @returns {object} A formated data of the user details
  */
-const sanitizer = (obj) => {
+export const sanitizer = (obj) => {
   const { row } = obj;
   const sanitized = row.replace(/[\(\)]/g, '').split(',');
   const [id, firstname, lastname, username, email, phonenumber, isadmin] = sanitized;
@@ -14,4 +15,6 @@ const sanitizer = (obj) => {
   };
 };
 
-export default sanitizer;
+export const sendFileResponse = (responseObject, fileName, statusCode) => responseObject
+  .status(statusCode)
+  .sendFile(path.join(__dirname, '..', '..', 'UI', 'html', `${fileName}.html`));

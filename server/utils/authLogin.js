@@ -1,16 +1,15 @@
-import dotenv from 'dotenv';
+/* eslint-disable consistent-return */
 import jwt from 'jsonwebtoken';
 
-dotenv.config();
-
 const authToken = (req, res, next) => {
-  const token = req.headers['x-access-token'] || req.body.token || req.query.token;
-  if (!token) {
+  const { authorization } = req.headers;
+  if (!authorization) {
     return res.status(401).json({
       status: 401,
-      message: 'You are required to login to access this endpoint',
+      message: 'You are required to signup or login to access this endpoint',
     });
   }
+  const token = authorization.split(' ')[1];
   jwt.verify(token, process.env.SECRET_KEY, (err, response) => {
     if (err) {
       return res.status(401).json({
@@ -18,7 +17,6 @@ const authToken = (req, res, next) => {
         message: 'failed to authenticate',
       });
     }
-
     req.auth = response;
     return next();
   });

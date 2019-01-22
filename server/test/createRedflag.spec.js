@@ -62,7 +62,7 @@ describe('/POST - create a red-flag record', () => {
       .post(url)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('x-access-token', userToken)
+      .set('authorization', `Bearer ${userToken}`)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
@@ -88,7 +88,7 @@ describe('/POST - create a red-flag record', () => {
         expect(res).to.have.status(401);
         expect(res.body).to.be.an('object');
         expect(res.body).to.have.keys(['status', 'message']);
-        expect(res.body).to.have.property('message').eql('You are required to login to access this endpoint');
+        expect(res.body).to.have.property('message').eql('You are required to signup or login to access this endpoint');
         done();
       });
   });
@@ -100,7 +100,7 @@ describe('/POST - create a red-flag record', () => {
       .post(url)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('x-access-token', userToken)
+      .set('authorization', `Bearer ${userToken}`)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
@@ -117,7 +117,7 @@ describe('/POST - create a red-flag record', () => {
       .post(url)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('x-access-token', userToken)
+      .set('authorization', `Bearer ${userToken}`)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
@@ -135,7 +135,7 @@ describe('/POST - create a red-flag record', () => {
       .post(url)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('x-access-token', userToken)
+      .set('authorization', `Bearer ${userToken}`)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
@@ -152,7 +152,7 @@ describe('/POST - create a red-flag record', () => {
       .post(url)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('x-access-token', userToken)
+      .set('authorization', `Bearer ${userToken}`)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
@@ -169,7 +169,7 @@ describe('/POST - create a red-flag record', () => {
       .post(url)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('x-access-token', userToken)
+      .set('authorization', `Bearer ${userToken}`)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;

@@ -11,9 +11,9 @@
   <title>iReporter</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
     crossorigin="anonymous">
-  <link rel="stylesheet" href="../css/dashboard.css">
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/layout.css">
 </head>
 
 <body>
@@ -21,15 +21,15 @@
     <div class="navbar fixed shade-default bg-light">
       <div class="container">
         <a href="" class="logo">
-          <img src="../images/bg-2.svg" height="60px" alt="logo">eporter
+          <img src="/images/bg-2.svg" height="60px" alt="logo">eporter
         </a>
         <input type="checkbox" id="burger-toggle">
         <label id="burger" for="burger-toggle">
           <div></div>
         </label>
         <nav class="nav">
-          <a class="nav-bar-link active" href="../index.html">Home</a>
-          <a class="nav-bar-link" href="./login.html">Logout</a>
+          <a class="nav-bar-link active" href="/">Home</a>
+          <a class="nav-bar-link" href="/api/v1/users/auth/login">Logout</a>
         </nav>
       </div>
     </div>
@@ -46,7 +46,7 @@
           </div>
           <div class="close">
             <div class="mg-t">
-              <img id="profile-img" src="../images/profile-pic.png" alt="Profile Image">
+              <img id="profile-img" src="/images/profile-pic.png" alt="Profile Image">
             </div>
             <div class="h-50">
               <h4 class="crop mg-t bolder">Kelly Hartmann</h4>
@@ -59,18 +59,14 @@
         <div class="details">
           <ul class="list-item">
             <li class="item">
-              <a href="./redFlagRecords.html"><i class="hic fas fa-flag-checkered" title="red-flags"></i></a>
-              <a href="./redFlagRecords.html" class="sd">Red-Flags <b>124</b></a>
+              <a href="/api/v1/redflags"><i class="hic fas fa-flag-checkered" title="red-flags"></i></a>
+              <a href="/api/v1/redflags" class="sd">Red-Flags <b>124</b></a>
             </li>
-
-            <li class="item toggle1"><a href="createRedFlag.html">Create a Red-Flag</a></li>
 
             <li class="item">
-              <a href="./interventionRecords.html"><i class="hic fas fa-headset"  title="interventions"></i></a>
-              <a href="./interventionRecords.html" class="sd">Interventions <b>75</b></a>
+              <a href="/api/v1/interventions"><i class="hic fas fa-headset"  title="interventions"></i></a>
+              <a href="/api/v1/interventions" class="sd">Interventions <b>75</b></a>
             </li>
-
-            <li class="item toggle2"><a href="createIntervention.html">Create an Intervention</a></li>
 
           </ul>
         </div>
@@ -136,8 +132,7 @@
       </div>
     </div>
   </section>
-
-  <script src="../js/main.js"></script>
+  
 </body>
 
 </html>

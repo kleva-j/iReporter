@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 const isEmail = require('validator/lib/isEmail');
 
 /**
@@ -11,7 +12,7 @@ class Validator {
    * @static
    * @param {object} req - The request object
    * @param {object} res - The response object
-   * @param {object} res - The next middleware
+   * @param {object} next - The next middleware
    * @return {object} token or message
    * @memberof UserController
    */
@@ -32,7 +33,7 @@ class Validator {
    * @static
    * @param {object} req - The request object
    * @param {object} res - The response object
-   * @param {object} res - The next middleware
+   * @param {object} next - The next middleware
    * @return {object} token or message
    * @memberof UserController
    */
@@ -119,4 +120,4 @@ class Validator {
   }
 }
 
-module.exports = Validator;
+export default Validator;

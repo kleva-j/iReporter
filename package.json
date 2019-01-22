@@ -12,11 +12,20 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "db:setup": "babel-node server/models/createTable --exit",
     "testdb:setup": "NODE_ENV=test babel-node server/models/createTable --exit",
-    "debug": "node --inspect-brk ./dist/app.js"
+    "debug": "node --inspect-brk ./dist/app.js",
+    "transpile-frontend:js": "rm -rf UI/js/dist && mkdir UI/js/dist && babel UI/js --out-dir UI/js/dist && browserify UI/js/dist/getRecords.js -o UI/js/dist/getRecords.js",
+    "browserify": "browserify-directory UI/js/dist UI/js/dist"
   },
   "babel": {
     "presets": [
-      "env"
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
     ]
   },
   "engines": {
@@ -40,6 +49,7 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
+    "browserify-directory": "^1.0.2",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
     "coveralls": "^3.0.2",
@@ -54,6 +64,7 @@
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
+    "browserify": "^16.2.3",
     "cors": "^2.8.5",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",

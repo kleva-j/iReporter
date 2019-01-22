@@ -5,9 +5,6 @@ import app from '../../server/app';
 import db from '../models/db';
 import { encrypt } from '../utils/crypto';
 import jwt from 'jsonwebtoken';
-import dotenv  from 'dotenv';
-
-dotenv.config();
 
 const { log } = console;
 
@@ -57,7 +54,7 @@ describe('RED_FLAGS', () => {
     it('should return all red-flag records', (done) => {
       request(app)
         .get(url)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res.status).to.eq(200);
@@ -73,7 +70,7 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .get(`${url}/${id}`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
@@ -88,7 +85,7 @@ describe('RED_FLAGS', () => {
       const id = 1000;
       request(app)
         .get(`${url}/${id}`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(404);
@@ -103,7 +100,7 @@ describe('RED_FLAGS', () => {
       const id = 'aaa';
       request(app)
         .get(`${url}/${id}`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(400);
@@ -120,7 +117,7 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .patch(`${url}/${id}/location`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .send({
           location: '45, 180'
         })
@@ -141,7 +138,7 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .patch(`${url}/${id}/location`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .send({
           location: 11.22
         })
@@ -159,7 +156,7 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .patch(`${url}/${id}/location`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(400);
@@ -174,7 +171,7 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .patch(`${url}/${id}/location`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .send({
           location: '-90., -180.'
         })
@@ -192,7 +189,7 @@ describe('RED_FLAGS', () => {
       const id = 'aaa';
       request(app)
         .patch(`${url}/${id}/location`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .send({
           location: '45, 180'
         })
@@ -210,7 +207,7 @@ describe('RED_FLAGS', () => {
       const id = 1000;
       request(app)
         .patch(`${url}/${id}/location`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .send({
           location: '45, 180'
         })
@@ -225,18 +222,18 @@ describe('RED_FLAGS', () => {
   });
 
   describe('Update the comment of a specific red-flag record', () => {
-    it.skip('should update the red-flag comment', (done) => {
+    it('should update the red-flag comment', (done) => {
       const id = incident.id;
       request(app)
         .patch(`${url}/${id}/comment`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .send({
           comment: 'this is the iReporter incident report'
         })
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
-          expect(res.body.data[0]).to.have.property('message').to.eq('Updated red-flag record’s comment');
+          expect(res.body.data[0]).to.have.property('message').to.eq('Updated record comment');
           expect(res.body.data[0]).to.have.keys(['id', 'message']);
           expect(res.body).to.have.keys(['status', 'data']);
           expect(res.body.data).to.be.instanceOf(Array);
@@ -249,7 +246,7 @@ describe('RED_FLAGS', () => {
       const id = 'aaa';
       request(app)
         .patch(`${url}/${id}/comment`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .send({
           comment: 'this is the iReporter incident report'
         })
@@ -266,7 +263,7 @@ describe('RED_FLAGS', () => {
       const id = 1000;
       request(app)
         .patch(`${url}/${id}/comment`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .send({
           comment: 'this is the iRepoter incident update'
         })
@@ -283,7 +280,7 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .patch(`${url}/${id}/comment`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(400);
@@ -300,7 +297,7 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .delete(`${url}/${id}`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
@@ -316,7 +313,7 @@ describe('RED_FLAGS', () => {
       const id = 1000;
       request(app)
         .delete(`${url}/${id}`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(404);
@@ -331,7 +328,7 @@ describe('RED_FLAGS', () => {
       const id = 'aaa';
       request(app)
         .get(`${url}/${id}`)
-        .set('x-access-token', userToken)
+        .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(400);

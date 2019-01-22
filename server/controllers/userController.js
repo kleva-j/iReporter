@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import jwt from 'jsonwebtoken';
 import db from '../models/db';
-import sanitize from '../utils/sanitizer';
+import { sanitizer } from '../utils/sanitizer';
 import crypto from '../utils/crypto';
 
 const {
@@ -54,7 +54,7 @@ class UserController {
                 const { body } = req;
                 return t.users.createUser(body)
                   .then(($usr) => {
-                    const user = sanitize($usr.rows[0]);
+                    const user = sanitizer($usr.rows[0]);
                     const token = jwt.sign({
                       userId: user.id,
                       firstname: user.firstname,
@@ -130,10 +130,13 @@ class UserController {
   }
 
   /**
+   * Get all users
+   *
    * @static
    * @param {object} req - the request object
    * @param {object} res - the response object
-   * @returns An array of all the users
+   * @return {Object} An array of all the users
+   * @memberof UserController
    */
   static getAllUsers(req, res) {
     db.users.getAllUsers()

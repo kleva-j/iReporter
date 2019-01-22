@@ -99,8 +99,10 @@ class IncidentController {
   }
 
   /**
-   * @static getAllRedflag
-   * @param {object} _req - the request object
+   * Get all redflag records
+   *
+   * @static
+   * @param {object} req - the request object
    * @param {object} res - the reponse object
    * @return {object} An array of red-flag records
    * @memberof IncidentController
@@ -123,7 +125,9 @@ class IncidentController {
   }
 
   /**
-   * @static getAllInterventions
+   * Get an Intervention record
+   *
+   * @static
    * @param {object} req - the request object
    * @param {object} res - the reponse object
    * @return {object} An array of intervention records
@@ -149,7 +153,7 @@ class IncidentController {
    */
   static deleteRedFlag(req, res) {
     if (!req.params.id) {
-      return res.status(404).json({
+      return res.status(403).json({
         status: 403,
         message: 'Record id was not found',
       });
@@ -309,6 +313,15 @@ class IncidentController {
       }));
   }
 
+  /**
+   * Update the evidence of a single record of an incident
+   *
+   * @static
+   * @param {Object} req the request object
+   * @param {Object} res the response object
+   * @returns {Object} a token or message
+   * @memberof IncidentController
+   */
   static updateImage(req, res) {
     const { file } = req;
     let { id } = req.params;

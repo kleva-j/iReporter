@@ -6,8 +6,10 @@ import { join } from 'path';
 import { middleware } from 'jsend';
 import cors from 'cors';
 import helmet from 'helmet';
+import dotenv from 'dotenv';
 import routers from './routes/index';
 
+dotenv.config();
 const { log } = console;
 const app = express();
 app.use(helmet());
