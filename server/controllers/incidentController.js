@@ -153,7 +153,7 @@ class IncidentController {
    */
   static deleteRedFlag(req, res) {
     if (!req.params.id) {
-      return res.status(404).json({
+      return res.status(403).json({
         status: 403,
         message: 'Record id was not found',
       });
