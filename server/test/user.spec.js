@@ -31,7 +31,7 @@ describe('USERS', () => {
       newUser = {
         firstname: 'Michael',
         lastname: 'Obasi',
-        username: 'kleva-j',
+        username: 'kleva1',
         email: 'kasmickleva@gmail.com',
         password: 'bbdd-@@@@',
         phonenumber: '08062308772',
@@ -188,7 +188,7 @@ describe('USERS', () => {
           expect(err).to.be.null;
           expect(res.status).to.eq(400);
           expect(res.body).to.have.keys(['status', 'error']);
-          expect(res.body).to.have.property('error').to.eq('Your username is invalid');
+          expect(res.body).to.have.property('error').to.eq('Username should also contain letters.');
           done();
         });
     });
