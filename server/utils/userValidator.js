@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-const isEmail = require('validator/lib/isEmail');
+import validator, { isEmail } from 'validator';
 
 /**
  * @class UserController
@@ -43,8 +43,8 @@ class Validator {
       lastname,
       username,
       email,
-      password,
       phonenumber,
+      password,
     } = req.body;
 
     if (!firstname) {
@@ -89,15 +89,60 @@ class Validator {
       });
     }
 
-    const isNumber = parseInt(phonenumber, 10);
-    if (isNaN(isNumber)) {
-      return res.staus(400)
-    }
+    return next();
+  }
 
-    if (typeof username !== 'string') {
+  /**
+   * Authenticate Input Length
+   *
+   * @static
+   * @param {object} req - The request object
+   * @param {object} res - The response object
+   * @param {function} next - The next Middleware
+   * @return {object} Message and user data
+   * @memberof Validate
+   */
+  static AuthSignupInputLength(req, res, next) {
+    const {
+      username, email, phonenumber, password,
+    } = req.body;
+
+    // Check Username Length
+    if (!validator.isLength(`${username}`, { min: 3, max: 15 })) {
       return res.status(400).json({
         status: 400,
-        error: 'Your username is invalid',
+        error: 'Username can only be 3 to 15 characters in length',
+      });
+    }
+
+    // Check Password Length
+    if (!validator.isLength(password, { min: 8, max: 4000 })) {
+      return res.status(400).json({
+        status: 400,
+        error: 'The password length should be a least 8 digit in length',
+      });
+    }
+
+    if (!validator.isAlphanumeric(`${username}`)) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Username should contain just letters and numbers.',
+      });
+    }
+
+    const uname = parseInt(username, 10);
+    if (!isNaN(uname)) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Username should also contain letters.',
+      });
+    }
+
+    const isNumber = parseInt(phonenumber, 10);
+    if (isNaN(isNumber) && /^[0]\d{10}$/.test(phonenumber)) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Phone number is not valid',
       });
     }
 
@@ -105,14 +150,6 @@ class Validator {
       return res.status(400).json({
         status: 400,
         error: 'Your Email address is invalid',
-      });
-    }
-
-    const passwordLength = password.length;
-    if (passwordLength < 8 || passwordLength > 4000) {
-      return res.status(400).json({
-        status: 400,
-        error: 'The password length should be a least 8 digit in length',
       });
     }
 

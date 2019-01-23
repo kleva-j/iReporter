@@ -47,16 +47,16 @@ incidentRouter.route('/red-flags/:id/addImage')
   .patch(authToken, validateID);
 
 // Red-flag pages
-incidentRouter.route('/redflags')
+incidentRouter.route('/redflag')
   .get((req, res) => sendFileResponse(res, 'redFlagRecords', 200));
 
-incidentRouter.route('/redflags/create')
+incidentRouter.route('/redflag/create')
   .get((req, res) => sendFileResponse(res, 'createRedFlag', 200));
 
-incidentRouter.route('/redflags/edit')
+incidentRouter.route('/redflag/edit')
   .get((req, res) => sendFileResponse(res, 'editRedFlag', 200));
 
-incidentRouter.route('/redflags/:id')
+incidentRouter.route('/redflag/:id')
   .get((req, res) => sendFileResponse(res, 'viewRedFlag', 200));
 
 // Interventions
@@ -68,13 +68,13 @@ incidentRouter.route('/interventions')
 incidentRouter.route('/interventions/:id')
   .get(authToken, validateID, getSpecificRedFlag);
 
-incidentRouter.route('/intervention/:id')
+incidentRouter.route('/interventions/:id')
   .delete(authToken, validateID, deleteRedFlag);
 
 incidentRouter.route('/interventions/:id/location')
   .patch(authToken, validateID, validateLocation, updateRedFlagLocation);
 
-incidentRouter.route('/intervention/:id/comment')
+incidentRouter.route('/interventions/:id/comment')
   .patch(authToken, validateID, validateComment, updateRedFlagComment);
 
 incidentRouter.route('/interventions/:id/addImage')

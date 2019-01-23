@@ -6,6 +6,7 @@ import userValidator from '../utils/userValidator';
 const {
   validateLogin,
   validateSignup,
+  AuthSignupInputLength,
 } = userValidator;
 
 const {
@@ -21,7 +22,7 @@ userRouter.route('/login')
 
 userRouter.route('/signup')
   .get((req, res) => sendFileResponse(res, 'signup', 200))
-  .post(validateSignup, RegisterUser);
+  .post(validateSignup, AuthSignupInputLength, RegisterUser);
 
 userRouter.route('/profile')
   .get((req, res) => sendFileResponse(res, 'profile', 200));
