@@ -35,32 +35,33 @@
 
   <section class="main">
     <div class="container j-c-c">
-      <form class="login-form w-100" action="/api/v1/users/auth/profile">
+      <form method="POST" class="login-form w-100">
+        <div class="notify"></div>
         <h1 class="h1">Sign Up</h1>
 
         <div class="row">
           <div class="col mg-r">
-            <input type="text" class="form-control" placeholder="Firstname" required>
+            <input type="text" class="form-control" name="firstname" placeholder="Firstname" required>
           </div>
           <div class="col mg-l">
-            <input type="text" class="form-control" placeholder="Lastname" required>
+            <input type="text" class="form-control" name="lastname" placeholder="Lastname" required>
           </div>
         </div>
 
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Othername">
+          <input type="text" class="form-control" name="username" placeholder="Username" required>
         </div>
         <div class="form-group">
-          <input type="email" class="form-control" placeholder="Email Address" required>
+          <input type="email" class="form-control" name="email" placeholder="Email Address" required>
         </div>
         <div class="form-group">
-          <input type="tel" class="form-control" placeholder="Phone number" pattern="^[0]\d{10}$" required>
+          <input type="tel" class="form-control" name="phonenumber" placeholder="Phone number" pattern="^[0]\d{10}$" required>
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" placeholder="Password" required>
+          <input type="password" class="form-control" name="password" placeholder="Password" required>
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" placeholder="Confirm Password" required>
+          <input type="password" class="form-control" name="password2" placeholder="Confirm Password" required>
         </div>
 
         <button type="submit" class="btn primary">Sign up</button>
@@ -73,6 +74,7 @@
     <div class="copyright pd-lg">&copy;Copyright 2018 <b>IREPORTER</b></div>
   </footer>
 
+  <script src="/js/signup.js"></script>
 </body>
 
 </html>
