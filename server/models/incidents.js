@@ -103,24 +103,30 @@ class Incident {
   }
 
   /**
+   * @method
    * @param {string} status - the updated status
    * @param {number} id - the id of the record
+   * @returns {object} a json object
    */
   updateARecordStatus(status, id) {
     return this[db].result('UPDATE incidents SET status=$1 WHERE id=$2', [status, id]);
   }
 
   /**
+   * @method updateARecordComment
    * @param {*} comment - the updated comment
    * @param {*} id - the id of the record
+   * @returns {object} a json object
    */
   updateARecordComment(comment, id) {
     return this[db].result('UPDATE incidents SET comment=$1 WHERE id=$2', [comment, id]);
   }
 
   /**
+   * @method updateARecordLocation
    * @param {*} location - the updated location
    * @param {*} id - the id of the record
+   * @returns {object} a json object
    */
   updateARecordLocation(location, id) {
     return this[db].result('UPDATE incidents SET location=$1 WHERE id=$2', [location, id]);
@@ -137,6 +143,7 @@ class Incident {
 
   /**
    * @method getAllRedflags
+   * @param {string} id the id of the red-flag
    * @returns {Array} The result of all red-flag records
    * @memberof Incidents
    */
@@ -146,6 +153,7 @@ class Incident {
 
   /**
    * @method getAllInterventions
+   * @param {string} id the id of the record
    * @returns {Array} The result of all intervention records
    * @memberof Incidents
    */
@@ -163,16 +171,7 @@ class Incident {
   }
 
   /**
-   * @method getAllRecords
-   * @returns {Array} The result of all incident record
-   * @memberof Incidents
-   */
-  getAllRecords() {
-    return this[db].any('SELECT * FROM incidents');
-  }
-
-  /**
-   *
+   * @method deleteRecord
    * @param {number} id - the id of the record
    * @returns {Array} The result of all incident record
    * @memberof Incidents
@@ -182,7 +181,7 @@ class Incident {
   }
 
   /**
-   *
+   * @method deleteRedflagById
    * @param {number} id - the id of the redflag
    * @returns {Array} The result of all incident record
    * @memberof Incidents
@@ -191,6 +190,12 @@ class Incident {
     return this[db].result('DELETE FROM incidents WHERE id = $1', id);
   }
 
+  /**
+   * @method updateImage
+   * @param {*} filename the filename to be uploaded
+   * @param {*} id the id of the record
+   * @returns {object} the result of the update
+   */
   updateImage(filename, id) {
     return this[db].result('UPDATE incident SET images = array_append(images, $1) WHERE id=$2', [filename, id]);
   }

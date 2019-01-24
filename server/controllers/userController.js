@@ -85,8 +85,7 @@ class UserController {
    */
   static LoginUser(req, res) {
     const {
-      username,
-      password,
+      username, password,
     } = req.body;
 
     db.task('login', t => t.users.getByUsername(username)
