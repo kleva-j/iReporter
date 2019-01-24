@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import validator, { isEmail } from 'validator';
+import { sendJsonResponse } from './sanitizer';
 
 /**
  * @class UserController
@@ -19,10 +20,7 @@ class Validator {
   static validateLogin(req, res, next) {
     const { username, password } = req.body;
     if (!username || !password) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Your request was incomplete',
-      });
+      return sendJsonResponse(res, 400, 'error', 'Your request was incomplete');
     }
     return next();
   }
@@ -39,55 +37,20 @@ class Validator {
    */
   static validateSignup(req, res, next) {
     const {
-      firstname,
-      lastname,
-      username,
-      email,
-      phonenumber,
-      password,
+      firstname, lastname, username, email, phonenumber, password,
     } = req.body;
 
-    if (!firstname) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Firstname is required',
-      });
-    }
+    if (!firstname) return sendJsonResponse(res, 400, 'error', 'Firstname is required');
 
-    if (!lastname) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Lastname is required',
-      });
-    }
+    if (!lastname) return sendJsonResponse(res, 400, 'error', 'Lastname is required');
 
-    if (!username) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Username is required',
-      });
-    }
+    if (!username) return sendJsonResponse(res, 400, 'error', 'Username is required');
 
-    if (!email) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Email address is required',
-      });
-    }
+    if (!email) return sendJsonResponse(res, 400, 'error', 'Email address is required');
 
-    if (!password) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Password is required',
-      });
-    }
+    if (!password) return sendJsonResponse(res, 400, 'error', 'Password is required');
 
-    if (!phonenumber) {
-      return res.status(400).json({
-        status: 400,
-        error: 'PhoneNumber is required',
-      });
-    }
+    if (!phonenumber) return sendJsonResponse(res, 400, 'error', 'PhoneNumber is required');
 
     return next();
   }
@@ -106,53 +69,26 @@ class Validator {
     const {
       username, email, phonenumber, password,
     } = req.body;
-
-    // Check Username Length
-    if (!validator.isLength(`${username}`, { min: 3, max: 15 })) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Username can only be 3 to 15 characters in length',
-      });
-    }
-
-    // Check Password Length
-    if (!validator.isLength(password, { min: 8, max: 4000 })) {
-      return res.status(400).json({
-        status: 400,
-        error: 'The password length should be a least 8 digit in length',
-      });
-    }
-
-    if (!validator.isAlphanumeric(`${username}`)) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Username should contain just letters and numbers.',
-      });
-    }
-
     const uname = parseInt(username, 10);
+
     if (!isNaN(uname)) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Username should also contain letters.',
-      });
+      return sendJsonResponse(res, 400, 'error', 'Username should also contain letters.');
+    }
+    if (!validator.isLength(`${username}`, { min: 3, max: 15 })) {
+      return sendJsonResponse(res, 400, 'error', 'Username can only be 3 to 15 characters in length');
+    }
+    if (!validator.isLength(password, { min: 8, max: 4000 })) {
+      return sendJsonResponse(res, 400, 'error', 'The password length should be a least 8 digit in length');
     }
 
     const isNumber = parseInt(phonenumber, 10);
+
     if (isNaN(isNumber) && /^[0]\d{10}$/.test(phonenumber)) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Phone number is not valid',
-      });
+      return sendJsonResponse(res, 400, 'error', 'Phone number is not valid');
     }
-
     if (!isEmail(email)) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Your Email address is invalid',
-      });
+      return sendJsonResponse(res, 400, 'error', 'Your Email address is invalid');
     }
-
     return next();
   }
 }

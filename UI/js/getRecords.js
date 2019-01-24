@@ -80,13 +80,17 @@ const deleteRecords = async (type, id) => {
   }
 };
 
+const getTargetAttr = target => ({
+  id: target.getAttribute('data-id'),
+  type: target.getAttribute('data-type'),
+});
+
 const deletePost = async (obj) => {
-  const recordId = obj.attributes.getNamedItem('data-id').value;
-  const recordType = obj.attributes.getNamedItem('data-type').value;
+  const { type, id } = getTargetAttr(obj);
   try {
-    const res = await deleteRecords(recordType, recordId);
-    if (res.data[0].message === `${recordType} record with id of ${recordId} has been deleted successfully`) {
-      const element = document.getElementById(`${recordId}`);
+    const res = await deleteRecords(type, id);
+    if (res.data[0].message === `${type} record with id of ${id} has been deleted successfully`) {
+      const element = document.getElementById(`${id}`);
       document.querySelector('.dip').children[0].removeChild(element);
     }
   } catch (error) {
