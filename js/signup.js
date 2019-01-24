@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-const { log } = console;
+
 const Fetch = async (url, method, data) => {
   const headers = new Headers();
   const request = new Request(url, {
@@ -33,35 +33,28 @@ const notify = (errorMessage) => {
 
 const signup = async (eventObject) => {
   eventObject.preventDefault();
-  const firstname = document.querySelector('input[name="firstname"]').value;
-  const lastname = document.querySelector('input[name="lastname"]').value;
-  const username = document.querySelector('input[name="username"]').value;
-  const email = document.querySelector('input[name="email"]').value;
-  const phonenumber = document.querySelector('input[name="phonenumber"]').value;
-
-  const password = document.querySelector('input[name="password"]');
+  const params = {
+    firstname: document.querySelector('input[name="firstname"]').value,
+    lastname: document.querySelector('input[name="lastname"]').value,
+    username: document.querySelector('input[name="username"]').value,
+    email: document.querySelector('input[name="email"]').value,
+    phonenumber: document.querySelector('input[name="phonenumber"]').value,
+    password: document.querySelector('input[name="password"]'),
+  };
   const password2 = document.querySelector('input[name="password2"]');
-  const status = validatePassword(password, password2);
-
+  const status = validatePassword(params.password, password2);
   if (!(status === 'done')) return;
-
   const url = `${window.location.origin}/api/v1/users/auth/signup`;
-  const params = new URLSearchParams({
-    firstname, lastname, username, email, phonenumber, password: password.value,
-  });
-
-  const result = await Fetch(url, 'POST', params);
-
+  const URLParams = new URLSearchParams(params);
+  const result = await Fetch(url, 'POST', URLParams);
   if (result.status === 201) {
-    const { data } = result;
-    const { user, token } = data[0];
+    const { data } = result; const { user, token } = data[0];
+    window.localStorage.clear();
     window.localStorage.setItem('BEARER_TOKEN', token);
     window.localStorage.setItem('USER_DETAILS', JSON.stringify(user));
     window.location.replace('/api/v1/users/auth/profile');
   } else {
-    const { status: stats, error } = result;
-    log(stats, error);
-    notify(error);
+    const { error } = result; notify(error);
   }
 };
 
