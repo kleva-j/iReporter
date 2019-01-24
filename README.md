@@ -2,12 +2,12 @@
 
 # iReporter
 
-___
+***
 iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public.
 
 ## Features
 
-___
+***
 
 - Users can signup and login to the application.
 - Users can create a record of a red-flag or intervention.
@@ -24,7 +24,7 @@ ___
 
 ## TECHNOLOGIES
 
----
+***
 
 ### Front-End
 
@@ -33,7 +33,6 @@ The frontend is implemented using:
 - [HTML](https://www.w3schools.com/Html/) A standard markup language for creating web pages.
 - [css](https://www.w3schools.com/css/css_intro.asp) A style sheet language used for describing the presentation of a document written in a markup language like HTML.
 - [Javascript](https://www.w3schools.com/js/default.asp).
-- [Axios](https://github.com/axios/axios) A Promised based HTTP client for the browser and nodejs.
 
 ### Back-End
 
@@ -64,6 +63,8 @@ The UI templates for this App can be viewed on [GitHub Pages](https://pages.gith
 
 ### Endpoints
 
+#### Red-flags
+
 - GET `api/v1/red-flags` :- This route is used to gets all red-flags records
 
 - GET `api/v1/red-flags/:id` :- This route is used to get a specific red-flag record
@@ -76,9 +77,23 @@ The UI templates for this App can be viewed on [GitHub Pages](https://pages.gith
 
 - DELETE `api/v1/red-flags/:id` :- This route is used to delete a specific red-flag record
 
+#### Interventions
+
+- GET `api/v1/interventions` :- This route is used to gets all intervention records of a user.
+
+- GET `api/v1/interventions/:id` :- This route is used to get a specific intervention record of a user.
+
+- POST `api/v1/interventions` :- This route is used to create an intervention record.
+
+- PATCH `api/v1/interventions/:id/location` :- This route is used edit the location of a specific intervention record
+
+- PATCH `api/v1/interventions/:id/comment` :- This route is used edit the comment of a specific intervention record
+
+- DELETE `api/v1/interventions/:id` :- This route is used to delete a specific intervention record
+
 Link to api endpoints on [Heroku](https://www.heroku.com) below
 
-- [API](https://www.guarded-hamlet-61027.herokuapp.com)
+- [API](https://www.i--reporter--api.herokuapp.com)
 
 ## Contributing
 
