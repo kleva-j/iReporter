@@ -29,11 +29,9 @@ const fetchUserRecords = async (type) => {
 };
 
 const renderResults = (result) => {
-  let indicator;
-  let list = '';
+  let indicator; let list = '';
   result.map((item) => {
-    const { status, comment } = item;
-
+    const { status, comment } = item; const type = item.type.replace('-', '');
     switch (status) {
       case 'Resolved':
         indicator = 'grn';
@@ -49,19 +47,15 @@ const renderResults = (result) => {
 
       default:
         indicator = '';
-        break;
     }
-    const type = item.type.replace('-', '');
     list += `
-    <li class="item list" data-id=${item.id} data-type=${item.type} id=${item.id}>
-    <div class="date t-c">18<br> Jan</div>
-    <div class="grow-1">
+      <li class="item list" data-id=${item.id} data-type=${item.type} id=${item.id}>
+        <div class="date t-c">18<br> Jan</div>
+        <div class="grow-1">
           <a href="/api/v1/${type}/${item.id}" class="pd-l"><b>${comment}</b></a>
-          <div class="pd-l">
-            <small class="pd-r-sm pd-l-sm"> status: <i class="${indicator}">${status}</i></small>
-            </div>
-            </div>
-            <div class="edit">
+          <div class="pd-l"><small class="pd-r-sm pd-l-sm"> status: <i class="${indicator}">${status}</i></small></div>
+        </div>
+        <div class="edit">
           <span class="btn bd-grn bg-t mg-r"><a href="" class="grn">Edit</a></span>
           <span class="btn bd-red bg-t red" data-id=${item.id} data-type=${item.type}>Delete</span>
         </div>
