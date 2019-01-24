@@ -222,8 +222,7 @@ class IncidentController {
                 message: 'Updated record location',
               }]));
           } return sendJsonResponse(res, 403, 'error', 'Unauthorized, this record does not belong to this user');
-        }
-        return sendJsonResponse(res, 404, 'error', `Record with id of ${id} was not found`);
+        } return sendJsonResponse(res, 404, 'error', `Record with id of ${id} was not found`);
       }));
   }
 
@@ -254,8 +253,7 @@ class IncidentController {
               id: response.id,
               message: `User's ${result.type} status has been updated`,
             }]));
-        }
-        return sendJsonResponse(res, 404, 'error', `Red-flag with id of ${id} was not found`);
+        } return sendJsonResponse(res, 404, 'error', `Red-flag with id of ${id} was not found`);
       }));
   }
 
@@ -279,10 +277,8 @@ class IncidentController {
                 id: response.id,
                 message: `Updated ${result.type} image evidence`,
               }]));
-          }
-          return sendJsonResponse(res, 403, 'error', 'Unauthorized, this record does not belong to you');
-        }
-        return sendJsonResponse(res, 404, 'error', `Record with id of ${id} was not found`);
+          } return sendJsonResponse(res, 403, 'error', 'Unauthorized, this record does not belong to you');
+        } return sendJsonResponse(res, 404, 'error', `Record with id of ${id} was not found`);
       }));
   }
 }
