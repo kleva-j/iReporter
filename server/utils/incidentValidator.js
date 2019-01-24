@@ -2,6 +2,7 @@
 /* eslint-disable no-mixed-operators */
 /* eslint-disable no-useless-escape */
 import multer from 'multer';
+import { sendJsonResponse } from './sanitizer';
 
 const regex = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/;
 
@@ -21,23 +22,15 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateRecord(req, res, next) {
-    const {
-      type,
-    } = req.body;
+    const { type } = req.body;
 
     // validate type
     if (!type) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Type of incident not present',
-      });
+      return sendJsonResponse(res, 400, 'error', 'Type of incident not present');
     }
 
     if (type !== 'red-flag' && type !== 'intervention') {
-      return res.status(400).json({
-        status: 400,
-        error: 'Type of incident should either be a red-flag or an intervention',
-      });
+      return sendJsonResponse(res, 400, 'error', 'Type of incident should either be a red-flag or an intervention');
     }
 
     return next();
@@ -53,12 +46,8 @@ class IncidentValidator {
   static validateIntervention(req, res, next) {
     const { type } = req.body;
     if (type !== 'intervention') {
-      return res.status(403).json({
-        status: 403,
-        error: 'Use endpoint to create interventions',
-      });
+      return sendJsonResponse(res, 403, 'error', 'Use endpoint to create interventions');
     }
-
     return next();
   }
 
@@ -74,16 +63,12 @@ class IncidentValidator {
    */
   static validateEvidence(req, res, next) {
     const storage = multer.diskStorage({
-      destination: (_req, _file, cb) => {
-        cb(null, './upload/');
-      },
-
+      destination: (_req, _file, cb) => cb(null, './upload/'),
       filename: (reQ, file, cb) => {
         const format = file.mimetype.split('/')[1];
         cb(null, `${reQ.auth.userId}${Date.now()}.${format}`);
       },
     });
-
     const fileFilter = (_req, file, cb) => {
       if (file.mimetype === 'image/jpg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
         cb(null, true);
@@ -101,13 +86,7 @@ class IncidentValidator {
     }).array('evidence', 5);
 
     upload(req, res, (err) => {
-      if (err) {
-        return res.status(400).json({
-          status: 400,
-          error: 'Error uploading file(s)',
-          err,
-        });
-      }
+      if (err) return sendJsonResponse(res, 400, 'error', 'Error uploading file(s)');
       return next();
     });
   }
@@ -123,21 +102,11 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateID(req, res, next) {
-    if (!req.params.id) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Red-flag id is required',
-      });
-    }
+    if (!req.params.id) return sendJsonResponse(res, 400, 'error', 'Red-flag id is required');
 
     const id = parseInt(req.params.id, 10);
 
-    if (isNaN(id)) {
-      return res.status(400).json({
-        status: 400,
-        error: 'red-flag Id should be a number',
-      });
-    }
+    if (isNaN(id)) return sendJsonResponse(res, 400, 'error', 'red-flag Id should be a number');
 
     return next();
   }
@@ -153,28 +122,17 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateLocation(req, res, next) {
-    if (!req.body.location) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Location is required',
-      });
-    }
+    if (!req.body.location) return sendJsonResponse(res, 400, 'error', 'Location is required');
 
     const { location } = req.body;
 
     if (typeof location !== 'string' && !(location instanceof String)) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Geographical coordinates are not well formated to a string',
-      });
+      return sendJsonResponse(res, 400, 'error', 'Geographical coordinates are not well formated to a string');
     }
 
     const isValid = regex.test(location);
 
-    return isValid ? next() : res.status(400).json({
-      status: 400,
-      error: 'Invalid coordinates',
-    });
+    return isValid ? next() : sendJsonResponse(res, 400, 'error', 'Invalid coordinates');
   }
 
   /**
@@ -188,27 +146,16 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateComment(req, res, next) {
-    if (!req.body.comment) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Comment is required',
-      });
-    }
+    if (!req.body.comment) return sendJsonResponse(res, 400, 'error', 'Comment is required');
 
     const { comment } = req.body;
 
     if (typeof comment !== 'string') {
-      return res.status(400).json({
-        status: 400,
-        error: 'Comments should be a string type value',
-      });
+      return sendJsonResponse(res, 400, 'error', 'Comments should be a string type value');
     }
 
     if (comment.length > 350) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Maximum number of word is 350 characters',
-      });
+      return sendJsonResponse(res, 400, 'error', 'Maximum number of word is 350 characters');
     }
 
     return next();
@@ -234,12 +181,7 @@ class IncidentValidator {
       });
     }
 
-    if (!status) {
-      return res.status(400).json({
-        status: 400,
-        message: 'status of incident not present',
-      });
-    }
+    if (!status) return sendJsonResponse(res, 400, 'error', 'status of incident not present');
 
     return next();
   }

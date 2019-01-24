@@ -26,7 +26,7 @@ class Validator {
   }
 
   /**
-   * Validate Login details
+   * Validate signup details
    *
    * @static
    * @param {object} req - The request object

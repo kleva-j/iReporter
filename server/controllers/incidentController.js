@@ -144,12 +144,8 @@ class IncidentController {
    * @memberof IncidentController
    */
   static deleteRedFlag(req, res) {
-    if (!req.params.id) {
-      return res.status(403).json({
-        status: 403,
-        message: 'Record id was not found',
-      });
-    }
+    if (!req.params.id) return sendJsonResponse(res, 403, 'error', 'Record id was not found');
+
     const { id } = req.params;
     db.task('delete incidents', t => t.incidents.getById(id)
       .then((results) => {
@@ -178,8 +174,7 @@ class IncidentController {
    * @memberof IncidentController
    */
   static updateRedFlagComment(req, res) {
-    let { id } = req.params;
-    const { comment } = req.body;
+    let { id } = req.params; const { comment } = req.body;
     id = parseInt(id, 10);
 
     db.task('update comment', t => t.incidents.getById(id)
