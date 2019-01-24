@@ -409,6 +409,12 @@ img {
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, .275) !important
 }
 
+.min-w-100{ min-width: 100px; }
+
+.min-w-200{ min-width: 200px; }
+
+.min-w-300{ min-width: 300px;}
+
 .w-100 { width: 100px }
 
 .w-200 { width: 200px }
@@ -446,6 +452,7 @@ img {
 
 .h-auto { height: auto !important }
 
+.h-500 { height: 300px !important }
 
 @media (min-width:576px) {
   .container {

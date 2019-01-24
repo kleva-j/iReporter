@@ -31,7 +31,8 @@ const fetchUserRecords = async (type) => {
 const renderResults = (result) => {
   let indicator; let list = '';
   result.map((item) => {
-    const { status, comment } = item; const type = item.type.replace('-', '');
+    const { status, comment, createdon } = item; const type = item.type.replace('-', '');
+    const [day, month, date] = (new Date(createdon).toDateString()).split(' ');
     switch (status) {
       case 'Resolved':
         indicator = 'grn';
@@ -50,7 +51,7 @@ const renderResults = (result) => {
     }
     list += `
       <li class="item list" data-id=${item.id} data-type=${item.type} id=${item.id}>
-        <div class="date t-c">18<br> Jan</div>
+        <div class="date t-c">${date}<br> ${month}</div>
         <div class="grow-1">
           <a href="/api/v1/${type}/${item.id}" class="pd-l"><b>${comment}</b></a>
           <div class="pd-l"><small class="pd-r-sm pd-l-sm"> status: <i class="${indicator}">${status}</i></small></div>
@@ -65,7 +66,7 @@ const renderResults = (result) => {
 };
 
 const deleteRecords = async (type, id) => {
-  const url = `/api/v1/${type}/${id}`;
+  const url = `/api/v1/${type}s/${id}`;
   try {
     const result = await Fetch(url, 'DELETE');
     return result;
@@ -82,10 +83,13 @@ const getTargetAttr = target => ({
 const deletePost = async (obj) => {
   const { type, id } = getTargetAttr(obj);
   try {
-    const res = await deleteRecords(type, id);
-    if (res.data[0].message === `${type} record with id of ${id} has been deleted successfully`) {
-      const element = document.getElementById(`${id}`);
-      document.querySelector('.dip').children[0].removeChild(element);
+    const response = await deleteRecords(type, id);
+    if (response.status === 200) {
+      const value = await response.json();
+      if (value.data[0].message === `${type} record with id of ${id} has been deleted successfully`) {
+        const element = document.getElementById(`${id}`);
+        document.querySelector('.dip').children[0].removeChild(element);
+      }
     }
   } catch (error) {
     log(error);
@@ -110,7 +114,8 @@ const mapEvent = (evt) => {
   const results = await fetchUserRecords(header);
 
   if (results.status === 200) {
-    const values = Object.values(results)[1];
+    const response = await results.json();
+    const values = Object.values(response)[1];
     listElem.innerHTML = (values && values.length > 0) ? (renderResults(values)) : ('No records created yet');
   } else {
     window.location.pathname = '/api/v1/users/auth/login';
