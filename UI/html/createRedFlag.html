@@ -9,10 +9,10 @@
   <meta name="author" content="Michael Obasi">
   <meta name="keyword" content="iReporter">
   <title>Create Red-Flag record | iReporter</title>
-  <link rel="stylesheet" href="../css/dashboard.css">
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/layout.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
 </head>
 
 <body>
@@ -20,16 +20,16 @@
     <div class="navbar fixed shade-default bg-light">
       <div class="container">
         <a href="" class="logo">
-          <img src="../images/bg-2.svg" height="65px" alt="logo">eporter
+          <img src="/images/bg-2.svg" height="65px" alt="logo">eporter
         </a>
         <input type="checkbox" id="burger-toggle">
         <label id="burger" for="burger-toggle">
           <div></div>
         </label>
         <nav class="nav">
-          <a class="nav-bar-link active" href="../index.html">Home</a>
-          <a class="nav-bar-link" href="./profile.html">Profile</a>
-          <a class="nav-bar-link" href="login.html">Logout</a>
+          <a class="nav-bar-link active" href="/">Home</a>
+          <a class="nav-bar-link" href="/api/v1/users/auth/profile">Dashboard</a>
+          <a class="nav-bar-link" href="/api/v1/users/auth/login">Logout</a>
         </nav>
       </div>
     </div>
@@ -47,12 +47,13 @@
           </div>
           <div class="close">
             <div class="mg-t">
-              <img id="profile-img" src="../images/profile-pic.png" alt="Profile Image">
+              <img id="profile-img" src="/images/profile-pic.png" alt="Profile Image">
             </div>
             <div class="h-50">
-              <h4 class="crop mg-t bolder">Kelly Hartmann</h4>
-              <h4 class="crop mg-t bold">hartmann_kelly@gmail.com</h4>
-              <h4 class="crop mg-t bold">0802-3333-444</h4>
+              <h4 class="crop mg-t bolder" id="name">Kelly Hartmann</h4>
+              <h4 class="crop mg-t bolder"><i id="uname">K_HartZ</i></h4>
+              <h4 class="crop mg-t bold" id="email">hartmann_kelly@gmail.com</h4>
+              <h4 class="crop mg-t bold" id="phone">0802-3333-444</h4>
             </div>
           </div>
         </div>
@@ -60,12 +61,12 @@
         <div class="details">
           <ul class="list-item">
             <li class="item">
-              <a href="./redFlagRecords.html"><i class="fas fa-flag-checkered" title="red-flags"></i></a>
-              <a href="./redFlagRecords.html" class="sd">Red-Flags <b>124</b></a>
+              <a href="/api/v1/redflag"><i class="hic fas fa-flag-checkered" title="red-flags"></i></a>
+              <a href="/api/v1/redflag" class="sd">Red-flags <b>124</b></a>
             </li>
             <li class="item">
-              <a href="./interventionRecords.html"><i class="fas fa-headset" title="interventions"></i></a>
-              <a href="./interventionRecords.html" class="sd">Interventions <b>75</b></a>
+              <a href="/api/v1/intervention"><i class="hic fas fa-headset" title="interventions"></i></a>
+              <a href="/api/v1/intervention" class="sd">Interventions <b>75</b></a>
             </li>
           </ul>
         </div>
@@ -79,27 +80,27 @@
 
           <div class="top">
             <div class="heading mg-b"></div>
-            <form class="container">
+            <form class="container createRecord" method="POST">
               <div class="flex mg-b">
                 <h3 class="mg-0 topic">Subject: </h3>
-                <input type="text" name="subject" class="form-control">
+                <input type="text" name="subject" id="title" class="form-control">
               </div>
               <div class="flex">
                 <h3 class="mg-0 topic">Comment: </h3>
-                <textarea class="form-control subject" id="textarea" placeholder="Description / Story" rows="5"></textarea>
+                <textarea class="form-control subject" id="textarea" placeholder="Description / Story" rows="3"></textarea>
               </div>
               <div class="mg-b mg-t">
                 <h3 class="mg-sm">Evidence :</h3>
-                <input name="evidence" type="radio" value="Image" id="checkImage">
-                <label for="checkImage">Image</label>
-                <input name="evidence" type="radio" value="Video" id="checkVideo">
-                <label for="checkVideo">Video</label>
-                <input type="file" name="evidence" class="btn file mg-l" accept="image/*, video/*">
+                <div class="">
+                  <input type="file" name="evidence" class="btn file1 mg-l" accept="image/*">
+                </div>
               </div>
 
+              <div id="displayEvidence" class="mg-t-b"></div>
+
               <div class="form-group">
-                <input type="text" placeholder="Enter Address of location" class="form-control" id="address">
-                <button class="btn default address">resolve address</button>
+                <input type="text" placeholder="Enter location e.g 1.2222, 3.4444" class="form-control" id="address">
+                <button class="btn default address">Find Location</button>
               </div>
               <div id="map"></div>
 
@@ -112,8 +113,9 @@
     </div>
   </section>
 
-  <script src="../js/geoNotification.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?KEY=AIzaSyB0rESKxxyOCdD5o7BEiUKwHW-hErMDMPI&callback=initMap"></script>
+  <script src="/js/profile.js"></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+  <script src="/js/createRecord.js"></script>
 
 </body>
 

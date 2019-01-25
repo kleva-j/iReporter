@@ -2,12 +2,9 @@
 
 # iReporter
 
-***
 iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public.
 
 ## Features
-
-***
 
 - Users can signup and login to the application.
 - Users can create a record of a red-flag or intervention.
@@ -23,8 +20,6 @@ iReporter enables any/every citizen to bring any form of corruption to the notic
 - An Administrative user can edit the status of a red-flag or intervention record.
 
 ## TECHNOLOGIES
-
-***
 
 ### Front-End
 
