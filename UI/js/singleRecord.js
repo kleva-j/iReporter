@@ -1,4 +1,3 @@
-const { log } = console;
 const token = () => localStorage.getItem('BEARER_TOKEN');
 
 const Fetch = async (url, method) => {
@@ -20,6 +19,7 @@ const showResult = ({
   const [day, month, date, year] = time.split(' ');
   const evidence = document.querySelector('.imageEvidence');
   const title = document.querySelector('#title_t');
+  const body = document.getElementById('comment');
   const details = document.querySelector('#date');
 
   details.innerHTML = `
@@ -31,18 +31,20 @@ const showResult = ({
   if (images.length !== 0) {
     let img = '';
     images.map((image) => {
-      img += `<img src="/${image}" alt="" class="flex-center w-75 min-w-300">`;
+      img += `<img src="/${image}" alt="" class="flex-center w-100 max-w-500">`;
     });
     evidence.innerHTML = img;
   }
   if (videos.length !== 0) {
     let vid = '';
     videos.map((video) => {
-      vid += `<video class="flex-center w-75 min-w-300" src="/${video}" controls preload></video>`;
+      vid += `<video width="640" height="480" controls class="flex-center w-75" src="/${video}" controls preload></video>`;
     });
     evidence.innerHTML += vid;
   }
-  title.innerText = comment;
+  const [heading, content] = comment.split('>>');
+  title.innerText = heading;
+  body.innerText = content;
 };
 
 const fetchSingleRecord = async () => {
@@ -54,9 +56,8 @@ const fetchSingleRecord = async () => {
 
   if (getRecord.status === 200) {
     const { data } = await getRecord.json();
-    log(data);
     const {
-      comment, createdon, location, status, type, id, images, videos, createdby,
+      comment, createdon, location, status, images, videos,
     } = data[0];
     const date = new Date(createdon).toDateString();
     showResult({
