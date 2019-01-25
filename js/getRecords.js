@@ -31,38 +31,34 @@ const fetchUserRecords = async (type) => {
 const renderResults = (result) => {
   let indicator; let list = '';
   result.map((item) => {
-    const { status, comment, createdon } = item; const type = item.type.replace('-', '');
-    const [day, month, date] = (new Date(createdon).toDateString()).split(' ');
+    const { status, createdon } = item; const type = item.type.replace('-', ''); let { comment } = item;
+    [comment] = comment.split('>>');
+    const [, month, date] = (new Date(createdon).toDateString()).split(' ');
     switch (status) {
       case 'Resolved':
         indicator = 'grn';
         break;
-
       case 'Rejected':
         indicator = 'red';
         break;
-
       case 'Under investigation':
         indicator = 'yel';
         break;
-
       default:
         indicator = '';
     }
-    list += `
-      <li class="item list" data-id=${item.id} data-type=${item.type} id=${item.id}>
-        <div class="date t-c">${date}<br> ${month}</div>
-        <div class="grow-1">
-          <a href="/api/v1/${type}/${item.id}" class="pd-l"><b>${comment}</b></a>
-          <div class="pd-l"><small class="pd-r-sm pd-l-sm"> status: <i class="${indicator}">${status}</i></small></div>
-        </div>
-        <div class="edit">
-          <span class="btn bd-grn bg-t mg-r"><a href="" class="grn">Edit</a></span>
-          <span class="btn bd-red bg-t red" data-id=${item.id} data-type=${item.type}>Delete</span>
-        </div>
-      </li>`;
-  });
-  return list;
+    list += `<li class="item list" data-id=${item.id} data-type=${item.type} id=${item.id}>
+               <div class="date t-c">${date}<br> ${month}</div>
+               <div class="grow-1">
+                 <a href="/api/v1/${type}/${item.id}" class="pd-l"><b>${comment}</b></a>
+                 <div class="pd-l"><small class="pd-r-sm pd-l-sm"> status: <i class="${indicator}">${status}  </i></small></div>
+                 </div>
+                 <div class="edit">
+                   <span class="btn bd-grn bg-t mg-r"><a href="" class="grn">Edit</a></span>
+                   <span class="btn bd-red bg-t red" data-id=${item.id} data-type=${item.type}>Delete</span>
+               </div>
+              </li>`;
+  }); return list;
 };
 
 const deleteRecords = async (type, id) => {
