@@ -53,7 +53,7 @@ incidentRouter.route('/redflag')
 incidentRouter.route('/redflag/create')
   .get((req, res) => sendFileResponse(res, 'createRedFlag', 200));
 
-incidentRouter.route('/redflag/edit')
+incidentRouter.route('/redflag/edit/:id')
   .get((req, res) => sendFileResponse(res, 'editRedFlag', 200));
 
 incidentRouter.route('/redflag/:id')
@@ -87,7 +87,7 @@ incidentRouter.route('/intervention')
 incidentRouter.route('/intervention/create')
   .get((req, res) => sendFileResponse(res, 'createIntervention', 200));
 
-incidentRouter.route('/intervention/edit')
+incidentRouter.route('/intervention/edit/:id')
   .get((req, res) => sendFileResponse(res, 'editIntervention', 200));
 
 incidentRouter.route('/intervention/:id')
