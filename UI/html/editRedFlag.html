@@ -8,12 +8,19 @@
   <meta name="description" content="iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public.">
   <meta name="author" content="Michael Obasi">
   <meta name="keyword" content="iReporter">
-  <title>iReporter</title>
+  <title>Edit Red-flag Record| iReporter</title>
+  <!--Preloaded stylesheets and scripts-->
+  <link rel="preload" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+    as="style">
+  <link rel="preload" href="https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css" as="style" />
+  <link rel="preload" href="https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js" as="script">
+  <!--Stylesheets-->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
     crossorigin="anonymous">
-  <link rel="stylesheet" href="../css/dashboard.css">
-  <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' />
 </head>
 
 <body>
@@ -21,16 +28,16 @@
     <div class="navbar fixed shade-default bg-light">
       <div class="container">
         <a href="" class="logo">
-          <img src="../images/bg-2.svg" height="60px" alt="logo">eporter
+          <img src="/images/bg-2.svg" height="60px" alt="logo">eporter
         </a>
         <input type="checkbox" id="burger-toggle">
         <label id="burger" for="burger-toggle">
           <div></div>
         </label>
         <nav class="nav">
-          <a class="nav-bar-link active" href="../index.html">Home</a>
-          <a class="nav-bar-link" href="./profile.html">Profile</a>
-          <a class="nav-bar-link" href="./login.html">Logout</a>
+          <a class="nav-bar-link active" href="/">Home</a>
+          <a class="nav-bar-link" href="/api/v1/users/auth/profile">Dashboard</a>
+          <a class="nav-bar-link" href="/api/v1/users/auth/login">Logout</a>
         </nav>
       </div>
     </div>
@@ -47,12 +54,13 @@
           </div>
           <div class="close">
             <div class="mg-t">
-              <img id="profile-img" src="../images/profile-pic.png" alt="Profile Image">
+              <img id="profile-img" src="/images/profile-pic.png" alt="Profile Image">
             </div>
             <div class="h-50">
-              <h4 class="crop mg-t bolder">Kelly Hartmann</h4>
-              <h4 class="crop mg-t bold">hartmann_kelly@gmail.com</h4>
-              <h4 class="crop mg-t bold">0802-3333-444</h4>
+              <h4 class="crop mg-t bolder" id="name">Kelly Hartmann</h4>
+              <h4 class="crop mg-t bolder"><i id="uname">K_HartZ</i></h4>
+              <h4 class="crop mg-t bold" id="email">hartmann_kelly@gmail.com</h4>
+              <h4 class="crop mg-t bold" id="phone">0802-3333-444</h4>
             </div>
           </div>
         </div>
@@ -60,17 +68,17 @@
         <div class="details">
           <ul class="list-item">
             <li class="item">
-              <a href="./redFlagRecords.html"><i class="hic fas fa-flag-checkered" title="red-flags"></i></a>
-              <a href="./redFlagRecords.html" class="sd">Red-Flags <b>124</b></a>
+              <a href="/api/v1/redflag"><i class="hic fas fa-flag-checkered" title="red-flags"></i></a>
+              <a href="/api/v1/redflag" class="sd">Red-flags <b>124</b></a>
             </li>
             <li class="item">
-              <a href="./interventionRecords.html"><i class="hic fas fa-headset" title="interventions"></i></a>
-              <a href="./interventionRecords.html" class="sd">Interventions <b>75</b></a>
+              <a href="/api/v1/intervention"><i class="hic fas fa-headset" title="interventions"></i></a>
+              <a href="/api/v1/intervention" class="sd">Interventions <b>75</b></a>
             </li>
           </ul>
         </div>
       </div>
-      
+
 
       <div class="right w-100">
         <div class="breadboard">
@@ -81,29 +89,28 @@
           <div class="top">
             <div class="heading mg-b"></div>
             <div class="container">
-              <div class="flex mg-b">
-                <h3 class="mg-0 topic">Subject: </h3>
-                <div contenteditable="true" class="form-control subject">Lorem ipsum dolor sit, amet consectetur
-                  adipisicing elit.</div>
+              <div class="mg-b">
+                <label for="id" class="bold">Subject: </label>
+                <input type="text" name="subject" id="title" class="form-control mg-b-lg mg-t" placeholder="">
               </div>
-              <div class="flex">
-                <h3 class="mg-0 topic">Comment: </h3>
-                <textarea class="form-control subject" id="textarea" placeholder="Description / Story" rows="5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maiores suscipit tenetur quis ratione, eveniet voluptate corporis magni earum quidem eaque esse neque eum quasi quibusdam magnam ullam laborum possimus error.</textarea>
-              </div>
-              <div>
-                <h3 class="mg-sm">Evidence :</h3>
-                <input name="evidence" type="radio" value="Image" id="checkImage">
-                <label for="checkImage">Image</label>
-                <input name="evidence" type="radio" value="Video" id="checkVideo">
-                <label for="checkVideo">Video</label>
-                <input type="file" name="evidence" class="btn file mg-l" accept="image/*, video/*">
+              <div class="mg-b">
+                <label for="textarea" class="bold">Comment: </label>
+                <textarea class="form-control mg-b-lg mg-t" id="textarea" placeholder="Description / Story" rows="3"></textarea>
               </div>
 
-              <div class="save">
-                <span>
-                  <button type="submit" class="btn success mg-r lg">Save</button>
-                </span>
+              <div class="form-group">
+                <label for="address" class="bold">Location:</label>
+                <input type="text" id="address" placeholder="Change location (lng, lat) e.g 1.2222, 3.4444" class="form-control w-350 mg-t" id="address">
+                <div>
+                  <small class="f-s-sm">To make use of your current location do not change the value of the input
+                    field.</small>
+                </div>
+                <button class="btn default address">Find Location</button>
               </div>
+
+              <div id="map"></div>
+
+              <button type="submit" class="btn success update mg-lg-t-b">Update Record</button>
 
             </div>
           </div>
@@ -111,8 +118,11 @@
         </div>
       </div>
     </div>
-    </div>
   </section>
+  <script src="/js/profile.js"></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+  <script src="/js/updateRecord.js"></script>
+  <script src="/js/createRecord.js"></script>
 
 </body>
 
