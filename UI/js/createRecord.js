@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-undef */
-const { log } = console;
+const { log, error } = console;
 const sendResults = async (url, method, data) => {
   const headers = new Headers();
   headers.append('authorization', `Bearer ${localStorage.getItem('BEARER_TOKEN')}`);
@@ -32,8 +32,8 @@ const renderMap = (lng, lat) => {
       .setLngLat([lng, lat])
       .setPopup(popup)
       .addTo(map);
-  } catch (error) {
-    log(error);
+  } catch (err) {
+    error(err);
   }
 };
 
@@ -100,8 +100,8 @@ const uploadFile = async (files) => {
       body: formData,
     });
     return sendFile;
-  } catch (error) {
-    log(error);
+  } catch (err) {
+    error(err);
   }
 };
 
@@ -128,8 +128,8 @@ const createRecord = async (event) => {
     const result = await (await sendResults(url, 'POST', formData)).json();
     submitButton.disabled = false;
     if (result.status === 201) window.location.pathname = type === 'red-flag' ? '/api/v1/redflag' : '/api/v1/intervention';
-  } catch (error) {
-    log(error); submitButton.disabled = false;
+  } catch (err) {
+    error(err); submitButton.disabled = false;
   }
 };
 
@@ -140,6 +140,6 @@ try {
     .addEventListener('change', loadFiles);
   document.querySelector('.createRecord')
     .addEventListener('submit', createRecord);
-} catch (error) {
-// handle error
+} catch (err) {
+  error(err);
 }
