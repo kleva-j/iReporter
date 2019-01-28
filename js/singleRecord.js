@@ -1,11 +1,10 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-return-assign */
-const token = () => localStorage.getItem('BEARER_TOKEN');
+const token = localStorage.getItem('BEARER_TOKEN');
 
 const Fetch = async (url, method) => {
   const headers = new Headers();
-  const tk = token();
-  headers.append('authorization', `Bearer ${tk}`);
+  headers.append('authorization', `Bearer ${token}`);
   const request = new Request(url, {
     headers,
     method,

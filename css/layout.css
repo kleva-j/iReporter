@@ -190,6 +190,12 @@ li a{ color: var(--darken)}
   margin-top: -100px;
 }
 
+#move-to-bottom {
+  position: fixed;
+  bottom: 0%;
+  width: 100%;
+}
+
 #map{
   height: 320px;
   width: 100%;
