@@ -27,7 +27,7 @@ const {
 
 const incidentRouter = Router();
 
-// redflags
+// Redflags
 incidentRouter.route('/red-flags')
   .get(authToken, getUserRedflags)
   .post(authToken, validateEvidence, validateRecord,

@@ -122,7 +122,6 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateLocation(req, res, next) {
-    console.log(req);
     if (!req.body.location) return sendJsonResponse(res, 400, 'error', 'Location is required');
 
     const { location } = req.body;
