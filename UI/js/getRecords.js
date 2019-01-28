@@ -31,7 +31,7 @@ const fetchUserRecords = async (type) => {
 const renderResults = (result) => {
   let indicator; let list = '';
   result.map((item) => {
-    const { status, createdon } = item; const type = item.type.replace('-', ''); let { comment } = item;
+    const { status, createdon, id } = item; const type = item.type.replace('-', ''); let { comment } = item;
     [comment] = comment.split('>>');
     const [, month, date] = (new Date(createdon).toDateString()).split(' ');
     switch (status) {
@@ -47,15 +47,15 @@ const renderResults = (result) => {
       default:
         indicator = '';
     }
-    list += `<li class="item list" data-id=${item.id} data-type=${item.type} id=${item.id}>
+    list += `<li class="item list" data-id=${id} data-type=${item.type} id=${id}>
                <div class="date t-c">${date}<br> ${month}</div>
                <div class="grow-1">
-                 <a href="/api/v1/${type}/${item.id}" class="pd-l"><b>${comment}</b></a>
+                 <a href="/api/v1/${type}/${id}" class="pd-l"><b>${comment}</b></a>
                  <div class="pd-l"><small class="pd-r-sm pd-l-sm"> status: <i class="${indicator}">${status}  </i></small></div>
                  </div>
                  <div class="edit">
-                   <span class="btn bd-grn bg-t mg-r"><a href="" class="grn">Edit</a></span>
-                   <span class="btn bd-red bg-t red" data-id=${item.id} data-type=${item.type}>Delete</span>
+                   <span class="btn bd-grn bg-t mg-r"><a href="/api/v1/${type}/edit/${id}" class="grn">Edit</a></span>
+                   <span class="btn bd-red bg-t red" data-id=${id} data-type=${item.type}>Delete</span>
                </div>
               </li>`;
   }); return list;
@@ -92,11 +92,47 @@ const deletePost = async (obj) => {
   }
 };
 
+const editPost = (obj) => {}
+
+const getConfirmationToDelete = (target) => {
+  const overlay = document.createElement('div'); const modal = document.createElement('div');
+  overlay.className = 'overlay'; modal.className = 'confirmModal';
+  modal.innerHTML = `<p class="pd-l pd-r f-s-2 t-c">Are you sure you want to delete this record?<p>
+  <div class="j-c-sb pd-lg pT-0"><button class="red btn bd-red">Yes, delete it!</button><button class="grn btn b-grn">No, cancel!</button></div>
+  `;
+  const removeOverlay = () => document.body.removeChild(overlay);
+  overlay.appendChild(modal); document.body.appendChild(overlay);
+  overlay.addEventListener('click', (evt) => {
+    const elem = evt.target.classList[0];
+    switch (elem) {
+      case 'red':
+        removeOverlay();
+        deletePost(target);
+        break;
+
+      case 'grn':
+        removeOverlay();
+        break;
+
+      case 'overlay':
+        removeOverlay();
+        break;
+
+      default:
+        break;
+    }
+  });
+};
+
 const mapEvent = (evt) => {
   const { target } = evt;
   switch (target.innerText) {
     case 'Delete':
-      return deletePost(target);
+      return getConfirmationToDelete(target);
+
+    case 'Edit':
+      log('You clicked edit');
+      break;
 
     default:
       break;

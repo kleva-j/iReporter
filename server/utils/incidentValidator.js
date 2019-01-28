@@ -22,7 +22,6 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateRecord(req, res, next) {
-    console.log(req)
     const { type } = req.body;
 
     // validate type

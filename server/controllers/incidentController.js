@@ -19,11 +19,12 @@ class IncidentController {
    * @memberof IncidentController
    */
   static createRecord(req, res) {
-    let images; let videos;
+    let images; let videos; const { type } = req.body;
     if (req.files) {
       images = (req.files.filter(item => item.mimetype.includes('image')).map(img => img.path)) || [];
       videos = (req.files.filter(item => item.mimetype.includes('video')).map(vid => vid.path)) || [];
-    }
+    } else images = req.body.images || []; videos = req.body.videos || [];
+
     const newRecord = {
       createdby: req.auth.userId,
       type: req.body.type,
@@ -33,7 +34,6 @@ class IncidentController {
       comment: req.body.comment,
     };
 
-    const { type } = req.body;
     db.incidents.createIncident(newRecord)
       .then((result) => {
         if (result) {

@@ -56,7 +56,7 @@ describe('/POST - create a red-flag record', () => {
     };
   });
 
-  // 
+  // create a red-flag record
   it('should create a red-flag', (done) => {
     request(app)
       .post(url)
