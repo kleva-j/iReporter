@@ -133,13 +133,12 @@ const createRecord = async (event) => {
   }
 };
 
-try {
-  document.querySelector('.address')
-    .addEventListener('click', findLocation);
+const pathname = window.location.pathname.split('/');
+if (pathname.includes('create')) {
   document.querySelector('.file1')
     .addEventListener('change', loadFiles);
   document.querySelector('.createRecord')
     .addEventListener('submit', createRecord);
-} catch (err) {
-  error(err);
 }
+document.querySelector('.address')
+  .addEventListener('click', findLocation);

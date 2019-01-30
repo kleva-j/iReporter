@@ -47,17 +47,7 @@ const renderResults = (result) => {
       default:
         indicator = '';
     }
-    list += `<li class="item list" data-id=${id} data-type=${item.type} id=${id}>
-               <div class="date t-c">${date}<br> ${month}</div>
-               <div class="grow-1">
-                 <a href="/api/v1/${type}/${id}" class="pd-l"><b>${comment}</b></a>
-                 <div class="pd-l"><small class="pd-r-sm pd-l-sm"> status: <i class="${indicator}">${status}  </i></small></div>
-                 </div>
-                 <div class="edit">
-                   <span class="btn bd-grn bg-t mg-r"><a href="/api/v1/${type}/edit/${id}" class="grn">Edit</a></span>
-                   <span class="btn bd-red bg-t red" data-id=${id} data-type=${item.type}>Delete</span>
-               </div>
-              </li>`;
+    list += `<li class="item list" data-id=${id} data-type=${item.type} id=${id}><div class="date t-c">${date}<br> ${month}</div><div class="grow-1"><a href="/api/v1/${type}/${id}" class="pd-l"><b>${comment}</b></a><div class="pd-l"><small class="pd-r-sm pd-l-sm"> status: <i class="${indicator}">${status}</i></small></div></div><div class="edit"><span class="btn bd-grn bg-t mg-r"><a href="/api/v1/${type}/edit/${id}" class="grn">Edit</a></span><span class="btn bd-red bg-t red" data-id=${id} data-type=${item.type}>Delete</span></div></li>`;
   }); return list;
 };
 
@@ -91,8 +81,6 @@ const deletePost = async (obj) => {
     log(error);
   }
 };
-
-const editPost = (obj) => {}
 
 const getConfirmationToDelete = (target) => {
   const overlay = document.createElement('div'); const modal = document.createElement('div');

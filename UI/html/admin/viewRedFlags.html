@@ -11,9 +11,9 @@
   <title>Admin | Red-flags</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
     crossorigin="anonymous">
-  <link rel="stylesheet" href="../../css/dashboard.css">
-  <link rel="stylesheet" href="../../css/styles.css">
-  <link rel="stylesheet" href="../../css/layout.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/layout.css">
 </head>
 
 <body>
@@ -21,16 +21,17 @@
     <div class="navbar fixed shade-default bg-light">
       <div class="container">
         <a href="" class="logo">
-          <img src="../../images/bg-2.svg" height="60px" alt="logo">eporter
+          <img src="/images/bg-2.svg" height="60px" alt="logo">eporter
         </a>
         <input type="checkbox" id="burger-toggle">
         <label id="burger" for="burger-toggle">
           <div></div>
         </label>
         <nav class="nav">
-          <a class="nav-bar-link active" href="../../index.html">Home</a>
-          <a class="nav-bar-link" href="./viewInterventions.html">View Interventions</a>
-          <a class="nav-bar-link" href="../login.html">Logout</a>
+          <a class="nav-bar-link active" href="/">Home</a>
+          <a class="nav-bar-link" href="/api/v1/admin/interventions">View Interventions</a>
+          <a class="nav-bar-link" href="/api/v1/admin/redflags">View Red-flags</a>
+          <a class="nav-bar-link" href="/api/v1/users/auth/admin/login">Logout</a>
         </nav>
       </div>
     </div>
@@ -51,7 +52,7 @@
               <li class="item list">
                 <div class="date t-c">18<br> Jan</div>
                 <div class="j-c-cl">
-                  <a href="./changeStatus.html" class="pd-l"><b>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut,</b></a>
+                  <a href="/api/v1/admin/redflag/1" class="pd-l"><b>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut,</b></a>
                   <div class="pd-l">
                     <small class="pd-r-sm">200 views</small>
                     <small class="pd-r-sm">status: <i class="red">Rejected</i></small>

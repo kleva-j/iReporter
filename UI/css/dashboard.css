@@ -15,16 +15,31 @@
 
 .breadboard {
   margin-right: .45rem;
-  margin-left: .45rem
+  margin-left: .45rem;
 }
 
 .breadboard-header{
-  font-size: 1rem;
-  vertical-align: center;
+  display: flex;
   padding: .45em 1.2em;
   background: white;
   box-shadow: var(--shadow)
 }
+
+.flex-85{ flex: .85; }
+
+.flex-75{ flex: .75; }
+
+.flex-65{ flex: .65; }
+
+.flex-45{ flex: .45; }
+
+.flex-35{ flex: .35; }
+
+.flex-25{ flex: .25; }
+
+.flex-15{ flex: .15; }
+
+.flex-10{ flex: .10; }
 
 .breadboard-header > span{
   font-size: 1rem
@@ -144,7 +159,6 @@ h1{
 }
 
 .search{
-  width: 100%;
   padding: .125rem .75rem;
   font-size: 1rem;
   line-height: 1.5;
@@ -196,10 +210,10 @@ small { font-size: 15px }
   .topic {
     width: 200px
   }
-
+/* 
   .search {
     width: 200px
-  }
+  } */
 
 }
 

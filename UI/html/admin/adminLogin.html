@@ -9,8 +9,8 @@
   <meta name="author" content="Michael Obasi">
   <meta name="keyword" content="iReporter">
   <title>Log in | iReporter</title>
-  <link rel="stylesheet" type="text/css" href="../../css/styles.css">
-  <link rel="stylesheet" type="text/css" href="../../css/layout.css">
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
+  <link rel="stylesheet" type="text/css" href="/css/layout.css">
 </head>
 
 <body>
@@ -18,16 +18,16 @@
     <div class="navbar fixed shade-default bg-light">
       <div class="container">      
         <a href="" class="logo">
-          <img src="../../images/bg-2.svg" height="65px" alt="logo">eporter
+          <img src="/images/bg-2.svg" height="65px" alt="logo">eporter
         </a>
         <input type="checkbox" id="burger-toggle">
         <label id="burger" for="burger-toggle">
           <div></div>
         </label>
         <nav class="nav">
-          <a class="nav-bar-link active" href="../../index.html">Home</a>
-          <a class="nav-bar-link" href="../login.html">Login</a>
-          <a class="nav-bar-link" href="../signup.html">Signup</a>
+          <a class="nav-bar-link active" href="/">Home</a>
+          <a class="nav-bar-link" href="/api/v1/users/auth/login">Login</a>
+          <a class="nav-bar-link" href="/api/v1/users/auth/signup">Signup</a>
         </nav>
       </div>
     </div>
@@ -35,20 +35,27 @@
 
   <section>
     <div class="container j-c-c">
-      <form class="login-form w-100" action="./viewRedFlags.html">
+      <form class="adminlogin login-form w-100">
+        <div class="notify"></div>
         <h1 class="h1">ADMIN LOGIN</h1>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Username" required>
+          <input type="text" class="form-control" name="admin" placeholder="Username" required>
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" placeholder="Password" required>
+          <input type="password" class="form-control" name="adminPass" placeholder="Password" required>
         </div>
         <button type="submit" class="btn primary">Log in</button>
-        <small class="block text-dark">Don't have an account? sign up <a class="underscore"href="signup.html">Here</a> </small>
+
       </form>
     </div>
   </section>
 
+  <footer id="move-to-bottom">
+    <div class="copyright pd-lg">&copy;Copyright 2018 <b>IREPORTER</b></div>
+  </footer>
+
+
+  <script src="/js/admin.js"></script>
 </body>
 
 </html>
