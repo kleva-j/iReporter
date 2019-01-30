@@ -16,6 +16,7 @@ const {
 
 const userRouter = Router();
 
+// users
 userRouter.route('/login')
   .get((req, res) => sendFileResponse(res, 'login', 200))
   .post(validateLogin, LoginUser);
@@ -26,5 +27,9 @@ userRouter.route('/signup')
 
 userRouter.route('/profile')
   .get((req, res) => sendFileResponse(res, 'profile', 200));
+
+// admin
+userRouter.route('/admin/login')
+  .get((req, res) => sendFileResponse(res, 'adminLogin', 200, 'admin'));
 
 export default userRouter;

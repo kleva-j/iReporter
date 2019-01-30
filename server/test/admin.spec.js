@@ -7,11 +7,42 @@ chai.use(chaiHTTP);
 
 const url = '/api/v1/red-flags';
 
-describe.skip("/PATCH - admin can update the status of a user's red-flag", () => {
+describe.skip("/PATCH - admin can update the status of a user's record", () => {
+
+  let userToken;
+  before(async () => {
+    try {
+      await db.query('DELETE FROM users');
+      await db.query('DELETE FROM incidents');
+      console.log('Users and Incidents deleted successfully')
+      const password = encrypt('password');
+      await db.users.createUser({
+        firstname: 'firstname',
+        lastname: 'lastname',
+        username: 'username',
+        email: 'email@email.com',
+        password,
+        phonenumber: '08064477211',
+        isadmin: false
+      });
+      const userDetails = await db.users.getByUsername('username');
+      userToken = jwt.sign({
+        userId: userDetails.id,
+        username: userDetails.username,
+        email: userDetails.email,
+        isadmin: userDetails.isadmin
+      }, process.env.SECRET_KEY, { expiresIn: '1 day' });
+
+    } catch(error) {
+      console.log(error);
+    }
+  });
+
   it("The Admin should be able to update a user's red-flag status", (done) => {
     const id = 1;
     chai.request(app)
       .patch(`${url}/${id}/status`)
+      .set('authorization', `Bearer ${userToken}`)
       .send({
         status: 'resolved'
       })

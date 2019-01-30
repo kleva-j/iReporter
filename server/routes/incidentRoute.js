@@ -16,7 +16,6 @@ const {
 const {
   createRecord,
   getSpecificRedFlag,
-  getAllRecords,
   getUserRedflags,
   getUserInterventions,
   deleteRedFlag,
@@ -93,9 +92,6 @@ incidentRouter.route('/intervention/edit/:id')
 incidentRouter.route('/intervention/:id')
   .get((req, res) => sendFileResponse(res, 'viewIntervention', 200));
 
-// All records
-incidentRouter.route('/all')
-  .get(authToken, getAllRecords);
 
 // Admin
 incidentRouter.route('/red-flags/:id/status')
@@ -103,5 +99,18 @@ incidentRouter.route('/red-flags/:id/status')
 
 incidentRouter.route('/intervention/:id/status')
   .patch(authToken, validateID, updateRedFlagStatus);
+
+// Admin pages
+incidentRouter.route('/admin/redflags')
+  .get((req, res) => sendFileResponse(res, 'viewRedFlags', 200, true));
+
+incidentRouter.route('/admin/interventions')
+  .get((req, res) => sendFileResponse(res, 'viewInterventions', 200, true));
+
+incidentRouter.route('/admin/redflag/:id')
+  .get((req, res) => sendFileResponse(res, 'changeStatus', 200, true));
+
+incidentRouter.route('/admin/intervention/:id')
+  .get((req, res) => sendFileResponse(res, 'changeStatus', 200, true));
 
 export default incidentRouter;

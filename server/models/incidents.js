@@ -148,7 +148,7 @@ class Incident {
    * @memberof Incidents
    */
   getUserRedflags(id) {
-    return this[db].any(`SELECT * FROM incidents WHERE (type = 'red-flag' AND createdby='${id}')`);
+    return this[db].any(`SELECT * FROM incidents WHERE type='red-flag' AND createdby='${id}'`);
   }
 
   /**

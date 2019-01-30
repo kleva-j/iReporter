@@ -101,7 +101,8 @@ class IncidentController {
    */
   static getUserRedflags(req, res) {
     const id = req.auth.userId;
-    if (req.auth.isadmin) {
+
+    if (req.auth.isadmin === true) {
       db.incidents.getAllRedflags()
         .then(redflags => res.status(200).json({
           status: 200,
@@ -127,11 +128,20 @@ class IncidentController {
    */
   static getUserInterventions(req, res) {
     const id = req.auth.userId;
-    db.incidents.getUserInterventions(id)
-      .then(results => res.status(200).json({
-        status: 200,
-        data: results,
-      })).catch(err => log(err));
+
+    if (req.auth.isadmin === true) {
+      db.incidents.getAllInterventions()
+        .then(redflags => res.status(200).json({
+          status: 200,
+          data: redflags,
+        }));
+    } else {
+      db.incidents.getUserInterventions(id)
+        .then(results => res.status(200).json({
+          status: 200,
+          data: results,
+        })).catch(err => log(err));
+    }
   }
 
   /**
@@ -147,6 +157,7 @@ class IncidentController {
     if (!req.params.id) return sendJsonResponse(res, 403, 'error', 'Record id was not found');
 
     const { id } = req.params;
+
     db.task('delete incidents', t => t.incidents.getById(id)
       .then((results) => {
         if (results) {
@@ -180,15 +191,13 @@ class IncidentController {
     db.task('update comment', t => t.incidents.getById(id)
       .then((result) => {
         if (result) {
-          if (req.auth.userId === result.createdby) {
+          const userId = parseInt(req.auth.userId, 10);
+          if (userId === result.createdby) {
             return t.incidents.updateARecordComment(comment, id)
-              .then(() => res.status(200).json({
-                status: 200,
-                data: [{
-                  id,
-                  message: 'Updated record comment',
-                }],
-              }));
+              .then(() => sendJsonResponse(res, 200, 'success', [{
+                id,
+                message: 'Updated record comment',
+              }]));
           } return sendJsonResponse(res, 403, 'error', 'Unauthorized, this record does not belong to this user');
         } return sendJsonResponse(res, 404, 'error', `Record with id of ${id} was not found`);
       }));
@@ -210,7 +219,8 @@ class IncidentController {
     db.task('update location', t => t.incidents.getById(id)
       .then((result) => {
         if (result) {
-          if (req.auth.userId === result.createdby) {
+          const userId = parseInt(req.auth.userId, 10);
+          if (userId === result.createdby) {
             return t.incidents.updateARecordLocation(location, id)
               .then(() => sendJsonResponse(res, 200, 'success', [{
                 id,
@@ -227,7 +237,7 @@ class IncidentController {
    * @static
    * @param {object} req - the reequest object
    * @param {object} res - The response object
-   * @return {object} a token or message
+   * @return {object} a json object
    * @memberof IncidentController
    */
   static updateRedFlagStatus(req, res) {
