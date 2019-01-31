@@ -167,7 +167,7 @@ class Incident {
    * @memberof Incidents
    */
   getAllInterventions() {
-    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'interventions');
+    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'intervention');
   }
 
   /**

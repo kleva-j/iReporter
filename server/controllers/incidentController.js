@@ -131,9 +131,9 @@ class IncidentController {
 
     if (req.auth.isadmin === true) {
       db.incidents.getAllInterventions()
-        .then(redflags => res.status(200).json({
+        .then(interventions => res.status(200).json({
           status: 200,
-          data: redflags,
+          data: interventions,
         }));
     } else {
       db.incidents.getUserInterventions(id)
