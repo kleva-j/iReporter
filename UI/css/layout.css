@@ -190,6 +190,10 @@ li a{ color: var(--darken)}
   margin-top: -100px;
 }
 
+.wrap {
+  overflow-wrap: break-word
+}
+
 #move-to-bottom {
   position: fixed;
   bottom: 0%;

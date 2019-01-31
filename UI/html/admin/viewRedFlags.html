@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/styles.css">
   <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/mediaqueries.css">
 </head>
 
 <body>
@@ -42,89 +43,21 @@
 
       <div class="right w-100">
         <div class="breadboard">
-          <div class="breadboard-header j-c-sb mg-t-b">
-            <h3 class="w-75 t-c mg-0">All Red-flag records</h3>
-            <input type="search" name="searchbar" placeholder="Search here" class="search">
+          <div class="breadboard-header j-c-sb mg-t-b flex-block">
+            <h3 class="flex-75 t-c mg-0">All Red-flag records</h3>
+            <input type="search" name="searchbar" placeholder="Search here" class="search flex-25">
           </div>
 
           <div class="dip">
-            <ul class="list-item">
-              <li class="item list">
-                <div class="date t-c">18<br> Jan</div>
-                <div class="j-c-cl">
-                  <a href="/api/v1/admin/redflag/1" class="pd-l"><b>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut,</b></a>
-                  <div class="pd-l">
-                    <small class="pd-r-sm">200 views</small>
-                    <small class="pd-r-sm">status: <i class="red">Rejected</i></small>
-                    <small>created by: Alex Ferguson</small>
-                  </div>
-                </div>
-              </li>
-              <li class="item list">
-                <div class="date t-c">18<br> Jan</div>
-                <div class="j-c-cl">
-                  <a href="./changeStatus.html" class="pd-l"><b>Lorem ipsum dolor sit amet co elit. Ut,</b></a>
-                  <div class="pd-l">
-                    <small class="pd-r-sm">20 views</small>
-                    <small class="pd-r-sm">status: <i>Draft</i></small>
-                    <small>created by: Alex Ferguson</small>
-                  </div>
-                </div>
-              </li>
-              <li class="item list">
-                <div class="date t-c">18<br> Jan</div>
-                <div class="j-c-cl">
-                  <a href="./changeStatus.html" class="pd-l"><b>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut,
-                      reprehenderit! Quaerat adipisci facere nobis animi </b></a>
-                  <div class="pd-l">
-                    <small class="pd-r-sm">500 views</small>
-                    <small class="pd-r-sm">status: <i class="yel">Under investigation</i></small>
-                    <small>created by: Alex Ferguson</small>
-                  </div>
-                </div>
-              </li>
-              <li class="item list">
-                <div class="date t-c">18<br> Jan</div>
-                <div class="j-c-cl">
-                  <a href="./changeStatus.html" class="pd-l"><b>Goodluck bribes Jonathan</b></a>
-                  <div class="pd-l">
-                    <small class="pd-r-sm">201 views</small>
-                    <small class="pd-r-sm">status: <i class="grn">Resolved</i></small>
-                    <small>created by: Alex Ferguson</small>
-                  </div>
-                </div>
-              </li>
-              <li class="item list">
-                <div class="date t-c">18<br> Jan</div>
-                <div class="j-c-cl">
-                  <a href="./changeStatus.html" class="pd-l"><b>Goodluck bribes Jonathan</b></a>
-                  <div class="pd-l">
-                    <small class="pd-r-sm">200 views</small>
-                    <small class="pd-r-sm">status: <i class="grn">Resolved</i></small>
-                    <small>created by: Alex Ferguson</small>
-                  </div>
-                </div>
-              </li>
-              <li class="item list">
-                <div class="date t-c">18<br> Jan</div>
-                <div class="j-c-cl">
-                  <a href="./changeStatus.html" class="pd-l"><b>Goodluck bribes Jonathan</b></a>
-                  <div class="pd-l">
-                    <small class="pd-r-sm">69 views</small>
-                    <small class="pd-r-sm">status: <i class="red">Rejected</i></small>
-                    <small>created by: Alex Ferguson</small>
-                  </div>
-                </div>
-              </li>
-            </ul>
+            <ul class="list-item"></ul>
           </div>
 
         </div>
       </div>
     </div>
-    </div>
   </section>
 
+  <script src="/js/admin.js"></script>
 </body>
 
 </html>

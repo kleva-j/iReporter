@@ -2,12 +2,9 @@
 /* eslint-disable array-callback-return */
 const { log } = console;
 
-const token = () => localStorage.getItem('BEARER_TOKEN');
-
 const Fetch = async (url, method, data) => {
   const headers = new Headers();
-  const tk = token();
-  headers.append('authorization', `Bearer ${tk}`);
+  headers.append('authorization', `Bearer ${localStorage.getItem('BEARER_TOKEN')}`);
   const request = new Request(url, {
     headers,
     method,
@@ -47,7 +44,7 @@ const renderResults = (result) => {
       default:
         indicator = '';
     }
-    list += `<li class="item list" data-id=${id} data-type=${item.type} id=${id}><div class="date t-c">${date}<br> ${month}</div><div class="grow-1"><a href="/api/v1/${type}/${id}" class="pd-l"><b>${comment}</b></a><div class="pd-l"><small class="pd-r-sm pd-l-sm"> status: <i class="${indicator}">${status}</i></small></div></div><div class="edit"><span class="btn bd-grn bg-t mg-r"><a href="/api/v1/${type}/edit/${id}" class="grn">Edit</a></span><span class="btn bd-red bg-t red" data-id=${id} data-type=${item.type}>Delete</span></div></li>`;
+    list += `<li class="item list" data-id=${id} data-type=${item.type} id=${id}><div class="date t-c">${date}<br> ${month}</div><div class="grow-1"><a href="/api/v1/${type}/${id}" class="pd-l"><b class="wrap">${comment}</b></a><div class="pd-l"><small class="pd-r-sm pd-l-sm"> status: <i class="${indicator}">${status}</i></small></div></div><div class="edit"><span class="btn bd-grn bg-t mg-r"><a href="/api/v1/${type}/edit/${id}" class="grn">Edit</a></span><span class="btn bd-red bg-t red" data-id=${id} data-type=${item.type}>Delete</span></div></li>`;
   }); return list;
 };
 
@@ -114,16 +111,8 @@ const getConfirmationToDelete = (target) => {
 
 const mapEvent = (evt) => {
   const { target } = evt;
-  switch (target.innerText) {
-    case 'Delete':
-      return getConfirmationToDelete(target);
-
-    case 'Edit':
-      log('You clicked edit');
-      break;
-
-    default:
-      break;
+  if (target.innerText === 'Delete') {
+    return getConfirmationToDelete(target);
   }
 };
 

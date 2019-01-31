@@ -1,1 +1,30 @@
-.editLocation {}
+
+@media (max-width: 545px) {
+  .flex-block-i {
+    flex-direction: column;
+  }
+  .flex-block-i .search {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .flex-block-i > .flex-75 {
+    font-size: 18px
+  }
+  .edit .btn, .edit .btn a {
+    padding: .188rem .375rem;
+    font-size: .9rem
+  }
+}
+
+@media (max-width:428px) {
+  .flex-block {
+    flex-direction: column;
+  }
+  .flex-block > .flex-75 {
+    font-size: 18px
+  }
+  .search {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
