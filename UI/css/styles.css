@@ -107,6 +107,8 @@
 
 .pd-l { padding-left: .75rem }
 
+.pd-sm { padding: .375rem }
+
 .pd-l-sm { padding-left: .25rem }
 
 .pd-r-sm { padding-right: .25rem }
@@ -231,6 +233,8 @@ a{
 .bg-light{
   background: var(--lighten);
 }
+
+.bd-light:hover { background: lightgrey !important}
 
 *,
 ::after,
@@ -412,8 +416,6 @@ img {
   line-height: inherit;
   white-space: nowrap
 }
-
-
 
 .shade-sm {
   box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important

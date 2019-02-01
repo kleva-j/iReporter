@@ -2,6 +2,7 @@
 const urlPath = window.location.pathname.split('/');
 const page = urlPath[urlPath.length - 1];
 const recordType = page === 'redflags' ? 'red-flags' : 'interventions';
+const headers = new Headers();
 
 const notify = (errorMessage) => {
   const elem = document.querySelector('.notify');
@@ -19,11 +20,7 @@ const adminLogin = async (event) => {
   const password = document.querySelector('input[name=adminPass]').value;
   const URlParams = new URLSearchParams({ username, password });
   const url = `${window.location.origin}/api/v1/users/auth/login`;
-  const result = await (await fetch(url, {
-    headers: new Headers(),
-    method: 'POST',
-    body: URlParams,
-  })).json();
+  const result = await (await fetch(url, { headers, method: 'POST', body: URlParams })).json();
   if (result.status === 200) {
     const { data } = result;
     const { token } = data[0];
@@ -63,7 +60,6 @@ const showResults = (result) => {
 
 const getRecords = async (type, callback) => {
   const url = `/api/v1/${type}`;
-  const headers = new Headers();
   headers.append('authorization', `Bearer ${localStorage.getItem('BEARER_TOKEN')}`);
   const config = {
     headers,
@@ -77,7 +73,26 @@ const getRecords = async (type, callback) => {
   } else window.location.pathname = '/api/v1/users/auth/admin/login';
 };
 
+const updateStatus = async () => {
+  const recordId = page;
+  const newPage = urlPath[urlPath.length - 2];
+  const newRecordType = newPage === 'redflags' ? 'red-flags' : 'interventions';
+  const url = `/api/v1/${newRecordType}/${recordId}/status`;
+  const currentStatus = document.querySelector('.current_status').value;
+  const selectedStatus = document.querySelector('.select').value;
+  if (currentStatus === 'resolved') notify();
+  if (currentStatus === selectedStatus) notify();
+  const params = new URLSearchParams({ status: selectedStatus });
+  headers.append('authorization', `Bearer ${localStorage.getItem('BEARER_TOKEN')}`);
+  const postReq = await (await fetch(url, { headers, method: 'POST', body: params })).json();
+  if (postReq.status !== 200) notify();
+};
+
 if (page === 'login') {
   document.querySelector('.adminlogin')
     .addEventListener('submit', adminLogin);
 } else if (page === 'redflags' || page === 'interventions') getRecords(recordType, showResults);
+else {
+  document.querySelector('#comment')
+    .addEventListener('click', updateStatus);
+}

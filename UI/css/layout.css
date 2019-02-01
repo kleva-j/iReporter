@@ -159,7 +159,6 @@ li a{ color: var(--darken)}
 
 .save{
   padding: 30px 20px;
-
 }
 
 .lg { 
@@ -188,10 +187,6 @@ li a{ color: var(--darken)}
   top: 50%;
   margin-left: -150px;
   margin-top: -100px;
-}
-
-.wrap {
-  overflow-wrap: break-word
 }
 
 #move-to-bottom {

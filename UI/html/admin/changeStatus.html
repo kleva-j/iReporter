@@ -47,11 +47,19 @@
 
           <div class="top">
             <div class="container pd-b">
+              
               <h2 class="pd-t t-c"><b id="title_t" class="f-s-2"></b></h2>
               <div id="date" class=""></div>
               <div class="imageEvidence"></div>
               <p id="comment"></p>
-              <h4>Current status: <span class="current_status btn bd-grey"></span></h4>
+              <h4 class="bold f-s-1">Current status: <input type="text" disabled class="t-c form-control current_status max-w-200"/></h4>
+              <select name="status" id="changeStatus" class="pd-sm select">
+                <option value="" selected>Select New Status</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Under investigation">Under investigation</option>
+                <option value="Resolved">Resolved</option>
+              </select>
+              <button type="submit" class="btn btn-md bg-light bd-grey mg-l update">UPDATE</button>
             </div>
           </div>
 
@@ -62,6 +70,7 @@
   </section>
 
   <script src="/js/singleRecord.js"></script>
+  <script src="/js/admin.js"></script>
 </body>
 
 </html>

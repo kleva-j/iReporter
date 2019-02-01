@@ -11,7 +11,7 @@ const showResult = ({
   const details = document.querySelector('#date');
   try {
     const currentStatus = document.querySelector('.current_status');
-    currentStatus.innerText = status;
+    currentStatus.value = status;
   } catch (error) {
     // handle error
   }
