@@ -4,7 +4,7 @@ const page = urlPath[urlPath.length - 1];
 const recordType = page === 'redflags' ? 'red-flags' : 'interventions';
 const headers = new Headers();
 
-const notify = (errorMessage) => {
+const loginErrorDisplay = (errorMessage) => {
   const elem = document.querySelector('.notify');
   elem.innerText = errorMessage;
   elem.style.backgroundColor = '#dc3545';
@@ -12,6 +12,26 @@ const notify = (errorMessage) => {
   elem.style.paddingLeft = '10px';
   elem.style.paddingTop = '10px';
   elem.style.paddingBottom = '10px';
+};
+
+const customErrorDisplay = (errorMessage) => {
+  const errorMap = document.createElement('div');
+  const errorBubble = document.createElement('div');
+  const errorMsg = document.createElement('span');
+  const close = document.createElement('span');
+  errorMap.className = 'bubbleMap';
+  errorBubble.className = 'errorBubble';
+  errorMsg.className = 'errorMessage';
+  close.setAttribute('id', 'close');
+  errorMsg.textContent = errorMessage;
+  close.textContent = 'x';
+  errorBubble.appendChild(errorMsg);
+  errorBubble.appendChild(close);
+  document.body.appendChild(errorMap);
+  errorMap.appendChild(errorBubble);
+  close.addEventListener('click', () => {
+    document.body.removeChild(errorMap);
+  });
 };
 
 const adminLogin = async (event) => {
@@ -29,7 +49,7 @@ const adminLogin = async (event) => {
     window.location.pathname = '/api/v1/admin/redflags';
   } else if (result.status === 400 || result.status === 403 || result.status === 404) {
     const { error } = result;
-    notify(error);
+    loginErrorDisplay(error);
   }
 };
 
@@ -80,12 +100,17 @@ const updateStatus = async () => {
   const url = `/api/v1/${newRecordType}/${recordId}/status`;
   const currentStatus = document.querySelector('.current_status').value;
   const selectedStatus = document.querySelector('.select').value;
-  if (currentStatus === 'resolved') notify();
-  if (currentStatus === selectedStatus) notify();
+  if (currentStatus === 'Resolved') return customErrorDisplay('This record has been resolved already');
+  if (currentStatus === selectedStatus) return customErrorDisplay('Please select a different status');
   const params = new URLSearchParams({ status: selectedStatus });
-  headers.append('authorization', `Bearer ${localStorage.getItem('BEARER_TOKEN')}`);
-  const postReq = await (await fetch(url, { headers, method: 'POST', body: params })).json();
-  if (postReq.status !== 200) notify();
+  headers.append('authorization', `Bearer ${localStorage.getItem('BEARER_sTOKEN')}`);
+  const postReq = await fetch(url, { headers, method: 'PATCH', body: params });
+  if (postReq.status !== 200) return customErrorDisplay('Error while updating status');
+  const result = await postReq.json();
+  customErrorDisplay(`User record has been updated as ${selectedStatus}`);
+  return setTimeout(() => {
+    window.location.pathname = `/api/v1/admin/${newRecordType}/${recordId}`;
+  }, 2500);
 };
 
 if (page === 'login') {
@@ -93,6 +118,6 @@ if (page === 'login') {
     .addEventListener('submit', adminLogin);
 } else if (page === 'redflags' || page === 'interventions') getRecords(recordType, showResults);
 else {
-  document.querySelector('#comment')
+  document.querySelector('.update')
     .addEventListener('click', updateStatus);
 }

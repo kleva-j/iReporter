@@ -20,9 +20,6 @@
   .flex-block {
     flex-direction: column;
   }
-  .flex-block > .flex-75 {
-    font-size: 18px
-  }
   .search {
     margin-top: 5px;
     margin-bottom: 5px;

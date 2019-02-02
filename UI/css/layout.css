@@ -161,6 +161,12 @@ li a{ color: var(--darken)}
   padding: 30px 20px;
 }
 
+.wrap {
+  word-wrap: break-word;
+  word-break: break-all;
+  text-overflow: ellipsis;
+}
+
 .lg { 
   font-size: 1.1rem;
   padding-left: .75em;
@@ -188,6 +194,45 @@ li a{ color: var(--darken)}
   margin-left: -150px;
   margin-top: -100px;
 }
+
+.bubbleMap {
+  position: fixed;
+  background: transparent;
+  width: 100%;
+  top: 80px;
+  height: 100px;
+}
+
+.errorBubble { 
+  position: absolute;
+  background: lightskyblue;
+  display: flex;
+  border-radius: 3px;
+  width: 100%;
+  max-width: 320px;
+  left: 100%;
+  padding: 12px 5px;
+  top: 40px;
+  transform: translateX(-365px);
+}
+
+.errorMessage {
+  flex: 1;
+  padding: 0 2px;
+  font-size: 15px;
+  color: rgb(246, 244, 244);
+}
+
+#close {
+  background: rgba(85, 182, 214, 0.582);
+  text-align: center;
+  padding: 0px 6px;
+  border-radius: 2px;
+  align-self: flex-end;
+  cursor: pointer;
+}
+
+#close:hover { background: rgb(85, 182, 214); }
 
 #move-to-bottom {
   position: fixed;

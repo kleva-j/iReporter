@@ -251,7 +251,11 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #fff
+  background-color: #fff;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 img {
@@ -548,7 +552,6 @@ img {
   }
 
   #burger {
-    /* z-index: 0; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
