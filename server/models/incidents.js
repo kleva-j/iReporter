@@ -210,6 +210,17 @@ class Incident {
   updateImage(filename, id) {
     return this[db].result('UPDATE incident SET images = array_append(images, $1) WHERE id = $2', [filename, id]);
   }
+
+  /**
+   * @param {*} userId - The user phonenumber
+   * @param {*} status - The user phonenumber
+   * @param {*} type - The user phonenumber
+   * @returns {*} The results of the database query
+   * @memberof Users
+   */
+  getRecordCount(userId, status, type) {
+    return this[db].any('SELECT COUNT(*) FROM incidents WHERE userId = $1 AND status = $2 AND type = #3', [status, userId, type]);
+  }
 }
 
 export default Incident;

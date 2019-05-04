@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable consistent-return */
 import db from '../models/db';
 import { sendJsonResponse } from '../utils/sanitizer';
@@ -19,7 +20,6 @@ class IncidentController {
   static createRecord(req, res) {
     const { type } = req.body;
     const images = req.body.image || []; const videos = req.body.video || [];
-
     const newRecord = {
       createdby: req.auth.userId,
       type: req.body.type,
@@ -29,6 +29,7 @@ class IncidentController {
       comment: req.body.comment,
     };
 
+    console.log(newRecord);
     db.incidents.createIncident(newRecord)
       .then((result) => {
         if (result) {
@@ -273,7 +274,7 @@ class IncidentController {
     db.task('update image', t => t.getById(id)
       .then((result) => {
         if (result) {
-          const userId = parseInt(req.auth.userId);
+          const userId = parseInt(req.auth.userId, 10);
           if (userId === result.id) {
             return t.updateImage(file.path, id)
               .then(response => sendJsonResponse(res, 200, 'success', [{
@@ -305,6 +306,7 @@ class IncidentController {
             previousValue[currentValue.status] = (previousValue[currentValue.status] || 0) + 1;
             return previousValue;
           }, {
+            type,
             Draft: 0,
             'Under Investigation': 0,
             Rejected: 0,
@@ -313,6 +315,32 @@ class IncidentController {
           return sendJsonResponse(res, 200, 'success', [mapedRecords]);
         } return sendJsonResponse(res, 500, 'error', 'Error retriving records');
       });
+  }
+
+  /**
+   * Get all users
+   *
+   * @static
+   * @param {object} req - the request object
+   * @param {object} res - the response object
+   * @return {Object} An array of all the users
+   * @memberof UserController
+   */
+  static getRecordCount(req, res) {
+    const { status, type } = req.query;
+    const { userId: id } = req.auth;
+    db.task('record count', t => t.users.getRecordCount(id, status, type)
+      .then((record) => {
+        if (record) {
+          return res.status(200).json({
+            status: 200,
+            record,
+          });
+        } return res.status(200).json({
+          status: 404,
+          errors: ['Record not found'],
+        });
+      }));
   }
 }
 

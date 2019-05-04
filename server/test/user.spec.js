@@ -66,9 +66,8 @@ describe('USERS', () => {
         .send(newUser)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res.status).to.eq(400);
-          expect(res.body).to.have.keys(['status', 'error']);
-          expect(res.body).to.have.property('error').to.eq('Firstname is required');
+          expect(res.status).to.eq(422);
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -81,9 +80,8 @@ describe('USERS', () => {
         .send(newUser)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res.status).to.eq(400);
-          expect(res.body).to.have.keys(['status', 'error']);
-          expect(res.body).to.have.property('error').to.eq('Lastname is required');
+          expect(res.status).to.eq(422);
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -96,9 +94,8 @@ describe('USERS', () => {
         .send(newUser)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res.status).to.eq(400);
-          expect(res.body).to.have.keys(['status', 'error']);
-          expect(res.body).to.have.property('error').to.eq('Username is required');
+          expect(res.status).to.eq(422);
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -111,9 +108,8 @@ describe('USERS', () => {
         .send(newUser)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res.status).to.eq(400);
-          expect(res.body).to.have.keys(['status', 'error']);
-          expect(res.body).to.have.property('error').to.eq('Email address is required');
+          expect(res.status).to.eq(422);
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -126,9 +122,8 @@ describe('USERS', () => {
         .send(newUser)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res.status).to.eq(400);
-          expect(res.body).to.have.keys(['status', 'error']);
-          expect(res.body).to.have.property('error').to.eq('Password is required');
+          expect(res.status).to.eq(422);
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -141,9 +136,8 @@ describe('USERS', () => {
         .send(newUser)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res.status).to.eq(400);
-          expect(res.body).to.have.keys(['status', 'error']);
-          expect(res.body).to.have.property('error').to.eq('PhoneNumber is required');
+          expect(res.status).to.eq(422);
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -156,24 +150,22 @@ describe('USERS', () => {
         .send(newUser)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res.status).to.eq(400);
-          expect(res.body).to.have.keys(['status', 'error']);
-          expect(res.body).to.have.property('error').to.eq('Your Email address is invalid');
+          expect(res.status).to.eq(422);
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
 
     // Incorrect Password length
     it('It should fail to signup if length of password is less than 8', (done) => {
-      newUser.password = 'andela';
+      newUser.password = 'anda';
       chai.request(app)
         .post(`${url}/signup`)
         .send(newUser)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res.status).to.eq(400);
-          expect(res.body).to.have.keys(['status', 'error']);
-          expect(res.body).to.have.property('error').to.eq('The password length should be a least 8 digit in length');
+          expect(res.status).to.eq(422);
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -186,9 +178,8 @@ describe('USERS', () => {
         .send(newUser)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res.status).to.eq(400);
-          expect(res.body).to.have.keys(['status', 'error']);
-          expect(res.body).to.have.property('error').to.eq('Username should also contain letters.');
+          expect(res.status).to.eq(422);
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -212,8 +203,8 @@ describe('USERS', () => {
           phonenumber: '08064477211',
           isadmin: false
         })
-      } catch(error) {
-        console.log(error);
+      } catch(errors) {
+        console.log(errors);
       }
     });
 
@@ -254,8 +245,7 @@ describe('USERS', () => {
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res.status).to.eq(404);
-          expect(res.body).to.have.keys(['status', 'error']);
-          expect(res.body).to.have.property('error').to.eq('User does not exist');
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -267,9 +257,8 @@ describe('USERS', () => {
         .send(registeredUser)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res.status).to.eq(400);
-          expect(res.body).to.have.keys(['status', 'error']);
-          expect(res.body).to.have.property('error').to.eq('Your request was incomplete');
+          expect(res.status).to.eq(422);
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -282,8 +271,7 @@ describe('USERS', () => {
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res.status).to.eq(403);
-          expect(res.body).to.have.keys(['status', 'error']);
-          expect(res.body).to.have.property('error').to.eq('Incorrect password');
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -295,9 +283,8 @@ describe('USERS', () => {
         .send(registeredUser)
         .end((err, res) => {
           expect(err).to.be.null;
-          expect(res.status).to.eq(400);
-          expect(res.body).to.have.keys(['status', 'error']);
-          expect(res.body).to.have.property('error').to.eq('Your request was incomplete');
+          expect(res.status).to.eq(422);
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });

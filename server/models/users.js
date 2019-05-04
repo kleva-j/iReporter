@@ -63,6 +63,15 @@ class Users {
   }
 
   /**
+   * @param {*} id - The user phonenumber
+   * @returns {*} The results of the database query
+   * @memberof Users
+   */
+  getProfile(id) {
+    return this[db].oneOrNone('SELECT firstname, lastname, email, username, phonenumber FROM users WHERE id = $1', id);
+  }
+
+  /**
    * @return {Array} An array of all users
    * @memberof Users
    */

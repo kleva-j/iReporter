@@ -118,12 +118,12 @@ class UserController {
           }
           return res.status(403).json({
             status: 403,
-            error: 'Incorrect password',
+            errors: ['Incorrect password'],
           });
         }
         return res.status(404).json({
           status: 404,
-          error: 'User does not exist',
+          errors: ['User does not exist'],
         });
       }));
   }
@@ -142,6 +142,31 @@ class UserController {
       .then(users => res.status(200).json({
         status: 200,
         data: users,
+      }));
+  }
+
+  /**
+   * Get all users
+   *
+   * @static
+   * @param {object} req - the request object
+   * @param {object} res - the response object
+   * @return {Object} An array of all the users
+   * @memberof UserController
+   */
+  static getUserProfile(req, res) {
+    const { userId: id } = req.auth;
+    db.task('profile', t => t.users.getProfile(id)
+      .then((profile) => {
+        if (profile) {
+          return res.status(200).json({
+            status: 200,
+            profile,
+          });
+        } return res.status(200).json({
+          status: 404,
+          errors: ['User profile not found'],
+        });
       }));
   }
 }

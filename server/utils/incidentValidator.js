@@ -2,6 +2,8 @@
 /* eslint-disable no-mixed-operators */
 /* eslint-disable no-useless-escape */
 import multer from 'multer';
+import cloudinary from 'cloudinary';
+import cloudinaryStorage from 'multer-storage-cloudinary';
 import { sendJsonResponse } from './sanitizer';
 
 const regex = /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$/;
@@ -62,31 +64,42 @@ class IncidentValidator {
    * @memberof IncidentValidator
    */
   static validateEvidence(req, res, next) {
-    const storage = multer.diskStorage({
-      destination: (_req, _file, cb) => cb(null, './upload/'),
-      filename: (reQ, file, cb) => {
-        const format = file.mimetype.split('/')[1];
-        cb(null, `${reQ.auth.userId}${Date.now()}.${format}`);
-      },
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET,
     });
-    const fileFilter = (_req, file, cb) => {
-      if (file.mimetype === 'image/jpg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
-        cb(null, true);
-      } else if (file.mimetype === 'video/mp4' || file.mimetype === 'video/avi' || file.mimetype === 'video/mkv') {
-        cb(null, true);
-      } else cb(new Error('Unaccepted file mimetype'), false);
-    };
+
+    const storage = cloudinaryStorage({
+      cloudinary,
+      folder: 'ireporter',
+      allowedFormats: ['jpg', 'jpeg', 'png', 'gif'],
+    });
+
+    // const storage = multer.diskStorage({
+    //   destination: (_req, _file, cb) => cb(null, './upload/'),
+    //   filename: (reQ, file, cb) => {
+    //     const format = file.mimetype.split('/')[1];
+    //     cb(null, `${reQ.auth.userId}${Date.now()}.${format}`);
+    //   },
+    // });
+    // const fileFilter = (_req, file, cb) => {
+    //   if (file.mimetype === 'image/jpg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
+    //     cb(null, true);
+    //   } else if (file.mimetype === 'video/mp4' || file.mimetype === 'video/avi' || file.mimetype === 'video/mkv') {
+    //     cb(null, true);
+    //   } else cb(new Error('Unaccepted file mimetype'), false);
+    // };
 
     const upload = multer({
       storage,
       limit: {
         fileSize: 1024 * 1024 * 8,
       },
-      fileFilter,
     }).array('evidence', 5);
 
     upload(req, res, (err) => {
-      if (err) return sendJsonResponse(res, 400, 'error', 'Error uploading file(s)');
+      if (err) return sendJsonResponse(res, 400, 'error', err);
       return next();
     });
   }
@@ -170,8 +183,8 @@ class IncidentValidator {
       return sendJsonResponse(res, 400, 'error', 'Comments should be a string type value');
     }
 
-    if (comment.length > 350) {
-      return sendJsonResponse(res, 400, 'error', 'Maximum number of word is 350 characters');
+    if (comment.length > 250) {
+      return sendJsonResponse(res, 400, 'error', 'Maximum number of word is 250 characters');
     }
 
     return next();
