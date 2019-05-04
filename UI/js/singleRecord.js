@@ -23,7 +23,7 @@ const showResult = ({
 
   if (images.length !== 0) {
     let img = '';
-    images.map(image => (img += `<img src="/${image}" alt="" class="flex-center w-100 max-w-500">`));
+    images.map(image => (img += `<img src="${image}" alt="" class="flex-center w-100 max-w-500">`));
     evidence.innerHTML = img;
   } if (videos.length !== 0) {
     let vid = '';

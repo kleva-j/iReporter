@@ -112,6 +112,22 @@ class IncidentValidator {
   }
 
   /**
+   * Validate record type
+   * 
+   * @static
+   * @param {Object} req the request object
+   * @param {Object} res the response object
+   * @param {Object} next the next middleware
+   */
+  static validateType(req, res, next) {
+    const { type } = req.params;
+    
+    if (type !== 'intervention' && type !== 'red-flag') {
+      return sendJsonResponse(res, 404, 'error', 'type of record should be either be a red-flag or an intervention');
+    } return next();
+  }
+
+  /**
    * Validate red-flag location
    *
    * @static

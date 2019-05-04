@@ -120,10 +120,8 @@ const createRecord = async (event) => {
   try {
     if (files.length) {
       const uploads = await (await uploadFile(files)).json();
-      if (uploads.status === 200) {
-        const { resource_type: resourceType, url: uploadUrl } = uploads;
-        formData.append(`${resourceType}`, uploadUrl);
-      }
+      const { resource_type, secure_url } = uploads;
+      formData.append(resource_type, secure_url);
     }
     const result = await (await sendResults(url, 'POST', formData)).json();
     submitButton.disabled = false;

@@ -29,14 +29,14 @@ describe('/POST - create a red-flag record', () => {
         email: 'email@email.com',
         password,
         phonenumber: '08064477211',
-        isadmin: false
+        isadmin: false,
       });
       const userDetails = await db.users.getByUsername('username');
       userToken = jwt.sign({
         userId: userDetails.id,
         username: userDetails.username,
         email: userDetails.email,
-        isadmin: userDetails.isadmin
+        isadmin: userDetails.isadmin,
       }, process.env.SECRET_KEY, { expiresIn: '1 day' });
 
     } catch(error) {

@@ -11,6 +11,7 @@ const {
   validateComment,
   validateEvidence,
   validateIntervention,
+  validateType,
 } = IncidentValidator;
 
 const {
@@ -22,6 +23,7 @@ const {
   updateRedFlagComment,
   updateRedFlagLocation,
   updateRedFlagStatus,
+  countUserRecordStatuses,
 } = IncidentController;
 
 const incidentRouter = Router();
@@ -112,5 +114,9 @@ incidentRouter.route('/admin/redflag/:id')
 
 incidentRouter.route('/admin/intervention/:id')
   .get((req, res) => sendFileResponse(res, 'changeStatus', 200, true));
+
+// All
+incidentRouter.route('/records/:type/count')
+  .get(authToken, validateType, countUserRecordStatuses);
 
 export default incidentRouter;
