@@ -120,10 +120,8 @@ const createRecord = async (event) => {
   try {
     if (files.length) {
       const uploads = await (await uploadFile(files)).json();
-      if (uploads.status === 200) {
-        const { resource_type: resourceType, url: uploadUrl } = uploads;
-        formData.append(`${resourceType}`, uploadUrl);
-      }
+      const { resource_type, secure_url } = uploads;
+      formData.append(resource_type, secure_url);
     }
     const result = await (await sendResults(url, 'POST', formData)).json();
     submitButton.disabled = false;
@@ -133,13 +131,12 @@ const createRecord = async (event) => {
   }
 };
 
-try {
-  document.querySelector('.address')
-    .addEventListener('click', findLocation);
+const pathname = window.location.pathname.split('/');
+if (pathname.includes('create')) {
   document.querySelector('.file1')
     .addEventListener('change', loadFiles);
   document.querySelector('.createRecord')
     .addEventListener('submit', createRecord);
-} catch (err) {
-  error(err);
 }
+document.querySelector('.address')
+  .addEventListener('click', findLocation);

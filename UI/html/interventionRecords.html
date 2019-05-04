@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/styles.css">
   <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/mediaqueries.css">
 </head>
 
 <body>
@@ -43,17 +44,17 @@
         <div class="profile">
 
           <div class="user item">
-            <a href=""><i class="fas fa-user-circle" title="user profile"></i></a>
+            <a href="/api/v1/users/auth/profile"><i class="fas fa-user-circle" title="user profile"></i></a>
           </div>
           <div class="close">
             <div class="mg-t">
               <img id="profile-img" src="/images/profile-pic.png" alt="Profile Image">
             </div>
             <div class="h-50">
-              <h4 class="crop mg-t bolder" id="name">Kelly Hartmann</h4>
-              <h4 class="crop mg-t bolder"><i id="uname">K_HartZ</i></h4>
-              <h4 class="crop mg-t bold" id="email">hartmann_kelly@gmail.com</h4>
-              <h4 class="crop mg-t bold" id="phone">0802-3333-444</h4>
+              <h4 class="crop mg-t bolder" id="name"></h4>
+              <h4 class="crop mg-t"><i id="uname"></i></h4>
+              <h4 class="crop mg-t bold" id="email"></h4>
+              <h4 class="crop mg-t bold" id="phone"></h4>
             </div>
           </div>
         </div>
@@ -74,9 +75,9 @@
 
       <div class="right w-100">
         <div class="breadboard">
-          <div class="breadboard-header j-c-sb mg-t-b">
-            <h3 class="w-75 t-c mg-0">Your Intervention Records</h3>
-            <input type="search" name="searchbar" placeholder="Search here" class="search">
+          <div class="breadboard-header j-c-sb mg-t-b flex-block-i">
+            <h3 class="flex-75 t-c mg-0 f-s-2">Your Intervention Records</h3>
+            <input type="search" name="searchbar" placeholder="Search here" class="search flex-25">
           </div>
 
           <div class="flex">

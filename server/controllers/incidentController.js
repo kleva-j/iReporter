@@ -2,8 +2,6 @@
 import db from '../models/db';
 import { sendJsonResponse } from '../utils/sanitizer';
 
-const { log } = console;
-
 /**
  * @class IncidentController
  * @classdesc Implements red-flag creation, edition and deletion
@@ -19,17 +17,14 @@ class IncidentController {
    * @memberof IncidentController
    */
   static createRecord(req, res) {
-    let images; let videos; const { type } = req.body;
-    if (req.files) {
-      images = (req.files.filter(item => item.mimetype.includes('image')).map(img => img.path)) || [];
-      videos = (req.files.filter(item => item.mimetype.includes('video')).map(vid => vid.path)) || [];
-    } else images = req.body.images || []; videos = req.body.videos || [];
+    const { type } = req.body;
+    const images = req.body.image || []; const videos = req.body.video || [];
 
     const newRecord = {
       createdby: req.auth.userId,
       type: req.body.type,
       location: req.body.location,
-      images,
+      images: `{${images}}`,
       videos,
       comment: req.body.comment,
     };
@@ -63,7 +58,7 @@ class IncidentController {
           return sendJsonResponse(res, 200, 'success', [result]);
         }
         return sendJsonResponse(res, 404, 'error', `Red-flag with id of ${id} was not found`);
-      }).catch(err => log(err));
+      });
   }
 
   /**
@@ -81,7 +76,7 @@ class IncidentController {
         .then(results => res.status(200).json({
           status: 200,
           data: results,
-        })).catch(err => log(err));
+        }));
     } else {
       return res.status(403).json({
         status: 403,
@@ -101,7 +96,8 @@ class IncidentController {
    */
   static getUserRedflags(req, res) {
     const id = req.auth.userId;
-    if (req.auth.isadmin) {
+
+    if (req.auth.isadmin === true) {
       db.incidents.getAllRedflags()
         .then(redflags => res.status(200).json({
           status: 200,
@@ -112,7 +108,7 @@ class IncidentController {
         .then(results => res.status(200).json({
           status: 200,
           data: results,
-        })).catch(err => log(err));
+        }));
     }
   }
 
@@ -127,11 +123,20 @@ class IncidentController {
    */
   static getUserInterventions(req, res) {
     const id = req.auth.userId;
-    db.incidents.getUserInterventions(id)
-      .then(results => res.status(200).json({
-        status: 200,
-        data: results,
-      })).catch(err => log(err));
+
+    if (req.auth.isadmin === true) {
+      db.incidents.getAllInterventions()
+        .then(interventions => res.status(200).json({
+          status: 200,
+          data: interventions,
+        }));
+    } else {
+      db.incidents.getUserInterventions(id)
+        .then(results => res.status(200).json({
+          status: 200,
+          data: results,
+        }));
+    }
   }
 
   /**
@@ -147,10 +152,13 @@ class IncidentController {
     if (!req.params.id) return sendJsonResponse(res, 403, 'error', 'Record id was not found');
 
     const { id } = req.params;
+
+    const userId = parseInt(req.auth.userId, 10);
+
     db.task('delete incidents', t => t.incidents.getById(id)
       .then((results) => {
         if (results) {
-          if (req.auth.userId === results.createdby) {
+          if (userId === results.createdby) {
             return t.incidents.deleteRecord(id)
               .then(() => res.status(200).json({
                 status: 200,
@@ -180,15 +188,13 @@ class IncidentController {
     db.task('update comment', t => t.incidents.getById(id)
       .then((result) => {
         if (result) {
-          if (req.auth.userId === result.createdby) {
+          const userId = parseInt(req.auth.userId, 10);
+          if (userId === result.createdby) {
             return t.incidents.updateARecordComment(comment, id)
-              .then(() => res.status(200).json({
-                status: 200,
-                data: [{
-                  id,
-                  message: 'Updated record comment',
-                }],
-              }));
+              .then(() => sendJsonResponse(res, 200, 'success', [{
+                id,
+                message: 'Updated record comment',
+              }]));
           } return sendJsonResponse(res, 403, 'error', 'Unauthorized, this record does not belong to this user');
         } return sendJsonResponse(res, 404, 'error', `Record with id of ${id} was not found`);
       }));
@@ -210,7 +216,8 @@ class IncidentController {
     db.task('update location', t => t.incidents.getById(id)
       .then((result) => {
         if (result) {
-          if (req.auth.userId === result.createdby) {
+          const userId = parseInt(req.auth.userId, 10);
+          if (userId === result.createdby) {
             return t.incidents.updateARecordLocation(location, id)
               .then(() => sendJsonResponse(res, 200, 'success', [{
                 id,
@@ -227,7 +234,7 @@ class IncidentController {
    * @static
    * @param {object} req - the reequest object
    * @param {object} res - The response object
-   * @return {object} a token or message
+   * @return {object} a json object
    * @memberof IncidentController
    */
   static updateRedFlagStatus(req, res) {
@@ -239,9 +246,9 @@ class IncidentController {
     db.task('update status', t => t.incidents.getById(id)
       .then((result) => {
         if (result) {
-          const AcceptedStatus = ['under investigation', 'rejected', 'resolved'];
+          const AcceptedStatus = ['Under Investigation', 'Rejected', 'Resolved'];
           if (AcceptedStatus.indexOf(status) === -1) {
-            return sendJsonResponse(res, 400, 'error', 'User record status can either be updated to under investigation, rejected or resolved');
+            return sendJsonResponse(res, 400, 'error', "User record status can either be updated to Under Investigation, 'Rejected' or 'Resolved'");
           }
           return t.incidents.updateARecordStatus(status, id)
             .then(response => sendJsonResponse(res, 200, 'success', [{
@@ -266,7 +273,8 @@ class IncidentController {
     db.task('update image', t => t.getById(id)
       .then((result) => {
         if (result) {
-          if (req.auth.userId === result.id) {
+          const userId = parseInt(req.auth.userId);
+          if (userId === result.id) {
             return t.updateImage(file.path, id)
               .then(response => sendJsonResponse(res, 200, 'success', [{
                 id: response.id,
@@ -275,6 +283,36 @@ class IncidentController {
           } return sendJsonResponse(res, 403, 'error', 'Unauthorized, this record does not belong to you');
         } return sendJsonResponse(res, 404, 'error', `Record with id of ${id} was not found`);
       }));
+  }
+
+  /**
+   * Get total number of records.
+   *
+   * @static
+   * @param {Object} req the request object
+   * @param {Object} res the response object
+   * @returns {Object} a json object
+   * @memberof IncidentController
+   */
+  static countUserRecordStatuses(req, res) {
+    const userId = parseInt(req.auth.userId, 10);
+    const { type } = req.params; let dbQuery = 'getAllStatuses';
+    if (req.auth.isadmin === true) dbQuery = 'getUserStatuses';
+    db.incidents[dbQuery](type, userId)
+      .then((result) => {
+        if (result) {
+          const mapedRecords = result.rows.reduce((previousValue, currentValue) => {
+            previousValue[currentValue.status] = (previousValue[currentValue.status] || 0) + 1;
+            return previousValue;
+          }, {
+            Draft: 0,
+            'Under Investigation': 0,
+            Rejected: 0,
+            Resolved: 0,
+          });
+          return sendJsonResponse(res, 200, 'success', [mapedRecords]);
+        } return sendJsonResponse(res, 500, 'error', 'Error retriving records');
+      });
   }
 }
 

@@ -39,11 +39,12 @@ const signup = async (eventObject) => {
     username: document.querySelector('input[name="username"]').value,
     email: document.querySelector('input[name="email"]').value,
     phonenumber: document.querySelector('input[name="phonenumber"]').value,
-    password: document.querySelector('input[name="password"]'),
   };
+  const password = document.querySelector('input[name="password"]');
   const password2 = document.querySelector('input[name="password2"]');
-  const status = validatePassword(params.password, password2);
+  const status = validatePassword(password, password2);
   if (!(status === 'done')) return;
+  params.password = password.value;
   const url = `${window.location.origin}/api/v1/users/auth/signup`;
   const URLParams = new URLSearchParams(params);
   const result = await Fetch(url, 'POST', URLParams);

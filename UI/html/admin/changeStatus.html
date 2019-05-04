@@ -11,9 +11,9 @@
   <title>iReporter</title>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
     crossorigin="anonymous">
-  <link rel="stylesheet" href="../../css/dashboard.css">
-  <link rel="stylesheet" href="../../css/styles.css">
-  <link rel="stylesheet" href="../../css/layout.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/layout.css">
 </head>
 
 <body>
@@ -21,17 +21,17 @@
     <div class="navbar fixed shade-default bg-light">
       <div class="container">
         <a href="" class="logo">
-          <img src="../../images/bg-2.svg" height="60px" alt="logo">eporter
+          <img src="/images/bg-2.svg" height="60px" alt="logo">eporter
         </a>
         <input type="checkbox" id="burger-toggle">
         <label id="burger" for="burger-toggle">
           <div></div>
         </label>
         <nav class="nav">
-          <a class="nav-bar-link active" href="../index.html">Home</a>
-          <a class="nav-bar-link" href="./viewRedFlags.html">View Red-flags</a>
-          <a class="nav-bar-link" href="./viewInterventions.html">View Interventions</a>
-          <a class="nav-bar-link" href="../login.html">Logout</a>
+          <a class="nav-bar-link active" href="/">Home</a>
+          <a class="nav-bar-link" href="/api/v1/admin/interventions">View Interventions</a>
+          <a class="nav-bar-link" href="/api/v1/admin/redflags">View Red-flags</a>
+          <a class="nav-bar-link" href="/api/v1/users/auth/admin/login">Logout</a>
         </nav>
       </div>
     </div>
@@ -42,28 +42,35 @@
       <div class="right w-100">
         <div class="breadboard">
           <div class="breadboard-header t-c ">
-            <span class="bold">UPDATE STATUS:</span>
-            <button class="btn yellow btn-md mg-sm">Under Investigation</button>
-            <button class="btn green btn-md mg-sm">Resolved</button>
-            <button class="btn base btn-md mg-sm">Rejected</button>
+            <span class="bold f-s-2 mg-auto">UPDATE STATUS OF RECORD</span>
           </div>
 
           <div class="top">
             <div class="container pd-b">
-              <h3 class="pd-t t-c"><b>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est neque labore aut al</b></h3>
-              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Velit facilis dolorem numquam molestias nemo adipisci cupiditate odit! Laborum facilis eum, perferendis, placeat delectus totam quas officiis odit optio culpa saepe.</p>
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati, quasi consequatur corporis unde repudiandae esse sunt eveniet quidem nam debitis mollitia consequuntur quibusdam recusandae. Pariatur eum rem aut nam reiciendis?</p>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi labore blanditiis voluptatibus. Delectus facere fugit nesciunt laboriosam laborum iure cum atque ea amet, sint aliquam ipsum nulla nam magnam id?</p>
-              <h4>Current status: <span class="btn bd-yel">Under Investigation</span></h4>
+              
+              <h2 class="pd-t t-c"><b id="title_t" class="f-s-2"></b></h2>
+              <div id="date" class=""></div>
+              <div class="imageEvidence"></div>
+              <p id="comment"></p>
+              <h4 class="bold f-s-1">Current status: <input type="text" disabled class="t-c form-control current_status max-w-200"/></h4>
+              <select name="status" id="changeStatus" class="pd-sm select">
+                <option value="" selected>Select New Status</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Under investigation">Under investigation</option>
+                <option value="Resolved">Resolved</option>
+              </select>
+              <button type="submit" class="btn btn-md bg-light bd-grey mg-l update">UPDATE</button>
             </div>
           </div>
 
         </div>
       </div>
     </div>
-    </div>
+    
   </section>
 
+  <script src="/js/singleRecord.js"></script>
+  <script src="/js/admin.js"></script>
 </body>
 
 </html>

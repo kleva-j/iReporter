@@ -1,18 +1,5 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-return-assign */
-const token = localStorage.getItem('BEARER_TOKEN');
-
-const Fetch = async (url, method) => {
-  const headers = new Headers();
-  headers.append('authorization', `Bearer ${token}`);
-  const request = new Request(url, {
-    headers,
-    method,
-  });
-  const result = await fetch(request);
-  return result;
-};
-
 const showResult = ({
   comment, date: time, status, location, images, videos,
 }) => {
@@ -22,6 +9,12 @@ const showResult = ({
   const title = document.querySelector('#title_t');
   const body = document.getElementById('comment');
   const details = document.querySelector('#date');
+  try {
+    const currentStatus = document.querySelector('.current_status');
+    currentStatus.value = status;
+  } catch (error) {
+    // handle error
+  }
 
   details.innerHTML = `
     <div><b>Created on:</b> ${day}, ${date} ${month} ${year}</div>
@@ -30,7 +23,7 @@ const showResult = ({
 
   if (images.length !== 0) {
     let img = '';
-    images.map(image => (img += `<img src="/${image}" alt="" class="flex-center w-100 max-w-500">`));
+    images.map(image => (img += `<img src="${image}" alt="" class="flex-center w-100 max-w-500">`));
     evidence.innerHTML = img;
   } if (videos.length !== 0) {
     let vid = '';
@@ -46,9 +39,12 @@ const fetchSingleRecord = async (callback) => {
   const path = window.location.pathname.split('/').sort((a, b) => b.length - a.length);
   const id = path[path.length - 2]; const type = path[0];
   const url = (type === 'redflag') ? `/api/v1/red-flags/${id}` : `/api/v1/${type}s/${id}`;
-  const getRecord = await Fetch(url, 'GET');
-  if (getRecord.status === 200) {
-    const { data } = await getRecord.json();
+  const headers = new Headers();
+  headers.append('authorization', `Bearer ${localStorage.getItem('BEARER_TOKEN')}`);
+  const config = { headers, method: 'GET' };
+  const results = await (await fetch(url, config)).json();
+  if (results.status === 200) {
+    const { data } = results;
     const {
       comment, createdon, location, status, images, videos,
     } = data[0];

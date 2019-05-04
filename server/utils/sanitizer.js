@@ -15,9 +15,16 @@ export const sanitizer = (obj) => {
   };
 };
 
-export const sendFileResponse = (responseObject, fileName, statusCode) => responseObject
-  .status(statusCode)
-  .sendFile(path.join(__dirname, '..', '..', 'UI', 'html', `${fileName}.html`));
+export const sendFileResponse = (responseObject, fileName, statusCode, isAdmin) => {
+  if (isAdmin) {
+    return responseObject
+      .status(statusCode)
+      .sendFile(path.join(__dirname, '..', '..', 'UI', 'html', 'admin', `${fileName}.html`));
+  }
+  return responseObject
+    .status(statusCode)
+    .sendFile(path.join(__dirname, '..', '..', 'UI', 'html', `${fileName}.html`));
+};
 
 export const sendJsonResponse = (responseObject, statusCode, responseType, message) => {
   if (responseType === 'error') {

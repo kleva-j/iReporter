@@ -107,6 +107,8 @@
 
 .pd-l { padding-left: .75rem }
 
+.pd-sm { padding: .375rem }
+
 .pd-l-sm { padding-left: .25rem }
 
 .pd-r-sm { padding-right: .25rem }
@@ -138,6 +140,8 @@
 .bd-1 { border: 1px solid var(--light) }
 
 .bd-2 { border: 1px solid red }
+
+.bd-grey { border: 1px solid grey !important }
 
 .t-c { text-align: center }
 
@@ -230,6 +234,8 @@ a{
   background: var(--lighten);
 }
 
+.bd-light:hover { background: lightgrey !important}
+
 *,
 ::after,
 ::before {
@@ -240,12 +246,16 @@ body {
   margin: 0;
   position: relative;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 1rem;
+  font-size: 15px;
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #fff
+  background-color: #fff;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 img {
@@ -319,7 +329,6 @@ img {
 
 .btn {
   display: inline-block;
-  /* color: white; */
   font-weight: 400;
   text-align: center;
   white-space: nowrap;
@@ -411,8 +420,6 @@ img {
   line-height: inherit;
   white-space: nowrap
 }
-
-
 
 .shade-sm {
   box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important

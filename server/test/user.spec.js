@@ -12,7 +12,7 @@ dotenv.config();
 
 chai.use(chaiHTTP);
 
-const url = '/api/v1/users/auth';
+const url = '/api/v1/user/';
 
 describe('USERS', () => {
 

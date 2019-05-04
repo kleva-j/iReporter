@@ -50,11 +50,12 @@ const updateRecord = async () => {
 const populateFields = async () => {
   const url = (type === 'redflag') ? `/api/v1/red-flags/${id}` : `/api/v1/${type}s/${id}`;
   const { data } = await (await Fetch(url, 'GET')).json();
-  const { comment } = data[0];
+  const { comment, location } = data[0];
   const [heading, rest] = comment.split('>>');
-  const { subject, body } = getInputFields();
+  const { location: locale, subject, body } = getInputFields();
   subject.value = heading;
   body.value = rest;
+  locale.value = location;
 };
 
 populateFields();

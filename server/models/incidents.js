@@ -148,7 +148,7 @@ class Incident {
    * @memberof Incidents
    */
   getUserRedflags(id) {
-    return this[db].any(`SELECT * FROM incidents WHERE (type = 'red-flag' AND createdby='${id}')`);
+    return this[db].any(`SELECT * FROM incidents WHERE type='red-flag' AND createdby='${id}'`);
   }
 
   /**
@@ -167,7 +167,7 @@ class Incident {
    * @memberof Incidents
    */
   getAllInterventions() {
-    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'interventions');
+    return this[db].any('SELECT * FROM incidents WHERE type = $1', 'intervention');
   }
 
   /**
@@ -181,13 +181,24 @@ class Incident {
   }
 
   /**
-   * @method deleteRedflagById
-   * @param {number} id - the id of the redflag
-   * @returns {Array} The result of all incident record
+   * @method getUsersStatuses
+   * @param {String} type the type of record
+   * @param {Number} userId the user id
+   * @returns {Object} an array of users record statuses
    * @memberof Incidents
    */
-  deleteRedflagById(id) {
-    return this[db].result('DELETE FROM incidents WHERE id = $1', id);
+  getUserStatuses(type, userId) {
+    return this[db].result('SELECT status FROM incidents WHERE type = $1 AND createdby = $2', [type, userId]);
+  }
+
+  /**
+   * @method getAllStatuses
+   * @param {String} type the type of record
+   * @returns {Object} an array of all record statuses
+   * @memberof Incidents
+   */
+  getAllStatuses(type) {
+    return this[db].result('SELECT status FROM incidents WHERE type = $1', type);
   }
 
   /**
@@ -197,7 +208,7 @@ class Incident {
    * @returns {object} the result of the update
    */
   updateImage(filename, id) {
-    return this[db].result('UPDATE incident SET images = array_append(images, $1) WHERE id=$2', [filename, id]);
+    return this[db].result('UPDATE incident SET images = array_append(images, $1) WHERE id = $2', [filename, id]);
   }
 }
 
