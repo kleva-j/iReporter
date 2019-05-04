@@ -40,7 +40,7 @@ describe('/POST - create a red-flag record', () => {
       }, process.env.SECRET_KEY, { expiresIn: '1 day' });
 
     } catch(error) {
-      console.log(error);
+      return error;
     }
   });
 
@@ -77,7 +77,7 @@ describe('/POST - create a red-flag record', () => {
   });
 
    // test validity of creatorId
-   it('should reject if user is not logged in', (done) => {
+  it('should reject if user is not logged in', (done) => {
     request(app)
       .post(url)
       .set('Content-Type', 'application/json')
@@ -88,7 +88,7 @@ describe('/POST - create a red-flag record', () => {
         expect(res).to.have.status(401);
         expect(res.body).to.be.an('object');
         expect(res.body).to.have.keys(['status', 'message']);
-        expect(res.body).to.have.property('message').eql('You are required to signup or login to access this endpoint');
+        expect(res.body).to.have.property('message').eql('You are required to signup or login to continue');
         done();
       });
   });
@@ -163,8 +163,8 @@ describe('/POST - create a red-flag record', () => {
       });
   });
 
-  it('should reject if the length of the comment exceed 350 characters', (done) => {
-    requestObject.comment = 'In one lightning fast movement, the old crocodile bolted out of the water, wrapped his jaws around the great wildebeest and pulled him under the river. Awestruck the young crocodile swam up with the tiny bird hanging from his mouth and watched as the old crocodile enjoyed his 500 lb meal. In one lightning fast movement, the old crocodile bolted out of the water, wrapped his jaws around the great wildebeest and pulled him under the river. Awestruck the young crocodile swam up with the tiny bird hanging from his mouth and watched as the old crocodile enjoyed his 500 lb meal.'
+  it('should reject if the length of the comment exceed 250 characters', (done) => {
+    requestObject.comment = 'In one lightning fast movement, the old crocodile bolted out of the water, wrapped his jaws around the great wildebeest and pulled him under the river. Awestruck the young crocodile swam up with the tiny bird hanging lightning fast movement, the old crocodile bolted out of the water, wrapped his jaws around the great wildebeest and pulled him under the river. Awestruck the young crocodile swam up with the tiny bird hanging lightning fast movement, the old crocodile bolted out of the water, wrapped his jaws around the great wildebeest and pulled him under the river. Awestruck the young crocodile swam up with the tiny bird hanging lightning fast movement, the old crocodile bolted out of the water, wrapped his jaws around the great wildebeest and pulled him under the river. Awestruck the young crocodile swam up with the tiny bird hanging lightning fast movement, the old crocodile bolted out of the water, wrapped his jaws around the great wildebeest and pulled him under the river. Awestruck the young crocodile swam up with the tiny bird hanging.'
     request(app)
       .post(url)
       .set('Content-Type', 'application/json')
@@ -174,10 +174,9 @@ describe('/POST - create a red-flag record', () => {
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.eq('Maximum number of word is 350 characters');
+        expect(res.body).to.have.property('error').to.eq('Maximum number of word is 250 characters');
         expect(res.body).to.have.keys(['status', 'error']);
         done();
       });
   });
-
 });

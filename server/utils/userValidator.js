@@ -1,96 +1,80 @@
 /* eslint-disable no-restricted-globals */
-import validator, { isEmail } from 'validator';
-import { sendJsonResponse } from './sanitizer';
+import ExpressValidator from 'express-validator/check';
 
-/**
- * @class UserController
- * @classdesc Implements validation of user signup details
- */
-class Validator {
-  /**
-   * Validate Login details
-   *
-   * @static
-   * @param {object} req - The request object
-   * @param {object} res - The response object
-   * @param {object} next - The next middleware
-   * @return {object} token or message
-   * @memberof UserController
-   */
-  static validateLogin(req, res, next) {
-    const { username, password } = req.body;
-    if (!username || !password) {
-      return sendJsonResponse(res, 400, 'error', 'Your request was incomplete');
-    }
-    return next();
-  }
+const { check, validationResult } = ExpressValidator;
 
-  /**
-   * Validate signup details
-   *
-   * @static
-   * @param {object} req - The request object
-   * @param {object} res - The response object
-   * @param {object} next - The next middleware
-   * @return {object} token or message
-   * @memberof UserController
-   */
-  static validateSignup(req, res, next) {
-    const {
-      firstname, lastname, username, email, phonenumber, password,
-    } = req.body;
+export const returnValidationErrors = (req, res, next) => {
+  const errors = validationResult(req)
+    .array()
+    .map(error => error.msg);
+  if (!errors.length) return next();
+  return res.status(422).json({ errors, status: false });
+};
 
-    if (!firstname) return sendJsonResponse(res, 400, 'error', 'Firstname is required');
+export const validateLogin = [
+  check('username')
+    .exists()
+    .withMessage('Username is required')
+    .isAlphanumeric()
+    .withMessage('Username is should be alphamumeric, no special characters and spaces.')
+    .isLength({ min: 5, max: 15 })
+    .withMessage('Username must be at least 5 characters long and not more than 15.')
+    .custom(value => !/\s/.test(value))
+    .withMessage('No spaces are allowed in the username.'),
 
-    if (!lastname) return sendJsonResponse(res, 400, 'error', 'Lastname is required');
+  check('password')
+    .exists()
+    .withMessage('Password is required')
+    .isLength({ min: 6, max: 4000 })
+    .withMessage('Ensure password is more that 6 characters')
+    .custom(value => !/\s/.test(value))
+    .withMessage('Please provide a valid password'),
+];
 
-    if (!username) return sendJsonResponse(res, 400, 'error', 'Username is required');
+export const validateSignup = [
+  check('firstname')
+    .exists()
+    .withMessage('Firstname is required')
+    .isString()
+    .withMessage('Firstname should contain only strings'),
 
-    if (!email) return sendJsonResponse(res, 400, 'error', 'Email address is required');
+  check('lastname')
+    .exists()
+    .withMessage('Lastname is required')
+    .isString()
+    .withMessage('Lastname should contain only strings'),
 
-    if (!password) return sendJsonResponse(res, 400, 'error', 'Password is required');
+  check('email')
+    .exists()
+    .withMessage('Please provide an email address')
+    .isEmail()
+    .withMessage('Your Email address is invalid')
+    .custom(value => !/\s/.test(value))
+    .withMessage('No spaces are allowed in the email.'),
 
-    if (!phonenumber) return sendJsonResponse(res, 400, 'error', 'PhoneNumber is required');
+  check('phonenumber')
+    .exists()
+    .withMessage('PhoneNumber is required')
+    .isMobilePhone()
+    .withMessage('Please enter a valid phone number')
+    .custom(value => !/\s/.test(value))
+    .withMessage('No spaces are allowed in the phonenumber.'),
 
-    return next();
-  }
+  check('password')
+    .exists()
+    .withMessage('Password is required')
+    .isLength({ min: 6, max: 4000 })
+    .withMessage('The password length should be a least 8 digit in length')
+    .custom(value => !/\s/.test(value))
+    .withMessage('No spaces are allowed in the password.'),
 
-  /**
-   * Authenticate Input Length
-   *
-   * @static
-   * @param {object} req - The request object
-   * @param {object} res - The response object
-   * @param {function} next - The next Middleware
-   * @return {object} Message and user data
-   * @memberof Validate
-   */
-  static AuthSignupInputLength(req, res, next) {
-    const {
-      username, email, phonenumber, password,
-    } = req.body;
-    const uname = parseInt(username, 10);
-
-    if (!isNaN(uname)) {
-      return sendJsonResponse(res, 400, 'error', 'Username should also contain letters.');
-    }
-    if (!validator.isLength(`${username}`, { min: 3, max: 15 })) {
-      return sendJsonResponse(res, 400, 'error', 'Username can only be 3 to 15 characters in length');
-    }
-    if (!validator.isLength(password, { min: 8, max: 4000 })) {
-      return sendJsonResponse(res, 400, 'error', 'The password length should be a least 8 digit in length');
-    }
-
-    const isNumber = parseInt(phonenumber, 10);
-
-    if (isNaN(isNumber) && /^[0]\d{10}$/.test(phonenumber)) {
-      return sendJsonResponse(res, 400, 'error', 'Phone number is not valid');
-    }
-    if (!isEmail(email)) {
-      return sendJsonResponse(res, 400, 'error', 'Your Email address is invalid');
-    }
-    return next();
-  }
-}
-
-export default Validator;
+  check('username')
+    .exists()
+    .withMessage('Username is required')
+    .isAlphanumeric()
+    .withMessage('Username is should be alphamumeric, no special characters and spaces.')
+    .isLength({ min: 5, max: 15 })
+    .withMessage('Username must be at least 5 characters long and not more than 15.')
+    .custom(value => !/\s/.test(value))
+    .withMessage('No spaces are allowed in the username.'),
+];

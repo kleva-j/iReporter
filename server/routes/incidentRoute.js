@@ -119,4 +119,7 @@ incidentRouter.route('/admin/intervention/:id')
 incidentRouter.route('/records/:type/count')
   .get(authToken, validateType, countUserRecordStatuses);
 
+incidentRouter.route('/record/count')
+  .patch(authToken, validateID);
+
 export default incidentRouter;

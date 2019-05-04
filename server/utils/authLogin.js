@@ -6,7 +6,7 @@ const authToken = (req, res, next) => {
   if (!authorization) {
     return res.status(401).json({
       status: 401,
-      message: 'You are required to signup or login to access this endpoint',
+      message: 'You are required to signup or login to continue',
     });
   }
   const token = authorization.split(' ')[1];
@@ -14,7 +14,8 @@ const authToken = (req, res, next) => {
     if (err) {
       return res.status(401).json({
         status: 401,
-        message: 'failed to authenticate',
+        message: 'Your session has ended, please login to continue',
+        err,
       });
     }
     req.auth = response;
