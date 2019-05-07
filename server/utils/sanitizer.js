@@ -28,7 +28,7 @@ export const sendFileResponse = (responseObject, fileName, statusCode, isAdmin) 
 
 export const sendJsonResponse = (responseObject, statusCode, responseType, message) => {
   if (responseType === 'error') {
-    return responseObject.status(statusCode).json({ status: statusCode, error: message });
+    return responseObject.status(statusCode).json({ status: statusCode, errors: [message] });
   }
   return responseObject
     .status(statusCode)

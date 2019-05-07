@@ -9,12 +9,12 @@ const authToken = (req, res, next) => {
       message: 'You are required to signup or login to continue',
     });
   }
-  const token = authorization.split(' ')[1];
+  const token = authorization;
   jwt.verify(token, process.env.SECRET_KEY, (err, response) => {
     if (err) {
       return res.status(401).json({
         status: 401,
-        message: 'Your session has ended, please login to continue',
+        message: 'Your session has expired, please login to continue',
         err,
       });
     }

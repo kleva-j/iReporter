@@ -29,7 +29,7 @@ class UserController {
         if ($user) {
           return res.status(403).json({
             status: 403,
-            error: 'Username already exist',
+            errors: ['Username already exist'],
           });
         }
         return t.users.getByEmail(req.body.email)
@@ -37,7 +37,7 @@ class UserController {
             if ($email) {
               return res.status(403).json({
                 status: 403,
-                error: 'Email already exist',
+                errors: ['Email already exist'],
               });
             }
             return t.users.getByPhoneNumber(req.body.phonenumber)
@@ -45,7 +45,7 @@ class UserController {
                 if ($phone) {
                   return res.status(403).json({
                     status: 403,
-                    error: 'Phone number already taken',
+                    errors: ['Phone number already taken'],
                   });
                 }
                 const hash = encrypt(req.body.password);
