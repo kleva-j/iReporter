@@ -62,7 +62,7 @@ describe('/POST - create a red-flag record', () => {
       .post(url)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('authorization', `Bearer ${userToken}`)
+      .set('authorization', userToken)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
@@ -100,13 +100,13 @@ describe('/POST - create a red-flag record', () => {
       .post(url)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('authorization', `Bearer ${userToken}`)
+      .set('authorization', userToken)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.eq('Type of incident not present');
-        expect(res.body).to.have.keys(['status', 'error']);
+        expect(res.body).to.have.property('errors');
+        expect(res.body).to.have.keys(['status', 'errors']);
         done();
       });
   });
@@ -117,13 +117,13 @@ describe('/POST - create a red-flag record', () => {
       .post(url)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('authorization', `Bearer ${userToken}`)
+      .set('authorization', userToken)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.eq('Type of incident should either be a red-flag or an intervention');
-        expect(res.body).to.have.keys(['status', 'error']);
+        expect(res.body).to.have.property('errors');
+        expect(res.body).to.have.keys(['status', 'errors']);
         done();
       });
   });
@@ -135,13 +135,13 @@ describe('/POST - create a red-flag record', () => {
       .post(url)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('authorization', `Bearer ${userToken}`)
+      .set('authorization', userToken)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.eq('Comment is required');
-        expect(res.body).to.have.keys(['status', 'error']);
+        expect(res.body).to.have.property('errors');
+        expect(res.body).to.have.keys(['status', 'errors']);
         done();
       });
   });
@@ -152,13 +152,13 @@ describe('/POST - create a red-flag record', () => {
       .post(url)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('authorization', `Bearer ${userToken}`)
+      .set('authorization', userToken)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.eq('Comments should be a string type value');
-        expect(res.body).to.have.keys(['status', 'error']);
+        expect(res.body).to.have.property('errors');
+        expect(res.body).to.have.keys(['status', 'errors']);
         done();
       });
   });
@@ -169,13 +169,13 @@ describe('/POST - create a red-flag record', () => {
       .post(url)
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .set('authorization', `Bearer ${userToken}`)
+      .set('authorization', userToken)
       .send(requestObject)
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.eq('Maximum number of word is 250 characters');
-        expect(res.body).to.have.keys(['status', 'error']);
+        expect(res.body).to.have.property('errors');
+        expect(res.body).to.have.keys(['status', 'errors']);
         done();
       });
   });

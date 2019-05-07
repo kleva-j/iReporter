@@ -54,7 +54,7 @@ describe('RED_FLAGS', () => {
     it('should return all red-flag records', (done) => {
       request(app)
         .get(url)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res.status).to.eq(200);
@@ -70,7 +70,7 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .get(`${url}/${id}`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
@@ -85,12 +85,12 @@ describe('RED_FLAGS', () => {
       const id = 1000;
       request(app)
         .get(`${url}/${id}`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(404);
-          expect(res.body).to.have.property('error').to.eq(`Red-flag with id of ${id} was not found`);
-          expect(res.body).to.have.keys(['status', 'error']);
+          expect(res.body).to.have.property('errors');
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -100,12 +100,12 @@ describe('RED_FLAGS', () => {
       const id = 'aaa';
       request(app)
         .get(`${url}/${id}`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(400);
-          expect(res.body).to.have.property('error').to.eq('red-flag Id should be a number');
-          expect(res.body).to.have.keys(['status', 'error']);
+          expect(res.body).to.have.property('errors');
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -117,7 +117,7 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .patch(`${url}/${id}/location`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .send({
           location: '45, 180'
         })
@@ -138,15 +138,15 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .patch(`${url}/${id}/location`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .send({
           location: 11.22
         })
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(400);
-          expect(res.body).to.have.property('error').to.eq(`Geographical coordinates are not well formated to a string`);
-          expect(res.body).to.have.keys(['status', 'error']);
+          expect(res.body).to.have.property('errors');
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -156,12 +156,12 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .patch(`${url}/${id}/location`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(400);
-          expect(res.body).to.have.property('error').to.eq(`Location is required`);
-          expect(res.body).to.have.keys(['status', 'error']);
+          expect(res.body).to.have.property('errors');
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -171,15 +171,15 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .patch(`${url}/${id}/location`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .send({
           location: '-90., -180.'
         })
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(400);
-          expect(res.body).to.have.property('error').to.eq(`Invalid coordinates`);
-          expect(res.body).to.have.keys(['status', 'error']);
+          expect(res.body).to.have.property('errors');
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -189,33 +189,33 @@ describe('RED_FLAGS', () => {
       const id = 'aaa';
       request(app)
         .patch(`${url}/${id}/location`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .send({
           location: '45, 180'
         })
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(400);
-          expect(res.body).to.have.property('error').to.eq(`red-flag Id should be a number`);
-          expect(res.body).to.have.keys(['status', 'error']);
+          expect(res.body).to.have.property('errors');
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
 
     //passed
-    it('should respond with a 404 not found error', (done) => {
+    it('should respond with a 404 not found errors', (done) => {
       const id = 1000;
       request(app)
         .patch(`${url}/${id}/location`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .send({
           location: '45, 180'
         })
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(404);
-          expect(res.body).to.have.property('error').to.eq(`Record with id of ${id} was not found`);
-          expect(res.body).to.have.keys(['status', 'error']);
+          expect(res.body).to.have.property('errors');
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -226,7 +226,7 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .patch(`${url}/${id}/comment`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .send({
           comment: 'this is the iReporter incident report'
         })
@@ -246,32 +246,32 @@ describe('RED_FLAGS', () => {
       const id = 'aaa';
       request(app)
         .patch(`${url}/${id}/comment`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .send({
           comment: 'this is the iReporter incident report'
         })
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(400);
-          expect(res.body).to.have.property('error').to.eq(`red-flag Id should be a number`);
-          expect(res.body).to.have.keys(['status', 'error']);
+          expect(res.body).to.have.property('errors');
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
 
-    it('should return a 404 not found error', (done) => {
+    it('should return a 404 not found errors', (done) => {
       const id = 1000;
       request(app)
         .patch(`${url}/${id}/comment`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .send({
           comment: 'this is the iRepoter incident update'
         })
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(404);
-          expect(res.body).to.have.property('error').to.eq(`Record with id of ${id} was not found`);
-          expect(res.body).to.have.keys(['status', 'error']);
+          expect(res.body).to.have.property('errors');
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -280,12 +280,12 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .patch(`${url}/${id}/comment`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(400);
-          expect(res.body).to.have.property('error').to.eq(`Comment is required`);
-          expect(res.body).to.have.keys(['status', 'error']);
+          expect(res.body).to.have.property('errors');
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -297,7 +297,7 @@ describe('RED_FLAGS', () => {
       const id = incident.id;
       request(app)
         .delete(`${url}/${id}`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(200);
@@ -309,16 +309,16 @@ describe('RED_FLAGS', () => {
         });
     });
 
-    it('should raise a 404 not found error', (done) => {
+    it('should raise a 404 not found errors', (done) => {
       const id = 1000;
       request(app)
         .delete(`${url}/${id}`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(404);
-          expect(res.body).to.have.property('error').to.eq(`Record with id of ${id} was not found`);
-          expect(res.body).to.have.keys(['status', 'error']);
+          expect(res.body).to.have.property('errors');
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });
@@ -328,12 +328,12 @@ describe('RED_FLAGS', () => {
       const id = 'aaa';
       request(app)
         .get(`${url}/${id}`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', userToken)
         .end((err, res) => {
           expect(err).to.be.null;
           expect(res).to.have.status(400);
-          expect(res.body).to.have.property('error').to.eq('red-flag Id should be a number');
-          expect(res.body).to.have.keys(['status', 'error']);
+          expect(res.body).to.have.property('errors');
+          expect(res.body).to.have.keys(['status', 'errors']);
           done();
         });
     });

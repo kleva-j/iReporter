@@ -42,7 +42,7 @@ describe.skip("/PATCH - admin can update the status of a user's record", () => {
     const id = 1;
     chai.request(app)
       .patch(`${url}/${id}/status`)
-      .set('authorization', `Bearer ${userToken}`)
+      .set('authorization', userToken)
       .send({
         status: 'resolved'
       })
@@ -67,8 +67,8 @@ describe.skip("/PATCH - admin can update the status of a user's record", () => {
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.eq(`User red-flag status can either be under investigation, rejected or resolved`);
-        expect(res.body).to.have.keys(['status', 'error']);
+        expect(res.body).to.have.property('errors');
+        expect(res.body).to.have.keys(['status', 'errors']);
         done();
       });
   });
@@ -83,8 +83,8 @@ describe.skip("/PATCH - admin can update the status of a user's record", () => {
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.eq(`red-flag Id should be a number`);
-        expect(res.body).to.have.keys(['status', 'error']);
+        expect(res.body).to.have.property('errors')
+        expect(res.body).to.have.keys(['status', 'errors']);
         done();
       });
   });
@@ -99,8 +99,8 @@ describe.skip("/PATCH - admin can update the status of a user's record", () => {
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res).to.have.status(404);
-        expect(res.body).to.have.property('error').to.eq(`Red-flag with id of ${id} was not found`);
-        expect(res.body).to.have.keys(['status', 'error']);
+        expect(res.body).to.have.property('errors');
+        expect(res.body).to.have.keys(['status', 'errors']);
         done();
       });
   });
@@ -112,10 +112,9 @@ describe.skip("/PATCH - admin can update the status of a user's record", () => {
       .end((err, res) => {
         expect(err).to.be.null;
         expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.eq('Status was not sent in the request');
-        expect(res.body).to.have.keys(['status', 'error']);
+        expect(res.body).to.have.property('errors');
+        expect(res.body).to.have.keys(['status', 'errors']);
         done();
       });
   });
-
 });
