@@ -63,7 +63,7 @@
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.3",
     "body-parser": "^1.18.3",
-    "browserify": "^16.2.3",
+    "browserify": "^16.5.1",
     "cloudinary": "^1.14.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.5",
