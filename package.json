@@ -80,7 +80,7 @@
     "nyc": "^14.1.0",
     "pg-promise": "^8.7.5",
     "uuid": "^3.4.0",
-    "validator": "^10.9.0"
+    "validator": "^10.11.0"
   },
   "browserslist": "> 0.25%, not dead"
 }
