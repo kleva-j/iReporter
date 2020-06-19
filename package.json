@@ -74,7 +74,7 @@
     "helmet": "^3.22.0",
     "jsend": "^1.0.2",
     "jsonwebtoken": "^8.5.1",
-    "morgan": "^1.9.1",
+    "morgan": "^1.10.0",
     "multer": "^1.4.1",
     "multer-storage-cloudinary": "^2.2.1",
     "nyc": "^14.1.0",
