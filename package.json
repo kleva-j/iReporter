@@ -71,7 +71,7 @@
     "dotenv": "^6.2.0",
     "express": "^4.17.1",
     "express-validator": "^5.3.1",
-    "helmet": "^3.22.0",
+    "helmet": "^3.22.1",
     "jsend": "^1.1.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
