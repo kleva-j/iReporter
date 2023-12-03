@@ -14,7 +14,9 @@
     "testdb:setup": "NODE_ENV=test babel-node server/models/createTable --exit",
     "debug": "node --inspect-brk ./dist/app.js",
     "transpile-frontend:js": "rm -rf UI/js/dist && mkdir UI/js/dist && babel UI/js --out-dir UI/js/dist && browserify UI/js/dist/getRecords.js -o UI/js/dist/getRecords.js",
-    "browserify": "browserify-directory UI/js/dist UI/js/dist"
+    "browserify": "browserify-directory UI/js/dist UI/js/dist",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "babel": {
     "presets": [
@@ -80,7 +82,9 @@
     "nyc": "^15.0.0",
     "pg-promise": "^8.7.5",
     "uuid": "^3.4.0",
-    "validator": "^10.11.0"
+    "validator": "^10.11.0",
+    "@snyk/protect": "latest"
   },
-  "browserslist": "> 0.25%, not dead"
+  "browserslist": "> 0.25%, not dead",
+  "snyk": true
 }
