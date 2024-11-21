@@ -59,7 +59,7 @@
     "nodemon": "^1.18.7"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.11.5",
+    "@babel/polyfill": "^7.12.1",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
